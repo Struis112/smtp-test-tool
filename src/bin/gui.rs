@@ -493,5 +493,5 @@ fn main() -> eframe::Result<()> {
         ..Default::default()
     };
     eframe::run_native("SMTP Test Tool", opts,
-        Box::new(|cc| Box::new(App::new(sink, cc))))
+        Box::new(|cc| Ok(Box::new(App::new(sink, cc)))))
 }

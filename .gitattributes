@@ -1,0 +1,21 @@
+# Auto-detect text files and normalise line endings to LF in the repo.
+# Working-tree checkout still uses the OS-native ending.
+* text=auto eol=lf
+
+# Explicit text files
+*.rs        text eol=lf
+*.toml      text eol=lf
+*.md        text eol=lf
+*.yml       text eol=lf
+*.yaml      text eol=lf
+*.json      text eol=lf
+*.sh        text eol=lf
+*.ps1       text eol=crlf
+*.cmd       text eol=crlf
+*.bat       text eol=crlf
+
+# Binary
+*.png       binary
+*.jpg       binary
+*.ico       binary
+*.icns      binary
