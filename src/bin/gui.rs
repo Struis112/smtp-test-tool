@@ -211,7 +211,10 @@ fn csv_to_vec(s: &str) -> Vec<String> {
 }
 
 impl eframe::App for App {
-    fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+    // egui 0.34: `ui()` is the required entry; `update(ctx, frame)` is
+    // deprecated and provided as a no-op default by the trait.
+    fn ui(&mut self, root_ui: &mut egui::Ui, _frame: &mut eframe::Frame) {
+        let ctx = root_ui.ctx().clone();
         // Drain log lines from the sink.
         self.log_sink.drain_into(&mut self.log_buf);
         if self.log_buf.len() > 5000 {
@@ -230,11 +233,11 @@ impl eframe::App for App {
         if self.busy { ctx.request_repaint_after(std::time::Duration::from_millis(150)); }
 
         // ----- top bar ------------------------------------------------
-        egui::TopBottomPanel::top("top").show(ctx, |ui| {
+        egui::Panel::top("top").show_inside(root_ui, |ui| {
             ui.horizontal(|ui| {
                 ui.label("Profile:");
                 let names = self.cfg.profile_names();
-                egui::ComboBox::from_id_source("profile")
+                egui::ComboBox::from_id_salt("profile")
                     .selected_text(&self.profile_name)
                     .show_ui(ui, |ui| {
                         for n in &names {
@@ -271,7 +274,7 @@ impl eframe::App for App {
         });
 
         // ----- bottom: action bar + summary ---------------------------
-        egui::TopBottomPanel::bottom("bottom").show(ctx, |ui| {
+        egui::Panel::bottom("bottom").show_inside(root_ui, |ui| {
             ui.horizontal(|ui| {
                 let run = ui.add_enabled(!self.busy,
                     egui::Button::new(if self.busy { "Running..." } else { "Run Test" }));
@@ -289,7 +292,9 @@ impl eframe::App for App {
         });
 
         // ----- main: tabs + log split ---------------------------------
-        egui::CentralPanel::default().show(ctx, |ui| {
+        // CentralPanel is the implicit "everything left over" area. It must
+        // be added AFTER the top/bottom panels per the egui 0.34 docs.
+        egui::CentralPanel::default().show_inside(root_ui, |ui| {
             ui.horizontal(|ui| {
                 ui.selectable_value(&mut self.tab, Tab::Servers,  "Servers");
                 ui.selectable_value(&mut self.tab, Tab::Send,     "Send Mail");
@@ -402,7 +407,7 @@ fn proto_block(ui: &mut egui::Ui, name: &str, enabled: &mut bool,
         ui.label("Host:"); ui.text_edit_singleline(host);
         ui.label("Port:"); ui.add(egui::DragValue::new(port).range(1..=65535));
         ui.label("Security:");
-        egui::ComboBox::from_id_source(format!("{name}-sec"))
+        egui::ComboBox::from_id_salt(format!("{name}-sec"))
             .selected_text(sec.as_str())
             .show_ui(ui, |ui| {
                 ui.selectable_value(sec, Security::None,    "none");
@@ -470,7 +475,7 @@ fn tab_advanced(ui: &mut egui::Ui, a: &mut App) {
         ui.end_row();
 
         ui.label("Log level:");
-        egui::ComboBox::from_id_source("loglvl")
+        egui::ComboBox::from_id_salt("loglvl")
             .selected_text(&a.profile.log_level)
             .show_ui(ui, |ui| {
                 for lv in ["trace", "debug", "info", "warn", "error"] {
