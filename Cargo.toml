@@ -42,13 +42,12 @@ tracing-subscriber = { version = "0.3", features = ["env-filter", "ansi", "fmt"]
 
 # Error handling
 anyhow    = "1"
-thiserror = "1"
 
 # TLS - rustls = pure Rust, no OpenSSL dep, fully portable single binary
 rustls          = { version = "0.23", default-features = false, features = ["std", "ring", "tls12"] }
 rustls-pki-types = "1"
 rustls-pemfile  = "2"
-webpki-roots    = "0.26"
+webpki-roots    = "1"          # matches lettre 0.11.22 upstream
 
 # SMTP
 lettre = { version = "0.11", default-features = false, features = [
