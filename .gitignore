@@ -1,0 +1,24 @@
+# Rust
+/target
+**/*.rs.bk
+Cargo.lock.bak
+
+# IDE / editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local config that may contain secrets
+/smtp_test_tool.local.toml
+/.env
+/.env.*
+
+# Logs
+*.log
