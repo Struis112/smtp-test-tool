@@ -37,10 +37,16 @@ jobs:
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
             archive: tar.gz
+          # Apple Silicon runner builds the native aarch64 binary.
           - os: macos-latest
             target: aarch64-apple-darwin
             archive: tar.gz
-          - os: macos-13         # Intel runner
+          # GitHub deprecated the macos-12 / macos-13 (Intel) runner
+          # pools.  We cross-compile the x86_64 Mac binary from the
+          # Apple-Silicon runner instead - cargo + rustup handle this
+          # natively via the additional 'targets' entry, no extra
+          # tooling needed for Rust-pure code.
+          - os: macos-latest
             target: x86_64-apple-darwin
             archive: tar.gz
           - os: windows-latest
