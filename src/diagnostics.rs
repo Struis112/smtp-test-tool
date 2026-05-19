@@ -308,9 +308,7 @@ mod tests {
 
     #[test]
     fn extracts_codes_with_boundaries() {
-        let v = extract_enhanced_codes(
-            "535 5.7.139 Authentication unsuccessful; 4.7.0 throttle",
-        );
+        let v = extract_enhanced_codes("535 5.7.139 Authentication unsuccessful; 4.7.0 throttle");
         assert_eq!(v, vec!["5.7.139", "4.7.0"]);
     }
 
@@ -361,9 +359,7 @@ mod tests {
 
     #[test]
     fn hint_collects_multiple_codes_in_one_reply() {
-        let h = smtp_hints_for(
-            "550 5.7.60 SendAsDenied; also see 5.1.1 for the recipient",
-        );
+        let h = smtp_hints_for("550 5.7.60 SendAsDenied; also see 5.1.1 for the recipient");
         let joined = h.join("\n");
         assert!(joined.contains("5.7.60"));
         assert!(joined.contains("5.1.1"));
@@ -381,7 +377,9 @@ mod tests {
     #[test]
     fn imap_hint_for_logindisabled() {
         let h = imap_hints_for("* CAPABILITY IMAP4rev1 LOGINDISABLED STARTTLS");
-        assert!(h.iter().any(|s| s.contains("STARTTLS") || s.contains("XOAUTH2")));
+        assert!(h
+            .iter()
+            .any(|s| s.contains("STARTTLS") || s.contains("XOAUTH2")));
     }
 
     // ---- POP hint mapping ----------------------------------------

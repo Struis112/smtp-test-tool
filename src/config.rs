@@ -1,8 +1,8 @@
 //! TOML config file with named profiles.  Auto-load order:
 //!   1. `--config <FILE>` if explicit.
-//!   2. `email_tester.toml` in the executable's directory.
-//!   3. `email_tester.toml` in the current working directory.
-//!   4. OS-standard config dir (e.g. `%APPDATA%/email-tester/email_tester.toml`).
+//!   2. `smtp_test_tool.toml` in the executable's directory.
+//!   3. `smtp_test_tool.toml` in the current working directory.
+//!   4. OS-standard config dir (e.g. `%APPDATA%/smtp-test-tool/smtp_test_tool.toml`).
 
 use crate::smtp::AuthMech;
 use crate::tls::Security;
@@ -13,7 +13,7 @@ use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
 use std::{env, fs};
 
-pub const DEFAULT_FILE_NAME: &str = "email_tester.toml";
+pub const DEFAULT_FILE_NAME: &str = "smtp_test_tool.toml";
 
 /// Full config = many named profiles.
 #[derive(Debug, Default, Serialize, Deserialize)]
@@ -176,9 +176,9 @@ impl Config {
             fs::create_dir_all(parent).ok();
         }
         let mut text = String::from(
-            "# email-tester configuration\n\
+            "# smtp-test-tool configuration\n\
              # Multiple [profiles.<name>] sections can coexist; pick one with --profile.\n\
-             # The file 'email_tester.toml' next to the executable is auto-loaded.\n\n",
+             # The file 'smtp_test_tool.toml' next to the executable is auto-loaded.\n\n",
         );
         text.push_str(&toml::to_string_pretty(self).context("serialising config to TOML")?);
         fs::write(path, text).with_context(|| format!("writing config file {}", path.display()))?;
@@ -199,11 +199,18 @@ impl Config {
     }
 }
 
-/// Locate the most relevant config file on this machine.
+/// Locate the most relevant config file on this machine.  Trace-level
+/// events are emitted for each candidate so users can pinpoint a
+/// search miss by running with `RUST_LOG=smtp_test_tool=trace`.
 pub fn discover_config_path() -> Option<PathBuf> {
     if let Ok(exe) = env::current_exe() {
         if let Some(dir) = exe.parent() {
             let p = dir.join(DEFAULT_FILE_NAME);
+            tracing::trace!(
+                "config probe (next-to-exe): {} exists={}",
+                p.display(),
+                p.exists()
+            );
             if p.exists() {
                 return Some(p);
             }
@@ -211,12 +218,18 @@ pub fn discover_config_path() -> Option<PathBuf> {
     }
     if let Ok(cwd) = env::current_dir() {
         let p = cwd.join(DEFAULT_FILE_NAME);
+        tracing::trace!("config probe (cwd): {} exists={}", p.display(), p.exists());
         if p.exists() {
             return Some(p);
         }
     }
     if let Some(dir) = dirs::config_dir() {
-        let p = dir.join("email-tester").join(DEFAULT_FILE_NAME);
+        let p = dir.join("smtp-test-tool").join(DEFAULT_FILE_NAME);
+        tracing::trace!(
+            "config probe (xdg/appdata): {} exists={}",
+            p.display(),
+            p.exists()
+        );
         if p.exists() {
             return Some(p);
         }
@@ -232,7 +245,7 @@ pub fn default_save_path() -> PathBuf {
         }
     }
     if let Some(dir) = dirs::config_dir() {
-        return dir.join("email-tester").join(DEFAULT_FILE_NAME);
+        return dir.join("smtp-test-tool").join(DEFAULT_FILE_NAME);
     }
     PathBuf::from(DEFAULT_FILE_NAME)
 }

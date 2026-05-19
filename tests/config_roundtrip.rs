@@ -93,7 +93,10 @@ fn save_then_load_preserves_every_field_save_password_off() {
     let back = loaded.profile("default").expect("profile present").clone();
 
     assert_eq!(back.user, p.user);
-    assert_eq!(back.password, None, "password must not round-trip by default");
+    assert_eq!(
+        back.password, None,
+        "password must not round-trip by default"
+    );
     assert_eq!(back.oauth_token, p.oauth_token);
     assert_eq!(back.smtp_host, p.smtp_host);
     assert_eq!(back.smtp_port, p.smtp_port);
@@ -172,11 +175,17 @@ fn multiple_profiles_coexist_with_active_selector() {
     assert!(names.contains(&"production".to_string()));
     assert!(names.contains(&"staging".to_string()));
     assert_eq!(
-        loaded.profile("production").map(|p| p.user.clone()).unwrap(),
+        loaded
+            .profile("production")
+            .map(|p| p.user.clone())
+            .unwrap(),
         prod.user
     );
     assert_eq!(
-        loaded.profile("staging").map(|p| p.smtp_host.clone()).unwrap(),
+        loaded
+            .profile("staging")
+            .map(|p| p.smtp_host.clone())
+            .unwrap(),
         staging.smtp_host
     );
 }
