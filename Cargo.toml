@@ -43,10 +43,11 @@ tracing-subscriber = { version = "0.3", features = ["env-filter", "ansi", "fmt"]
 # Error handling
 anyhow    = "1"
 
-# TLS - rustls = pure Rust, no OpenSSL dep, fully portable single binary
+# TLS - rustls = pure Rust, no OpenSSL dep, fully portable single binary.
+# pki-types >=1.9 exposes the PemObject API we use to load CA bundles
+# (replaces the now-unmaintained rustls-pemfile, RUSTSEC-2025-0134).
 rustls          = { version = "0.23", default-features = false, features = ["std", "ring", "tls12"] }
-rustls-pki-types = "1"
-rustls-pemfile  = "2"
+rustls-pki-types = { version = "1.9", features = ["std"] }
 webpki-roots    = "1"          # matches lettre 0.11.22 upstream
 
 # SMTP

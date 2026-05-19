@@ -1,9 +1,10 @@
 //! TLS configuration helpers built on rustls.
 
 use anyhow::{Context, Result};
+use rustls::pki_types::pem::PemObject;
+use rustls::pki_types::CertificateDer;
 use rustls::{ClientConfig, RootCertStore};
 use serde::{Deserialize, Serialize};
-use std::fs;
 use std::path::Path;
 use std::sync::Arc;
 
@@ -39,13 +40,18 @@ pub fn build_client_config(ca_file: Option<&Path>, insecure: bool) -> Result<Arc
     roots.extend(webpki_roots::TLS_SERVER_ROOTS.iter().cloned());
 
     if let Some(path) = ca_file {
-        let pem = fs::read(path).with_context(|| format!("reading CA bundle {:?}", path))?;
-        let mut cursor = std::io::Cursor::new(pem);
-        let certs = rustls_pemfile::certs(&mut cursor)
+        // PemObject (in rustls-pki-types >=1.9) is the maintained
+        // replacement for the now-unmaintained rustls-pemfile crate
+        // (see RUSTSEC-2025-0134).  It loads CertificateDer entries
+        // straight from a PEM file with no extra dependency.
+        let certs: Vec<CertificateDer<'static>> = CertificateDer::pem_file_iter(path)
+            .with_context(|| format!("opening CA bundle {}", path.display()))?
             .collect::<std::result::Result<Vec<_>, _>>()
-            .context("parsing CA PEM")?;
+            .with_context(|| format!("parsing CA PEM {}", path.display()))?;
         for cert in certs {
-            roots.add(cert).context("adding user CA to root store")?;
+            roots
+                .add(cert)
+                .context("adding user CA to root store")?;
         }
     }
 
@@ -121,7 +127,4 @@ mod danger {
     }
 }
 
-// rustls-pemfile is small enough that we re-export only what we use.
-// Adding it as an explicit dep would clutter Cargo.toml; pull it in
-// transitively via rustls is not guaranteed, so add the small dep.
-pub use rustls_pemfile;
+
