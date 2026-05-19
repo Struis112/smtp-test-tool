@@ -68,7 +68,7 @@
 | Layer            | Choice                | Why                                            |
 | ---------------- | --------------------- | ---------------------------------------------- |
 | Language         | Rust (edition 2021)   | Safety, single static binary, modern tooling.  |
-| MSRV             | 1.75                  | Enables let-else, async fn in traits.          |
+| MSRV             | 1.85                  | Edition 2024 (transitive: serde_spanned ≥ 1.1).|
 | TLS              | `rustls` + ring       | Pure Rust, no OpenSSL on host.                 |
 | SMTP             | `lettre` 0.11+        | De-facto Rust SMTP client.                     |
 | IMAP / POP3      | hand-rolled on rustls | Owns the wire trace for diagnostics.           |
