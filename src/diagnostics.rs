@@ -303,14 +303,101 @@ fn extract_enhanced_codes(s: &str) -> Vec<String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    // ---- enhanced-code scanner ------------------------------------
+
     #[test]
-    fn finds_codes() {
-        let v = extract_enhanced_codes("535 5.7.139 Authentication unsuccessful; 4.7.0 throttle");
+    fn extracts_codes_with_boundaries() {
+        let v = extract_enhanced_codes(
+            "535 5.7.139 Authentication unsuccessful; 4.7.0 throttle",
+        );
         assert_eq!(v, vec!["5.7.139", "4.7.0"]);
     }
+
     #[test]
-    fn hint_for_sendas_denied() {
+    fn ignores_version_strings_and_partials() {
+        // 1.x.y is not an enhanced status code (1 is not 2/4/5).
+        assert!(extract_enhanced_codes("running 1.2.3 release").is_empty());
+        // 5.7 alone (no third octet) must not match.
+        assert!(extract_enhanced_codes("see 5.7 spec").is_empty());
+        // Embedded inside a word should not match (must be word-bounded).
+        assert!(extract_enhanced_codes("v5.7.60suffix").is_empty());
+    }
+
+    #[test]
+    fn extracts_at_start_and_end_of_string() {
+        assert_eq!(extract_enhanced_codes("5.1.1"), vec!["5.1.1"]);
+        assert_eq!(extract_enhanced_codes("foo 4.4.2"), vec!["4.4.2"]);
+    }
+
+    // ---- SMTP hint mapping ---------------------------------------
+
+    #[test]
+    fn hint_includes_send_as_for_5_7_60() {
         let h = smtp_hints_for("550 5.7.60 SendAsDenied");
-        assert!(h.iter().any(|s| s.contains("Send As")));
+        let joined = h.join("\n");
+        assert!(joined.contains("SendAsDenied"));
+        assert!(joined.contains("Send As"));
+        assert!(joined.contains("ESC 5.7.60"));
+    }
+
+    #[test]
+    fn hint_includes_basic_auth_for_5_7_139() {
+        let h = smtp_hints_for(
+            "535 5.7.139 Authentication unsuccessful, basic authentication is disabled",
+        );
+        let joined = h.join("\n");
+        assert!(joined.contains("5.7.139"));
+        assert!(joined.contains("Conditional Access"));
+    }
+
+    #[test]
+    fn hint_for_unknown_code_is_empty() {
+        // A code we don't have a mapping for (yet) should produce no
+        // spurious lines, only the unmatched scanner result.
+        let h = smtp_hints_for("550 5.9.999 Made up code");
+        assert!(h.is_empty(), "expected no hints, got {h:?}");
+    }
+
+    #[test]
+    fn hint_collects_multiple_codes_in_one_reply() {
+        let h = smtp_hints_for(
+            "550 5.7.60 SendAsDenied; also see 5.1.1 for the recipient",
+        );
+        let joined = h.join("\n");
+        assert!(joined.contains("5.7.60"));
+        assert!(joined.contains("5.1.1"));
+    }
+
+    // ---- IMAP hint mapping ---------------------------------------
+
+    #[test]
+    fn imap_hint_for_authenticationfailed() {
+        let h = imap_hints_for("a1 NO [AUTHENTICATIONFAILED] LOGIN failed");
+        assert!(!h.is_empty());
+        assert!(h.iter().any(|s| s.contains("bad password")));
+    }
+
+    #[test]
+    fn imap_hint_for_logindisabled() {
+        let h = imap_hints_for("* CAPABILITY IMAP4rev1 LOGINDISABLED STARTTLS");
+        assert!(h.iter().any(|s| s.contains("STARTTLS") || s.contains("XOAUTH2")));
+    }
+
+    // ---- POP hint mapping ----------------------------------------
+
+    #[test]
+    fn pop_hint_for_authentication_failed() {
+        let h = pop_hints_for("-ERR authentication failed");
+        assert!(!h.is_empty());
+        assert!(h
+            .iter()
+            .any(|s| s.contains("POP disabled") || s.contains("bad credentials")));
+    }
+
+    #[test]
+    fn pop_hint_for_disabled() {
+        let h = pop_hints_for("-ERR POP is disabled for this account");
+        assert!(h.iter().any(|s| s.contains("disabled")));
     }
 }
