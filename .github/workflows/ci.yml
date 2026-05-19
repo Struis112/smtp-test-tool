@@ -84,14 +84,14 @@ jobs:
   # stdlib / language features.
   # -------------------------------------------------------------------
   msrv:
-    name: MSRV (1.85)
+    name: MSRV (1.92)
     needs: lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
       - uses: dtolnay/rust-toolchain@master
         with:
-          toolchain: "1.85"
+          toolchain: "1.92"
       - uses: Swatinem/rust-cache@v2
         with:
           key: msrv
@@ -106,7 +106,7 @@ jobs:
         # Drop the toolchain file so MSRV is what we actually test.
         run: |
           rm -f rust-toolchain.toml
-          cargo +1.85 check --all-features --all-targets
+          cargo +1.92 check --all-features --all-targets
 
   # -------------------------------------------------------------------
   # Security + licence + duplicate-dep policy.

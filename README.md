@@ -4,7 +4,7 @@
 [![crates.io](https://img.shields.io/crates/v/smtp-test-tool.svg)](https://crates.io/crates/smtp-test-tool)
 [![docs.rs](https://img.shields.io/docsrs/smtp-test-tool)](https://docs.rs/smtp-test-tool)
 [![License: MIT OR Apache-2.0](https://img.shields.io/crates/l/smtp-test-tool.svg)](#license)
-[![MSRV](https://img.shields.io/badge/MSRV-1.85-blue.svg)](#building-from-source)
+[![MSRV](https://img.shields.io/badge/MSRV-1.92-blue.svg)](#building-from-source)
 
 > Cross-platform **SMTP / IMAP / POP3** connectivity tester with
 > IT-actionable diagnostics. CLI **and** GUI in one single static binary
@@ -152,7 +152,7 @@ That second-to-last line is what you forward to IT.
 
 ## Building from source
 
-Requires **Rust 1.85 or newer** (stable).
+Requires **Rust 1.92 or newer** (stable). The egui ecosystem sets this floor; building CLI-only with `--no-default-features` would in practice work on slightly older toolchains.
 
 ```sh
 git clone https://github.com/Struis112/smtp-test-tool
