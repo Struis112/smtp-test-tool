@@ -10,6 +10,7 @@
 use eframe::egui;
 use smtp_test_tool::config::{default_save_path, discover_config_path, Config};
 use smtp_test_tool::runner::{TestOutcome, TestResults};
+use smtp_test_tool::theme::{detect as detect_appearance, Appearance};
 use smtp_test_tool::tls::Security;
 use smtp_test_tool::{outlook_defaults, run_tests, Profile};
 use std::path::PathBuf;
@@ -147,18 +148,13 @@ enum Tab {
 impl App {
     fn new(sink: Arc<LogSink>, cc: &eframe::CreationContext<'_>) -> Self {
         // OS theme follow (rule #4: always dark/light, all OS).
-        // dark-light 2.x returns Result<Mode, Error> and dropped Mode::Default;
-        // if detection fails (rare; container, no display server, ...) we log
-        // a warning and fall back to dark (the dominant terminal default).
-        let visuals = match dark_light::detect() {
-            Ok(dark_light::Mode::Dark) => egui::Visuals::dark(),
-            Ok(dark_light::Mode::Light) => egui::Visuals::light(),
-            Ok(dark_light::Mode::Unspecified) => {
+        // Uses our own theme::detect() so we do not depend on dark-light,
+        // whose v2 pulls in the unmaintained async-std (RUSTSEC-2025-0052).
+        let visuals = match detect_appearance() {
+            Appearance::Dark => egui::Visuals::dark(),
+            Appearance::Light => egui::Visuals::light(),
+            Appearance::Unknown => {
                 tracing::info!("OS did not advertise a colour scheme; defaulting to dark");
-                egui::Visuals::dark()
-            }
-            Err(e) => {
-                tracing::warn!("OS theme detection failed ({e}); defaulting to dark");
                 egui::Visuals::dark()
             }
         };

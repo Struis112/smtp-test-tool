@@ -13,6 +13,7 @@ pub mod imap;
 pub mod pop3;
 pub mod runner;
 pub mod smtp;
+pub mod theme;
 pub mod tls;
 
 pub use config::{Config, Profile};

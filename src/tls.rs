@@ -49,9 +49,7 @@ pub fn build_client_config(ca_file: Option<&Path>, insecure: bool) -> Result<Arc
             .collect::<std::result::Result<Vec<_>, _>>()
             .with_context(|| format!("parsing CA PEM {}", path.display()))?;
         for cert in certs {
-            roots
-                .add(cert)
-                .context("adding user CA to root store")?;
+            roots.add(cert).context("adding user CA to root store")?;
         }
     }
 
@@ -126,5 +124,3 @@ mod danger {
         }
     }
 }
-
-
