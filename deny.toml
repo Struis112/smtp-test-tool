@@ -47,14 +47,55 @@ allow = [
 confidence-threshold = 0.9
 
 # ---- bans ----------------------------------------------------------------
+# 'deny' ratchet: any NEW duplicate not enumerated below fails CI, which
+# forces a conscious decision (either bump the offending dep or extend
+# this list with an explanation).  Every entry has a 'reason' so a
+# future contributor can revisit it.
 [bans]
-multiple-versions = "warn"   # ratchet to "deny" once tree is fully clean
+multiple-versions = "deny"
 wildcards         = "deny"
 highlight         = "all"
 allow             = []
 deny              = []
-# Known duplicate sources we accept while upstreams catch up:
-skip = []
+skip = [
+    # --- Windows FFI surface ---------------------------------------------
+    # Microsoft bumps windows-sys / windows-targets every few months;
+    # accesskit / winit / arboard / clipboard-win all pin different
+    # majors and update on their own schedule.
+    { crate = "windows-sys",          reason = "transitive: arboard/accesskit/winit pin different majors" },
+    { crate = "windows-targets",      reason = "split tracking windows-sys above" },
+    { crate = "windows_x86_64_gnu",   reason = "split tracking windows-targets above" },
+    { crate = "windows_x86_64_msvc",  reason = "split tracking windows-targets above" },
+    { crate = "bitflags",             reason = "windows-* v1 vs v2 transitive split" },
+
+    # --- Linux desktop (Wayland + X11) ----------------------------------
+    # winit pulls newer calloop / smithay than the accesskit linux backend.
+    { crate = "calloop",               reason = "winit vs accesskit-linux transitive split" },
+    { crate = "calloop-wayland-source", reason = "tracks calloop above" },
+    { crate = "smithay-client-toolkit", reason = "tracks calloop above" },
+    { crate = "rustix",                reason = "file-system FFI - winit vs accesskit-linux" },
+    { crate = "linux-raw-sys",         reason = "tracks rustix above" },
+    { crate = "hashbrown",             reason = "allocator-API split between std-rebuild and standalone" },
+
+    # --- macOS Objective-C bindings -------------------------------------
+    # accesskit / arboard / winit all use objc2 but at slightly different
+    # majors as the binding generator stabilises.
+    { crate = "block2",                reason = "objc2 transitive version split" },
+    { crate = "objc2",                 reason = "accesskit vs winit transitive split" },
+    { crate = "objc2-app-kit",         reason = "tracks objc2 above" },
+    { crate = "objc2-foundation",      reason = "tracks objc2 above" },
+    { crate = "core-foundation",       reason = "older Apple bindings linger via clipboard / arboard" },
+
+    # --- accesskit itself -----------------------------------------------
+    # accesskit_consumer 0.16 vs 0.35 - winit ships an older one while
+    # eframe pulls the newer.  Resolves when eframe + winit re-align.
+    { crate = "accesskit_consumer",    reason = "winit-pinned 0.16 vs eframe-pinned 0.35" },
+
+    # --- Random + error stuff -------------------------------------------
+    { crate = "getrandom",             reason = "v0.2 (older rand) vs v0.3 (zerocopy & friends)" },
+    { crate = "thiserror",             reason = "v1 still pinned by lettre transitives while v2 is current" },
+    { crate = "thiserror-impl",        reason = "tracks thiserror above" },
+]
 skip-tree = []
 
 # ---- sources -------------------------------------------------------------
