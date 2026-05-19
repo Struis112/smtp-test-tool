@@ -156,9 +156,20 @@ impl App {
         // Load config FIRST so we can honour the user's theme choice
         // (rule #4: dark + light, with manual override).
         let cfg_path = discover_config_path();
+        // Surface any parse error so the user knows their config was
+        // ignored - silent fallback used to mask real bugs.
         let cfg = cfg_path
             .as_ref()
-            .and_then(|p| Config::load(p).ok())
+            .and_then(|p| match Config::load(p) {
+                Ok(c) => {
+                    tracing::info!("loaded config {}", p.display());
+                    Some(c)
+                }
+                Err(e) => {
+                    tracing::warn!("failed to load config {}: {:#}", p.display(), e);
+                    None
+                }
+            })
             .unwrap_or_else(|| Config {
                 active: "default".into(),
                 profiles: [("default".into(), outlook_defaults())]
@@ -377,9 +388,32 @@ impl eframe::App for App {
             });
         });
 
-        // ----- main: tabs + log split ---------------------------------
-        // CentralPanel is the implicit "everything left over" area. It must
-        // be added AFTER the top/bottom panels per the egui 0.34 docs.
+        // ----- log panel along the bottom (own region, deterministic
+        // height) so the tab content above never fights it for space.
+        // egui 0.34: BottomPanel can have a fixed default + be resizable
+        // by the user via the splitter at the top edge.
+        egui::Panel::bottom("log")
+            .resizable(true)
+            .default_size(260.0)
+            .min_size(120.0)
+            .show_inside(root_ui, |ui| {
+                ui.label(egui::RichText::new("Log").strong());
+                egui::ScrollArea::vertical()
+                    .stick_to_bottom(true)
+                    .auto_shrink([false, false])
+                    .show(ui, |ui| {
+                        for line in &self.log_buf {
+                            let (color, tag) = level_style(line.level, ui.visuals().dark_mode);
+                            ui.horizontal_wrapped(|ui| {
+                                ui.label(egui::RichText::new(tag).color(color).monospace());
+                                ui.label(egui::RichText::new(&line.text).monospace());
+                            });
+                        }
+                    });
+            });
+
+        // ----- main: tabs + tab content fills the remaining space ----
+        // CentralPanel must be added AFTER all other panels per egui 0.34.
         egui::CentralPanel::default().show_inside(root_ui, |ui| {
             ui.horizontal(|ui| {
                 ui.selectable_value(&mut self.tab, Tab::Servers, "Servers");
@@ -389,35 +423,20 @@ impl eframe::App for App {
             });
             ui.separator();
 
-            let avail = ui.available_height();
             egui::ScrollArea::vertical()
-                .max_height(avail * 0.45)
+                .auto_shrink([false, false])
                 .show(ui, |ui| match self.tab {
                     Tab::Servers => tab_servers(ui, self),
                     Tab::Send => tab_send(ui, self),
                     Tab::Tls => tab_tls(ui, self),
                     Tab::Advanced => tab_advanced(ui, self),
                 });
-
-            ui.separator();
-            ui.label(egui::RichText::new("Log").strong());
-            egui::ScrollArea::vertical()
-                .stick_to_bottom(true)
-                .auto_shrink([false, false])
-                .show(ui, |ui| {
-                    for line in &self.log_buf {
-                        let (color, tag) = level_style(line.level, ui.visuals().dark_mode);
-                        ui.horizontal_wrapped(|ui| {
-                            ui.label(egui::RichText::new(tag).color(color).monospace());
-                            ui.label(egui::RichText::new(&line.text).monospace());
-                        });
-                    }
-                });
         });
     }
 }
 
 // ---------- helpers -------------------------------------------------------
+
 fn visuals_for(a: Appearance) -> egui::Visuals {
     match a {
         Appearance::Light => egui::Visuals::light(),
@@ -688,10 +707,20 @@ fn tab_advanced(ui: &mut egui::Ui, a: &mut App) {
 fn main() -> eframe::Result<()> {
     let sink = Arc::new(LogSink::default());
     let layer = GuiLayer { sink: sink.clone() };
+    // The GUI log panel shows user-relevant events.  Default to INFO so we
+    // do not flood it with eframe/winit/glow internal trace lines; advanced
+    // users can opt into DEBUG by setting RUST_LOG, e.g.:
+    //   RUST_LOG=smtp_test_tool=debug smtp-test-tool-gui
+    let filter = tracing_subscriber::EnvFilter::try_from_default_env().unwrap_or_else(|_| {
+        tracing_subscriber::EnvFilter::new("info,eframe=warn,winit=warn,wgpu_core=warn,naga=warn")
+    });
     tracing_subscriber::registry()
-        .with(LevelFilter::DEBUG)
+        .with(filter)
         .with(layer)
         .init();
+    // LevelFilter is still re-exported, keep the import so future tweaks
+    // don't need a re-edit.
+    let _keep = LevelFilter::INFO;
 
     let opts = eframe::NativeOptions {
         viewport: egui::ViewportBuilder::default()
