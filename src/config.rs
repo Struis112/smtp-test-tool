@@ -7,7 +7,6 @@
 use crate::smtp::AuthMech;
 use crate::tls::Security;
 use anyhow::{Context, Result};
-use base64::{engine::general_purpose::STANDARD as B64, Engine};
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
@@ -37,16 +36,19 @@ pub struct Profile {
     // ---- credentials ----
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub user: Option<String>,
-    /// Stored base64 (NOT encryption!) - users opt in via --save-password.
-    #[serde(
-        default,
-        rename = "password_b64",
-        skip_serializing_if = "Option::is_none",
-        serialize_with = "ser_b64",
-        deserialize_with = "de_b64"
-    )]
+
+    /// Held in memory for the current session only.  **NEVER** persisted
+    /// to disk - the `#[serde(skip)]` attribute makes this structurally
+    /// impossible.  Passwords belong in the user's keyboard or an OS
+    /// keychain (planned), not in a config file.  This rule is documented
+    /// in AGENTS.md and enforced by `tests/config_roundtrip.rs`.
+    #[serde(skip)]
     pub password: Option<String>,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
+
+    /// Same rule as `password`: an OAuth bearer token grants full
+    /// mailbox access until it expires and is therefore a credential.
+    /// Session-only, never written.
+    #[serde(skip)]
     pub oauth_token: Option<String>,
 
     // ---- SMTP ----
@@ -136,26 +138,6 @@ fn default_theme() -> String {
 impl Default for Profile {
     fn default() -> Self {
         crate::outlook_defaults()
-    }
-}
-
-// ---- base64 (de)serialiser for the optional password -----------------
-fn ser_b64<S: serde::Serializer>(v: &Option<String>, s: S) -> Result<S::Ok, S::Error> {
-    match v {
-        Some(p) => s.serialize_str(&B64.encode(p.as_bytes())),
-        None => s.serialize_none(),
-    }
-}
-fn de_b64<'de, D: serde::Deserializer<'de>>(d: D) -> Result<Option<String>, D::Error> {
-    let opt = Option::<String>::deserialize(d)?;
-    match opt {
-        None => Ok(None),
-        Some(s) => {
-            let bytes = B64.decode(s.as_bytes()).map_err(serde::de::Error::custom)?;
-            Ok(Some(
-                String::from_utf8(bytes).map_err(serde::de::Error::custom)?,
-            ))
-        }
     }
 }
 

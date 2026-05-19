@@ -74,30 +74,52 @@ fn fully_populated_profile() -> Profile {
 }
 
 #[test]
-fn save_then_load_preserves_every_field_save_password_off() {
+fn save_never_writes_credentials_even_when_set() {
+    // Even when both `password` AND `oauth_token` are populated on the
+    // in-memory Profile, `save()` MUST NOT persist them.  This enforces
+    // AGENTS.md rule #8 behaviourally so a future contributor cannot
+    // quietly re-introduce credential leakage by toggling a serde
+    // attribute - the type-level `#[serde(skip)]` plus this test catch
+    // both directions of regression.
     let mut cfg = Config {
         active: "default".into(),
         profiles: BTreeMap::new(),
     };
-    let mut p = fully_populated_profile();
-    // Default behaviour: password should NOT round-trip unless the
-    // caller explicitly opted in.  Drop it before saving to mirror
-    // what the GUI does when save_pwd is false.
-    p.password = None;
+    let p = fully_populated_profile();
+    assert!(p.password.is_some(), "test setup: password populated");
+    let secret = p.password.clone().unwrap();
     cfg.upsert_profile("default", p.clone());
 
-    let tmp = TempFile::new("default");
+    let tmp = TempFile::new("never_writes_creds");
     cfg.save(&tmp.path).expect("save");
 
+    // Inspect the on-disk file directly: the plaintext password,
+    // the key 'password', and the key 'oauth_token' must all be absent.
+    let on_disk = fs::read_to_string(&tmp.path).expect("read back");
+    assert!(
+        !on_disk.contains(&secret),
+        "plain password leaked into config file: {on_disk}"
+    );
+    assert!(
+        !on_disk.contains("password"),
+        "the key 'password' appeared in the on-disk config: {on_disk}"
+    );
+    assert!(
+        !on_disk.contains("oauth_token"),
+        "the key 'oauth_token' appeared in the on-disk config: {on_disk}"
+    );
+
+    // Round-trip everything else to make sure dropping credentials did
+    // not break other fields.
     let loaded = Config::load(&tmp.path).expect("load");
     let back = loaded.profile("default").expect("profile present").clone();
 
     assert_eq!(back.user, p.user);
+    assert_eq!(back.password, None, "loaded password must always be None");
     assert_eq!(
-        back.password, None,
-        "password must not round-trip by default"
+        back.oauth_token, None,
+        "loaded oauth_token must always be None"
     );
-    assert_eq!(back.oauth_token, p.oauth_token);
     assert_eq!(back.smtp_host, p.smtp_host);
     assert_eq!(back.smtp_port, p.smtp_port);
     assert_eq!(back.smtp_security, p.smtp_security);
@@ -115,40 +137,6 @@ fn save_then_load_preserves_every_field_save_password_off() {
     assert_eq!(back.ehlo_name, p.ehlo_name);
     assert_eq!(back.timeout_secs, p.timeout_secs);
     assert_eq!(back.theme, p.theme);
-}
-
-#[test]
-fn save_then_load_preserves_password_when_opted_in() {
-    // The caller (GUI when save_pwd=true) keeps the password on the
-    // Profile, which means the TOML serialiser will emit a
-    // password_b64 = "..." entry, and the deserialiser will round-trip
-    // it through base64.  Verify that loop.
-    let p = fully_populated_profile();
-    assert!(p.password.is_some(), "test setup: password set");
-
-    let mut cfg = Config {
-        active: "default".into(),
-        profiles: BTreeMap::new(),
-    };
-    cfg.upsert_profile("default", p.clone());
-
-    let tmp = TempFile::new("with_pwd");
-    cfg.save(&tmp.path).expect("save");
-
-    // Sanity check the file: must not contain the plain password.
-    let on_disk = fs::read_to_string(&tmp.path).expect("read back");
-    assert!(
-        !on_disk.contains("hunter2-please-rotate"),
-        "plain password leaked to disk: {on_disk}"
-    );
-    assert!(
-        on_disk.contains("password_b64"),
-        "expected password_b64 key in {on_disk}"
-    );
-
-    let loaded = Config::load(&tmp.path).expect("load");
-    let back = loaded.profile("default").expect("profile present");
-    assert_eq!(back.password.as_deref(), Some("hunter2-please-rotate"));
 }
 
 #[test]

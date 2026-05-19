@@ -59,6 +59,16 @@
    error message wording — all of it is part of the product. If it looks
    amateur, it is broken.
 
+8. **Credentials never touch the disk via this crate.** Passwords, OAuth
+   bearer tokens, API keys, and similar secrets live in process memory
+   for the current session only — or in an OS keychain when we add that
+   integration. They MUST NEVER be written to the config file, the
+   logs, or `eframe`'s persistence store. This is enforced at the type
+   level via `#[serde(skip)]` on `Profile::password` and `::oauth_token`
+   and behaviourally by `tests/config_roundtrip.rs::
+   save_never_writes_credentials_even_when_set`. Removing or weakening
+   either of those is a merge blocker.
+
 [Conventional Commits]: https://www.conventionalcommits.org/
 
 ---

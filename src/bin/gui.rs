@@ -127,7 +127,6 @@ struct App {
     log_sink: Arc<LogSink>,
     log_buf: Vec<LogLine>,
     show_pwd: bool,
-    save_pwd: bool,
     busy: bool,
     result_rx: Option<Receiver<TestResults>>,
     last_results: TestResults,
@@ -204,7 +203,6 @@ impl App {
             log_sink: sink,
             log_buf: Vec::new(),
             show_pwd: false,
-            save_pwd: false,
             busy: false,
             result_rx: None,
             last_results: TestResults::default(),
@@ -270,10 +268,9 @@ impl App {
         self.profile.cc = csv_to_vec(&self.cc_csv);
         self.profile.bcc = csv_to_vec(&self.bcc_csv);
 
-        if !self.save_pwd {
-            // Strip password before persisting unless user opted in.
-            self.profile.password = None;
-        }
+        // No credential handling here: Profile.password and .oauth_token
+        // are `#[serde(skip)]` so they are dropped at serialise time
+        // unconditionally.  See AGENTS.md rule #8.
         self.cfg
             .upsert_profile(&self.profile_name, self.profile.clone());
         self.cfg.active = self.profile_name.clone();
@@ -693,10 +690,6 @@ fn tab_advanced(ui: &mut egui::Ui, a: &mut App) {
         if current != previous {
             a.profile.theme = current.as_str().to_string();
         }
-        ui.end_row();
-
-        ui.label("Save password in config:");
-        ui.checkbox(&mut a.save_pwd, "(base64, NOT encryption)");
         ui.end_row();
     });
 }

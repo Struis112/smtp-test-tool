@@ -138,9 +138,12 @@ imap_security = "starttls"
 ca_file = "/etc/ssl/corp-internal-ca.pem"
 ```
 
-Saving the password is **opt-in** via the GUI tickbox; even then it is
-stored base64-encoded (**obfuscation, not encryption**) and you should
-protect the file with NTFS ACLs or `chmod 600`.
+**Passwords and OAuth tokens are never written to the config file.**
+The GUI keeps them in memory for the current session only; the CLI
+prompts on each run unless one is supplied via `--password` or
+`--password-file`. Future work: opt-in integration with the OS
+keychain (Windows Credential Manager, macOS Keychain, Linux Secret
+Service) for proper at-rest encryption.
 
 ---
 
