@@ -59,15 +59,18 @@
    error message wording — all of it is part of the product. If it looks
    amateur, it is broken.
 
-8. **Credentials never touch the disk via this crate.** Passwords, OAuth
-   bearer tokens, API keys, and similar secrets live in process memory
-   for the current session only — or in an OS keychain when we add that
-   integration. They MUST NEVER be written to the config file, the
-   logs, or `eframe`'s persistence store. This is enforced at the type
-   level via `#[serde(skip)]` on `Profile::password` and `::oauth_token`
-   and behaviourally by `tests/config_roundtrip.rs::
-   save_never_writes_credentials_even_when_set`. Removing or weakening
-   either of those is a merge blocker.
+8. **Credentials never touch the config file, logs, or eframe state.**
+   Passwords, OAuth bearer tokens, API keys, and similar secrets live
+   in process memory for the current session only — OR in an OS
+   keychain via `src/keystore.rs`, which is the **one** approved
+   persistent store. The OS keychain provides real at-rest encryption
+   gated by the OS login / unlock prompt; our own TOML files do not.
+   Enforced at the type level via `#[serde(skip)]` on
+   `Profile::password` and `::oauth_token`, behaviourally by
+   `tests/config_roundtrip.rs::save_never_writes_credentials_even_when_set`,
+   and the keychain code itself is feature-gated so a CLI-only build
+   can ship without ever linking the keyring crate. Removing or
+   weakening any of those is a merge blocker.
 
 [Conventional Commits]: https://www.conventionalcommits.org/
 

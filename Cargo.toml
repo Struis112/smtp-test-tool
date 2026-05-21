@@ -25,8 +25,12 @@ path = "src/bin/gui.rs"
 required-features = ["gui"]
 
 [features]
-default = ["gui"]
-gui     = ["dep:eframe", "dep:egui"]
+default  = ["gui", "keychain"]
+gui      = ["dep:eframe", "dep:egui"]
+# Real OS keychain backing (Windows Credential Manager / macOS Keychain /
+# Linux Secret Service).  Optional so a stripped-down CLI build can skip
+# the libdbus dependency on Linux.
+keychain = ["dep:keyring"]
 
 [dependencies]
 # CLI parsing
@@ -60,6 +64,15 @@ lettre = { version = "0.11", default-features = false, features = [
 chrono    = { version = "0.4", default-features = false, features = ["clock", "serde"] }
 dirs      = "6"
 once_cell = "1"
+
+# OS-native credential storage (Windows Credential Manager / macOS
+# Keychain / Linux Secret Service via dbus).  Pinned to the 3.x line
+# deliberately: keyring 4.x repurposed the crate name for a CLI tool
+# and split the library into 'keyring-core' + per-OS backend stores,
+# which would multiply our dep tree (turso SQLite engine, dbus +
+# zbus, ...).  3.6.3 is the last release of the simple Entry-based
+# library API and is still receiving fixes from the same upstream.
+keyring   = { version = "3.6", optional = true }
 
 # GUI (optional, only built when --features gui is on, which is the default)
 eframe    = { version = "0.34", optional = true, default-features = false, features = ["default_fonts", "glow", "persistence", "accesskit"] }

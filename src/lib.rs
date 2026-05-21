@@ -10,6 +10,7 @@
 pub mod config;
 pub mod diagnostics;
 pub mod imap;
+pub mod keystore;
 pub mod pop3;
 pub mod providers;
 pub mod runner;
