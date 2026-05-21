@@ -3,6 +3,7 @@
 use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
 use smtp_test_tool::config::{default_save_path, discover_config_path, Config};
+use smtp_test_tool::keystore::default_keystore;
 use smtp_test_tool::providers::{self, Provider};
 use smtp_test_tool::{outlook_defaults, run_tests, Profile};
 use std::io::{self, Write};
@@ -47,6 +48,20 @@ struct Cli {
     #[arg(long, value_name = "NAME")]
     provider: Option<String>,
 
+    /// Look up the password in the OS keychain at startup (Windows
+    /// Credential Manager / macOS Keychain / Linux Secret Service).
+    /// Requires --user (or `user = ...` in the loaded profile) so we
+    /// know which entry to fetch.  Silent if nothing is stored.
+    #[arg(long)]
+    keychain_load: bool,
+
+    /// After a successful run, write the (current) password to the OS
+    /// keychain under the active user.  Combines with --keychain-load
+    /// to give a 'remember me' workflow: pass --password once with
+    /// --keychain-save, then --keychain-load on every subsequent run.
+    #[arg(long)]
+    keychain_save: bool,
+
     /// Disable certificate verification (testing only).
     #[arg(long)]
     insecure: bool,
@@ -74,6 +89,26 @@ enum Cmd {
     },
     /// List the built-in provider presets that --provider accepts.
     Providers,
+    /// Inspect or manage the OS-keychain entries this tool created.
+    #[command(subcommand)]
+    Keychain(KeychainCmd),
+}
+
+#[derive(Subcommand, Debug)]
+enum KeychainCmd {
+    /// Test whether an entry exists for USER under the smtp-test-tool
+    /// service in the OS keychain.  Prints 'stored' or 'absent';
+    /// never prints the secret itself.
+    Status {
+        /// Account / email address to look up.
+        user: String,
+    },
+    /// Delete the smtp-test-tool entry for USER from the OS keychain.
+    /// Idempotent: succeeds even if no entry was stored.
+    Forget {
+        /// Account / email address to forget.
+        user: String,
+    },
 }
 
 fn main() -> ExitCode {
@@ -125,6 +160,24 @@ fn run() -> Result<bool> {
                 println!("  {n}{}", if n == cfg.active { "  (active)" } else { "" });
             }
             return Ok(true);
+        }
+        Cmd::Keychain(sub) => {
+            let ks = default_keystore();
+            return match sub {
+                KeychainCmd::Status { user } => {
+                    match ks.load(&user)? {
+                        Some(_) => println!("stored"),
+                        None => println!("absent"),
+                    }
+                    Ok(true)
+                }
+                KeychainCmd::Forget { user } => {
+                    ks.forget(&user)
+                        .with_context(|| format!("forgetting keychain entry for {user}"))?;
+                    println!("forgotten ({user})");
+                    Ok(true)
+                }
+            };
         }
         Cmd::Providers => {
             println!("Built-in provider presets (use with --provider):");
@@ -197,11 +250,45 @@ fn run() -> Result<bool> {
     if profile.user.is_none() {
         profile.user = Some(prompt("Username / email: ")?);
     }
+
+    // Keychain auto-load happens AFTER --password / --oauth-token have
+    // been merged so an explicit CLI override always wins.  Only the
+    // user-supplied --keychain-load flag triggers the lookup; we don't
+    // probe the keychain silently on every run.
+    let keystore = default_keystore();
+    if cli.keychain_load && profile.password.is_none() && profile.oauth_token.is_none() {
+        if let Some(user) = &profile.user {
+            match keystore.load(user) {
+                Ok(Some(pwd)) => {
+                    tracing::info!("loaded password for {user} from OS keychain");
+                    profile.password = Some(pwd);
+                }
+                Ok(None) => {
+                    tracing::info!("no keychain entry for {user} - falling back to prompt");
+                }
+                Err(e) => {
+                    tracing::warn!("keychain load failed for {user}: {e:#}");
+                }
+            }
+        }
+    }
+
     if profile.password.is_none() && profile.oauth_token.is_none() {
         profile.password = Some(prompt_password("Password: ")?);
     }
 
     let results = run_tests(&profile);
+
+    // Save AFTER a successful run so we never persist a broken password.
+    if cli.keychain_save && results.all_passed() {
+        if let (Some(user), Some(pwd)) = (&profile.user, &profile.password) {
+            match keystore.save(user, pwd) {
+                Ok(()) => tracing::info!("saved password for {user} to OS keychain"),
+                Err(e) => tracing::warn!("keychain save failed for {user}: {e:#}"),
+            }
+        }
+    }
+
     Ok(results.all_passed())
 }
 
