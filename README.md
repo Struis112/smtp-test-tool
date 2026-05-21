@@ -145,11 +145,21 @@ ca_file = "/etc/ssl/corp-internal-ca.pem"
 ```
 
 **Passwords and OAuth tokens are never written to the config file.**
-The GUI keeps them in memory for the current session only; the CLI
-prompts on each run unless one is supplied via `--password` or
-`--password-file`. Future work: opt-in integration with the OS
-keychain (Windows Credential Manager, macOS Keychain, Linux Secret
-Service) for proper at-rest encryption.
+They live in memory for the current session, or - on opt-in - in the
+native **OS keychain**:
+
+* The GUI's Servers tab has a *Save password to keychain* / *Forget
+  keychain entry* button pair under the credentials block.
+* The CLI exposes `--keychain-load` (look up at startup) and
+  `--keychain-save` (write after a successful test), plus a
+  `keychain status|forget` subcommand.
+* Backed by Windows Credential Manager, macOS Keychain, or Linux
+  Secret Service via `gnome-keyring` / KWallet.  Real at-rest
+  encryption, gated by the OS unlock prompt - unlike base64.
+
+Say `cargo build --no-default-features --features gui` to ship a
+build without the keychain code (skips the `keyring` crate and, on
+Linux, the `libdbus-1-dev` runtime dependency).
 
 ---
 

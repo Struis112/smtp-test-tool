@@ -9,6 +9,7 @@
 
 use eframe::egui;
 use smtp_test_tool::config::{default_save_path, discover_config_path, Config};
+use smtp_test_tool::keystore::{default_keystore, Keystore};
 use smtp_test_tool::providers::{self, Provider};
 use smtp_test_tool::runner::{TestOutcome, TestResults};
 use smtp_test_tool::theme::{detect as detect_appearance, Appearance, ThemeChoice};
@@ -129,6 +130,16 @@ struct App {
     log_buf: Vec<LogLine>,
     show_pwd: bool,
     busy: bool,
+    /// Native credential store handle.  Box<dyn> so unit tests of the
+    /// surrounding logic could swap in a mock; the trait is Send+Sync
+    /// so it's safe to share across the background test thread (we
+    /// don't currently, but the type promises it).
+    keystore: Box<dyn Keystore>,
+    /// Set to true when the current `profile.password` came out of the
+    /// OS keychain (auto-loaded on startup).  Surfaces a small textual
+    /// hint next to the credentials block so the user knows the
+    /// password they see was restored, not just typed.
+    password_from_keychain: bool,
     result_rx: Option<Receiver<TestResults>>,
     last_results: TestResults,
     to_csv: String,
@@ -177,10 +188,32 @@ impl App {
                     .collect(),
             });
         let profile_name = cfg.active.clone();
-        let profile = cfg
+        let mut profile = cfg
             .profile(&profile_name)
             .cloned()
             .unwrap_or_else(outlook_defaults);
+
+        // Best-effort keychain auto-load: if a user is known and an
+        // entry exists in the OS-native store, populate the password
+        // field.  Silent on a miss; logs a warning only on real backend
+        // failure (e.g. no Secret Service daemon on a headless Linux).
+        let keystore = default_keystore();
+        let mut password_from_keychain = false;
+        if profile.password.is_none() {
+            if let Some(user) = profile.user.as_deref() {
+                match keystore.load(user) {
+                    Ok(Some(pwd)) => {
+                        tracing::info!("loaded password for {user} from OS keychain");
+                        profile.password = Some(pwd);
+                        password_from_keychain = true;
+                    }
+                    Ok(None) => {}
+                    Err(e) => {
+                        tracing::warn!("keychain load failed for {user}: {e:#}");
+                    }
+                }
+            }
+        }
 
         // Detect OS appearance once (cached), then resolve through the
         // user's stored ThemeChoice (Auto / Dark / Light).
@@ -213,6 +246,8 @@ impl App {
             tab: Tab::Servers,
             os_appearance,
             applied_appearance: initial,
+            keystore,
+            password_from_keychain,
         }
     }
 
@@ -586,6 +621,72 @@ fn tab_servers(ui: &mut egui::Ui, a: &mut App) {
             egui::Label::new(egui::RichText::new("(XOAUTH2, optional)").weak()),
         );
     });
+
+    // OS keychain controls (Windows Credential Manager / macOS Keychain /
+    // Linux Secret Service).  Buttons are explicit (no auto-save) so the
+    // user always knows when a secret is being persisted.  Per AGENTS.md
+    // rule #8 this is the ONE approved store outside process memory.
+    ui.horizontal(|ui| {
+        ui.add_sized([LABEL_W, 0.0], egui::Label::new(""));
+        let user_set = a
+            .profile
+            .user
+            .as_deref()
+            .map(|s| !s.is_empty())
+            .unwrap_or(false);
+        let pwd_set = a
+            .profile
+            .password
+            .as_deref()
+            .map(|s| !s.is_empty())
+            .unwrap_or(false);
+
+        if ui
+            .add_enabled(
+                user_set && pwd_set,
+                egui::Button::new("Save password to keychain"),
+            )
+            .on_hover_text(
+                "Stores the password in your OS keychain (Windows Credential \
+                 Manager / macOS Keychain / Linux Secret Service).  Never \
+                 written to the config file.",
+            )
+            .clicked()
+        {
+            if let (Some(u), Some(p)) = (&a.profile.user, &a.profile.password) {
+                match a.keystore.save(u, p) {
+                    Ok(()) => {
+                        tracing::info!("saved password for {u} to OS keychain");
+                        a.password_from_keychain = true;
+                    }
+                    Err(e) => tracing::error!("keychain save failed for {u}: {e:#}"),
+                }
+            }
+        }
+        if ui
+            .add_enabled(user_set, egui::Button::new("Forget keychain entry"))
+            .on_hover_text(
+                "Deletes the smtp-test-tool entry for this user from the OS keychain. \
+                 The password field above is also cleared.",
+            )
+            .clicked()
+        {
+            if let Some(u) = &a.profile.user.clone() {
+                match a.keystore.forget(u) {
+                    Ok(()) => {
+                        tracing::info!("forgot keychain entry for {u}");
+                        a.profile.password = None;
+                        a.password_from_keychain = false;
+                    }
+                    Err(e) => tracing::error!("keychain forget failed for {u}: {e:#}"),
+                }
+            }
+        }
+        if a.password_from_keychain {
+            ui.label(egui::RichText::new("(loaded from keychain)").weak());
+        }
+    });
+
     ui.separator();
     proto_block(
         ui,

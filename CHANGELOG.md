@@ -7,6 +7,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **OS-native keychain integration** behind a new `keychain` cargo
+  feature (on by default).  Windows Credential Manager / macOS
+  Keychain / Linux Secret Service via `keyring 3.6`.
+  * `src/keystore.rs` exposes a `Keystore` trait with `save`, `load`,
+    `forget`; `OsKeystore` (real) and `NullKeystore` (graceful no-op
+    for builds without the feature).  6 unit tests use an in-memory
+    `MockKeystore` so the suite passes on every OS, including headless
+    Linux CI runners.
+  * CLI: `--keychain-load` looks up the password at startup;
+    `--keychain-save` writes it after a successful run only
+    (failed AUTH never leaks a wrong password); `keychain status
+    <user>` / `keychain forget <user>` subcommands inspect and manage
+    entries.
+  * GUI: *Save password to keychain* / *Forget keychain entry* buttons
+    under the credentials block.  Auto-loads on startup when an entry
+    exists for the current user, showing a small *(loaded from
+    keychain)* hint next to the controls.
+- **CLI provider parity** with the GUI: `--provider gmail` and
+  friends (case-insensitive, unique-substring resolver), plus a
+  `providers` subcommand that prints the full curated list.
+- **Gmail 'Send mail as' client-side bounce diagnostic**: a user who
+  pastes the bounce body (English or Dutch verbatim) into
+  `smtp_hints_for` now gets an actionable pointer to *Gmail Settings
+  > Accounts and Import > Send mail as > Edit info*.
+
+### Changed
+- `AGENTS.md` rule #8 expanded: OS keychain is now the documented
+  one-and-only approved persistent store for credentials.
+
 ## [0.1.1] - 2026-05-19
 
 ### Security
