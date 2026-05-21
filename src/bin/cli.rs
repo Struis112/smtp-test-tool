@@ -3,6 +3,7 @@
 use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
 use smtp_test_tool::config::{default_save_path, discover_config_path, Config};
+use smtp_test_tool::providers::{self, Provider};
 use smtp_test_tool::{outlook_defaults, run_tests, Profile};
 use std::io::{self, Write};
 use std::path::PathBuf;
@@ -38,6 +39,14 @@ struct Cli {
     #[arg(long)]
     oauth_token: Option<String>,
 
+    /// Apply a built-in provider preset (overwrites smtp/imap/pop3 host,
+    /// port, and security on the active profile).  Run `smtp-test-tool
+    /// providers` for the list of valid names.  Matching is case-insensitive
+    /// and accepts any unique substring, so `--provider gmail` and
+    /// `--provider "google workspace"` both pick Gmail.
+    #[arg(long, value_name = "NAME")]
+    provider: Option<String>,
+
     /// Disable certificate verification (testing only).
     #[arg(long)]
     insecure: bool,
@@ -63,6 +72,8 @@ enum Cmd {
         #[arg(short, long)]
         output: Option<PathBuf>,
     },
+    /// List the built-in provider presets that --provider accepts.
+    Providers,
 }
 
 fn main() -> ExitCode {
@@ -115,6 +126,29 @@ fn run() -> Result<bool> {
             }
             return Ok(true);
         }
+        Cmd::Providers => {
+            println!("Built-in provider presets (use with --provider):");
+            let mut max_name = 0;
+            for p in providers::PROVIDERS {
+                max_name = max_name.max(p.name.len());
+            }
+            for p in providers::PROVIDERS {
+                println!(
+                    "  {:<width$}  smtp={}:{}  imap={}:{}{}",
+                    p.name,
+                    p.smtp.host,
+                    p.smtp.port,
+                    p.imap.host,
+                    p.imap.port,
+                    if p.pop.is_none() { "  (no POP3)" } else { "" },
+                    width = max_name
+                );
+                if let Some(note) = p.note {
+                    println!("  {:width$}    note: {}", "", note, width = max_name);
+                }
+            }
+            return Ok(true);
+        }
         Cmd::Init { output } => {
             let mut new_cfg = Config {
                 active: "default".into(),
@@ -134,6 +168,19 @@ fn run() -> Result<bool> {
         .profile(&profile_name)
         .cloned()
         .unwrap_or_else(outlook_defaults);
+
+    // Apply --provider BEFORE the credential overrides so user/password
+    // entered on the command line win over anything the preset implies
+    // (though presets never populate credentials).
+    if let Some(name) = cli.provider.as_deref() {
+        let p = resolve_provider(name)?;
+        apply_provider_to(&mut profile, p);
+        tracing::info!("applied provider preset: {}", p.name);
+        if let Some(note) = p.note {
+            tracing::info!("  note: {note}");
+        }
+    }
+
     if let Some(u) = cli.user {
         profile.user = Some(u);
     }
@@ -156,6 +203,58 @@ fn run() -> Result<bool> {
 
     let results = run_tests(&profile);
     Ok(results.all_passed())
+}
+
+/// Resolve a `--provider` argument to a curated preset.  Case-insensitive
+/// exact match first, then case-insensitive unique-substring match.
+/// Ambiguous matches are an error rather than silently picking the first.
+fn resolve_provider(name: &str) -> Result<&'static Provider> {
+    let needle = name.to_ascii_lowercase();
+    // 1. Exact match (case-insensitive).
+    if let Some(p) = providers::PROVIDERS
+        .iter()
+        .find(|p| p.name.eq_ignore_ascii_case(name))
+    {
+        return Ok(p);
+    }
+    // 2. Unique substring match.
+    let hits: Vec<&'static Provider> = providers::PROVIDERS
+        .iter()
+        .filter(|p| p.name.to_ascii_lowercase().contains(&needle))
+        .collect();
+    match hits.len() {
+        1 => Ok(hits[0]),
+        0 => Err(anyhow::anyhow!(
+            "unknown provider {name:?}; run `smtp-test-tool providers` for the list"
+        )),
+        _ => {
+            let names: Vec<&str> = hits.iter().map(|p| p.name).collect();
+            Err(anyhow::anyhow!(
+                "provider {name:?} is ambiguous; matched: {}",
+                names.join(", ")
+            ))
+        }
+    }
+}
+
+/// Mirror of GUI's `App::apply_provider`, on a free-standing Profile.
+fn apply_provider_to(profile: &mut Profile, p: &Provider) {
+    profile.smtp_host = p.smtp.host.into();
+    profile.smtp_port = p.smtp.port;
+    profile.smtp_security = p.smtp.security;
+    profile.imap_host = p.imap.host.into();
+    profile.imap_port = p.imap.port;
+    profile.imap_security = p.imap.security;
+    match p.pop {
+        Some(pop) => {
+            profile.pop_host = pop.host.into();
+            profile.pop_port = pop.port;
+            profile.pop_security = pop.security;
+        }
+        None => {
+            profile.pop_enabled = false;
+        }
+    }
 }
 
 fn prompt(msg: &str) -> Result<String> {
