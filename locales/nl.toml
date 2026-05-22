@@ -1,0 +1,303 @@
+# smtp-test-tool locale: Nederlands (nl)
+#
+# Native-translated.  Technical terms (SMTP AUTH, App Password,
+# Conditional Access, STARTTLS, XOAUTH2, MAIL FROM, ...) are kept in
+# English on purpose: that's how they appear in Microsoft 365 admin
+# panels and provider docs, and switching them to half-Dutch
+# half-English would confuse an IT person more than help.
+
+[app]
+name = "SMTP Test Tool"
+
+[locale]
+native_name = "Nederlands"
+english_name = "Dutch"
+# Empty: native-reviewed by the maintainer.  Other locale files set
+# this to the machine-translated banner so users know to take strings
+# with a grain of salt.
+status_note = ""
+
+# (test.fixture.greeting intentionally omitted - exercises the
+# missing-key-falls-back-to-base path in the i18n unit tests.)
+
+# ===========================================================================
+# UI strings
+# ===========================================================================
+[ui.window]
+title = "SMTP-testtool"
+
+[ui.topbar]
+profile_label = "Profiel:"
+save_config = "Configuratie opslaan"
+save_config_tooltip = "Schrijft het actieve profiel terug naar het configuratiebestand naast het uitvoerbare bestand."
+provider_preset = "Provider-voorinstelling..."
+provider_preset_tooltip = "Past een van de samengestelde mailprovider-voorinstellingen toe op de velden host, poort en beveiliging hieronder."
+config_path_none = "geen configuratiebestand"
+
+[ui.tab]
+servers = "Servers"
+send_mail = "Mail verzenden"
+tls_auth = "TLS / Auth"
+advanced = "Geavanceerd"
+diagnose = "Bounce analyseren"
+
+[ui.servers]
+username = "Gebruikersnaam:"
+password = "Wachtwoord:"
+show = "Tonen"
+oauth_token = "OAuth-token:"
+oauth_hint = "(XOAUTH2, optioneel)"
+save_to_keychain = "Wachtwoord opslaan in sleutelhanger"
+save_to_keychain_tooltip = "Slaat het wachtwoord op in je OS-sleutelhanger (Windows Credential Manager / macOS Keychain / Linux Secret Service).  Wordt nooit naar het configuratiebestand geschreven."
+forget_keychain = "Sleutelhanger-vermelding wissen"
+forget_keychain_tooltip = "Verwijdert de smtp-test-tool-vermelding voor deze gebruiker uit de OS-sleutelhanger.  Het wachtwoordveld hierboven wordt ook leeggemaakt."
+loaded_from_keychain = "(uit sleutelhanger geladen)"
+
+[ui.proto]
+test_smtp = "SMTP testen"
+test_imap = "IMAP testen"
+test_pop3 = "POP3 testen"
+host = "Host:"
+port = "Poort:"
+security = "Beveiliging:"
+security_none = "geen"
+security_starttls = "starttls"
+security_ssl = "ssl"
+
+[ui.send]
+toggle = "Een testbericht daadwerkelijk verzenden (anders wordt alleen AUTH getest)"
+mail_from = "MAIL FROM (envelop):"
+from_header = "From: (header):"
+to = "Aan (komma-gescheiden):"
+cc = "Cc (komma-gescheiden):"
+bcc = "Bcc (komma-gescheiden):"
+reply_to = "Antwoorden aan:"
+subject = "Onderwerp:"
+body = "Inhoud:"
+
+[ui.tls]
+auth_mech = "SMTP AUTH-mechanisme:"
+insecure = "Certificaatverificatie uitschakelen (ONVEILIG - alleen voor tests)"
+ca_bundle = "CA-bundel (PEM):"
+
+[ui.advanced]
+timeout = "Timeout (s):"
+ehlo = "EHLO/HELO-naam:"
+imap_folder = "IMAP-map:"
+log_level = "Logniveau:"
+theme = "Thema:"
+language = "Taal:"
+language_unsupported = "Je OS-taal ({code}) is nog niet vertaald.  Teksten worden in het Engels getoond; bijdragen welkom."
+theme_follow_os = "Volg OS ({hint})"
+theme_dark = "Donker"
+theme_light = "Licht"
+
+[ui.actions]
+run_test = "Test uitvoeren"
+running = "Bezig..."
+clear_log = "Log wissen"
+
+[ui.status]
+smtp_idle = "SMTP: -"
+imap_idle = "IMAP: -"
+pop3_idle = "POP3: -"
+smtp_pass = "SMTP: GESLAAGD"
+imap_pass = "IMAP: GESLAAGD"
+pop3_pass = "POP3: GESLAAGD"
+smtp_fail = "SMTP: MISLUKT"
+imap_fail = "IMAP: MISLUKT"
+pop3_fail = "POP3: MISLUKT"
+smtp_skip = "SMTP: overgeslagen"
+imap_skip = "IMAP: overgeslagen"
+pop3_skip = "POP3: overgeslagen"
+
+[ui.diagnose]
+intro = "Plak hieronder de inhoud van een bezorgingsfout om IT-bruikbare hints te extraheren.  Herkent SMTP enhanced status codes (5.7.139, 5.7.60), Microsoft 365-zinnen (\"basic authentication is disabled\") en webmail-bounces zoals Gmail's \"Send mail as / Mail sturen als\".  Er gaat niets over het netwerk en de tekst wordt niet op schijf opgeslagen."
+input_placeholder = "Plak hier de inhoud van de bounce..."
+analyse = "Analyseren"
+clear = "Wissen"
+hints_heading = "Hints"
+no_hints_yet = "(nog geen hints - plak hierboven een bounce en klik op Analyseren)"
+
+[ui.log]
+heading = "Log"
+
+# ===========================================================================
+# Diagnostic hints
+# ===========================================================================
+[diagnostics.scaffold]
+esc_prefix = "ESC {code}: {what}"
+action_prefix = "  -> Actie: {fix}"
+hint_prefix = "  -> {hint}"
+
+# --- SMTP enhanced status codes ---
+
+[diagnostics.smtp.esc.5_7_0]
+what = "Authenticatie vereist, of het gekozen AUTH-mechanisme is niet toegestaan."
+fix  = "Schakel SMTP AUTH in voor de mailbox; controleer of LOGIN / PLAIN / XOAUTH2 is toegestaan."
+
+[diagnostics.smtp.esc.5_7_1]
+what = "Relay-toegang geweigerd - de server weigert dit bericht door te sturen."
+fix  = "Ofwel de afzender is niet geauthenticeerd, de ontvanger is extern en relaying staat uit, of een transport rule blokkeert het bericht."
+
+[diagnostics.smtp.esc.5_7_3]
+what = "Authenticatie mislukt."
+fix  = "Verkeerd wachtwoord, MFA aan zonder app-wachtwoord, of Basic/Legacy auth is uitgeschakeld op de tenant (O365: 'SMTP AUTH disabled')."
+
+[diagnostics.smtp.esc.5_7_8]
+what = "Authenticatiegegevens ongeldig."
+fix  = "Gebruikersnaam/wachtwoord geweigerd door de SASL-laag."
+
+[diagnostics.smtp.esc.5_7_57]
+what = "Client was niet geauthenticeerd om anonieme mail te versturen tijdens MAIL FROM."
+fix  = "Forceer STARTTLS + AUTH voor MAIL FROM.  In O365 is dit de typische fout wanneer de client zonder AUTH verbindt."
+
+[diagnostics.smtp.esc.5_7_60]
+what = "SendAsDenied - de geauthenticeerde gebruiker mag niet zenden ALS dit From-adres."
+fix  = "Geef de mailbox 'Send As' (of 'Send on Behalf')-rechten aan het geauthenticeerde account, of pas de From-header aan zodat deze overeenkomt met de login."
+
+[diagnostics.smtp.esc.5_7_64]
+what = "TenantAttribution; Relay Access Denied."
+fix  = "Geauthenticeerde SMTP-submissie vereist een gelicentieerde mailbox in O365."
+
+[diagnostics.smtp.esc.5_7_124]
+what = "De gebruiker mag geen mail verzenden."
+fix  = "Uitgeschakelde mailbox, geblokkeerd door Conditional Access, of licentie ontbreekt."
+
+[diagnostics.smtp.esc.5_7_135]
+what = "Authenticatie mislukt, de gebruikersgegevens zijn verlopen."
+fix  = "Wachtwoord opnieuw instellen / OAuth-token vernieuwen."
+
+[diagnostics.smtp.esc.5_7_139]
+what = "Authenticatie mislukt; het verzoek voldeed niet aan de criteria."
+fix  = "Een Conditional Access-beleid weigerde de login (locatie, apparaat, MFA)."
+
+[diagnostics.smtp.esc.5_7_500]
+what = "Toegang geweigerd, verzendend domein uitgeschakeld."
+fix  = "Het domein van de afzender is geblokkeerd voor uitgaande mail op deze tenant."
+
+[diagnostics.smtp.esc.5_7_501]
+what = "Toegang geweigerd, verbannen afzender."
+fix  = "Het afzenderadres staat op een tenant-blocklist."
+
+[diagnostics.smtp.esc.5_7_508]
+what = "Toegang geweigerd, snelheids- of verkeersdrempel overschreden."
+fix  = "Getrottled; wacht en probeer opnieuw, of vraag de beheerder om de limiet te verhogen."
+
+[diagnostics.smtp.esc.5_7_511]
+what = "Toegang geweigerd, verbannen afzender."
+fix  = "De afzender is gemarkeerd als spambron."
+
+[diagnostics.smtp.esc.5_7_606]
+what = "Toegang geweigerd, verbannen verzendend IP-adres."
+fix  = "Het verzendende IP-adres staat op een Microsoft-blocklist."
+
+[diagnostics.smtp.esc.5_7_708]
+what = "Service geweigerd.  Bron-IP heeft een slechte reputatie."
+fix  = "Verzend vanaf een ander IP-adres of vraag om delisting."
+
+[diagnostics.smtp.esc.5_7_750]
+what = "Client geblokkeerd voor verzenden vanaf niet-geregistreerde domeinen."
+fix  = "Verifieer het afzenderdomein in de tenant of gebruik een geaccepteerd domein."
+
+[diagnostics.smtp.esc.5_1_0]
+what = "Afzenderadres geweigerd."
+fix  = "From/MAIL FROM niet geaccepteerd; meestal een opmaak- of domeinbeleid."
+
+[diagnostics.smtp.esc.5_1_1]
+what = "Onjuiste bestemmingsmailbox - ontvanger bestaat niet."
+fix  = "Controleer het ontvangeradres."
+
+[diagnostics.smtp.esc.5_1_7]
+what = "Ongeldig afzenderadres (verkeerd geformatteerd)."
+fix  = "Corrigeer de MAIL FROM-syntax."
+
+[diagnostics.smtp.esc.5_1_8]
+what = "Afzenderdomein niet toegestaan."
+fix  = "Domein niet geaccepteerd door de server."
+
+[diagnostics.smtp.esc.5_1_10]
+what = "Ontvangeradres geweigerd - gebruiker onbekend."
+fix  = "Typefout of niet-bestaande ontvanger."
+
+[diagnostics.smtp.esc.5_4_1]
+what = "Ontvangeradres geweigerd: toegang geweigerd."
+fix  = "De ontvangermailbox weigert berichten van deze afzender/dit domein."
+
+[diagnostics.smtp.esc.5_2_1]
+what = "Mailbox uitgeschakeld, accepteert geen berichten."
+fix  = "Ontvangermailbox opgeschort."
+
+[diagnostics.smtp.esc.5_2_2]
+what = "Mailbox vol."
+fix  = "Ontvanger heeft quotum overschreden."
+
+[diagnostics.smtp.esc.5_3_4]
+what = "Bericht te groot voor het systeem."
+fix  = "Verklein het bericht."
+
+[diagnostics.smtp.esc.4_7_0]
+what = "Tijdelijke authenticatiefout / throttling."
+fix  = "Probeer later opnieuw; kan ook een tarpit zijn voor herhaalde foute logins."
+
+[diagnostics.smtp.esc.4_4_2]
+what = "Verbinding verbroken."
+fix  = "Netwerkhapering of serverherstart; probeer opnieuw."
+
+[diagnostics.smtp.esc.4_3_2]
+what = "Systeem accepteert geen netwerkberichten."
+fix  = "Onderhoud aan de server."
+
+# --- IMAP hints ---
+
+[diagnostics.imap.AUTHENTICATIONFAILED]
+hint = "IMAP-login geweigerd - verkeerd wachtwoord, MFA zonder app-wachtwoord, of Basic Auth uitgeschakeld."
+
+[diagnostics.imap."LOGIN_failed"]
+hint = "IMAP-login geweigerd door server."
+
+[diagnostics.imap.ALERT]
+hint = "Server gaf een ALERT-respons - lees deze; door de beheerder bepaalde melding."
+
+[diagnostics.imap.UNAVAILABLE]
+hint = "Mailbox/server tijdelijk niet beschikbaar."
+
+[diagnostics.imap.PRIVACYREQUIRED]
+hint = "Server vereist TLS voor LOGIN - gebruik STARTTLS of impliciete SSL."
+
+[diagnostics.imap.CLIENTBUG]
+hint = "Client heeft iets gedaan dat de server fout vindt; meestal ontbrekende STARTTLS of verkeerde toestand."
+
+[diagnostics.imap.LOGINDISABLED]
+hint = "Plain LOGIN is uitgeschakeld op deze server - gebruik STARTTLS/SSL of XOAUTH2."
+
+# --- POP3 hints ---
+
+[diagnostics.pop.authentication_failed]
+hint = "POP3-login geweigerd - verkeerde inloggegevens of POP uitgeschakeld voor deze mailbox."
+
+[diagnostics.pop.logon_failure]
+hint = "POP3-login geweigerd."
+
+[diagnostics.pop.not_implemented]
+hint = "Server ondersteunt het uitgegeven commando niet."
+
+[diagnostics.pop.disabled]
+hint = "POP3-toegang is uitgeschakeld voor dit account / deze tenant."
+
+# --- Client-side bounce bodies ---
+
+[diagnostics.bounce.gmail_send_as_en]
+needle = "Send mail as"
+hint = "Gmail's 'Send mail as'-upstream-login mislukt.  Instellingen > Alle instellingen weergeven > Accounts en import > Mail sturen als > Gegevens bewerken > voer het SMTP-wachtwoord opnieuw in (of een app-wachtwoord als het bronaccount 2FA gebruikt)."
+
+[diagnostics.bounce.gmail_send_as_nl]
+needle = "Mail sturen als"
+hint = "Gmail 'Mail sturen als'-upstream-login mislukt.  Instellingen > Alle instellingen weergeven > Accounts en import > Mail sturen als > Gegevens bewerken > voer het SMTP-wachtwoord opnieuw in (of een app-wachtwoord als het bronaccount 2FA gebruikt)."
+
+# ===========================================================================
+# CLI prompts
+# ===========================================================================
+[cli.prompt]
+username = "Gebruikersnaam / e-mail: "
+password = "Wachtwoord: "

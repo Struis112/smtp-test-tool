@@ -64,6 +64,7 @@ lettre = { version = "0.11", default-features = false, features = [
 chrono    = { version = "0.4", default-features = false, features = ["clock", "serde"] }
 dirs      = "6"
 once_cell = "1"
+sys-locale = "0.3"  # cross-platform OS-language detection for i18n auto-mode
 
 # OS-native credential storage (Windows Credential Manager / macOS
 # Keychain / Linux Secret Service via dbus).  Pinned to the 3.x line

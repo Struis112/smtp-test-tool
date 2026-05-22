@@ -1,0 +1,314 @@
+# smtp-test-tool locale: English (en)
+#
+# Base language file.  Every key the application looks up MUST exist
+# here.  Other locale files only need to translate the keys they want
+# to ship; missing keys fall back to English at runtime.
+#
+# Section layout:
+#   locale.*       metadata about THIS locale file (native name etc.)
+#   ui.*           on-screen labels, buttons, tab names, tooltips
+#   diagnostics.*  hint strings produced by smtp_hints_for / friends
+#   cli.*          prompts and small CLI-only strings
+#   app.*          tool-wide constants
+#   test.*         fixtures used by the i18n unit tests
+
+[app]
+name = "SMTP Test Tool"
+
+[locale]
+# Human-readable language name in the language itself - shown in the
+# selector even when the active locale is NOT this one.
+native_name = "English"
+# English name; shown alongside native_name for clarity (e.g.
+# 'Nederlands (Dutch)' is friendlier to a US English admin than 'Nederlands').
+english_name = "English"
+# Status banner shown in the selector for non-base locales when their
+# strings have not been native-reviewed.  Empty for en (this IS the base).
+status_note = ""
+
+[test.fixture]
+greeting = "Hello, {name}!"
+
+# ===========================================================================
+# UI strings
+# ===========================================================================
+[ui.window]
+title = "SMTP Test Tool"
+
+[ui.topbar]
+profile_label = "Profile:"
+save_config = "Save Config"
+save_config_tooltip = "Write the active profile back to the config file next to the executable."
+provider_preset = "Provider preset..."
+provider_preset_tooltip = "Apply one of the curated mail-provider presets to the host / port / security fields below."
+config_path_none = "no config file"
+
+[ui.tab]
+servers = "Servers"
+send_mail = "Send Mail"
+tls_auth = "TLS / Auth"
+advanced = "Advanced"
+diagnose = "Diagnose bounce"
+
+[ui.servers]
+username = "Username:"
+password = "Password:"
+show = "Show"
+oauth_token = "OAuth token:"
+oauth_hint = "(XOAUTH2, optional)"
+save_to_keychain = "Save password to keychain"
+save_to_keychain_tooltip = "Stores the password in your OS keychain (Windows Credential Manager / macOS Keychain / Linux Secret Service).  Never written to the config file."
+forget_keychain = "Forget keychain entry"
+forget_keychain_tooltip = "Deletes the smtp-test-tool entry for this user from the OS keychain.  The password field above is also cleared."
+loaded_from_keychain = "(loaded from keychain)"
+
+[ui.proto]
+test_smtp = "Test SMTP"
+test_imap = "Test IMAP"
+test_pop3 = "Test POP3"
+host = "Host:"
+port = "Port:"
+security = "Security:"
+security_none = "none"
+security_starttls = "starttls"
+security_ssl = "ssl"
+
+[ui.send]
+toggle = "Actually send a test email (otherwise only AUTH is tested)"
+mail_from = "MAIL FROM (envelope):"
+from_header = "From: (header):"
+to = "To (comma sep):"
+cc = "Cc (comma sep):"
+bcc = "Bcc (comma sep):"
+reply_to = "Reply-To:"
+subject = "Subject:"
+body = "Body:"
+
+[ui.tls]
+auth_mech = "SMTP AUTH mechanism:"
+insecure = "Disable certificate verification (INSECURE - testing only)"
+ca_bundle = "CA bundle (PEM):"
+
+[ui.advanced]
+timeout = "Timeout (s):"
+ehlo = "EHLO/HELO name:"
+imap_folder = "IMAP folder:"
+log_level = "Log level:"
+theme = "Theme:"
+language = "Language:"
+language_unsupported = "Your OS locale ({code}) is not yet translated.  Strings shown in English; contributions welcome."
+theme_follow_os = "Follow OS ({hint})"
+theme_dark = "Dark"
+theme_light = "Light"
+
+[ui.actions]
+run_test = "Run Test"
+running = "Running..."
+clear_log = "Clear Log"
+
+[ui.status]
+smtp_idle = "SMTP: -"
+imap_idle = "IMAP: -"
+pop3_idle = "POP3: -"
+smtp_pass = "SMTP: PASS"
+imap_pass = "IMAP: PASS"
+pop3_pass = "POP3: PASS"
+smtp_fail = "SMTP: FAIL"
+imap_fail = "IMAP: FAIL"
+pop3_fail = "POP3: FAIL"
+smtp_skip = "SMTP: skip"
+imap_skip = "IMAP: skip"
+pop3_skip = "POP3: skip"
+
+[ui.diagnose]
+intro = "Paste a delivery-failure body below to extract IT-actionable hints.  Detects SMTP enhanced status codes (5.7.139, 5.7.60), Microsoft 365 phrases (\"basic authentication is disabled\"), and webmail-side bounces such as Gmail's \"Send mail as / Mail sturen als\" failure.  Nothing is sent over the network and the text is not stored on disk."
+input_placeholder = "Paste the bounce body here..."
+analyse = "Analyse"
+clear = "Clear"
+hints_heading = "Hints"
+no_hints_yet = "(no hints yet - paste a bounce above and click Analyse)"
+
+[ui.log]
+heading = "Log"
+
+# ===========================================================================
+# Diagnostic hints
+# ===========================================================================
+[diagnostics.scaffold]
+esc_prefix = "ESC {code}: {what}"
+action_prefix = "  -> Action: {fix}"
+hint_prefix = "  -> {hint}"
+
+# --- SMTP enhanced status codes ---
+# Underscores stand in for the dots in the actual code (TOML reserves '.'
+# for section delimiters).  So "5_7_60" represents the wire code 5.7.60.
+
+[diagnostics.smtp.esc.5_7_0]
+what = "Authentication required, or chosen AUTH mechanism not permitted."
+fix  = "Enable SMTP AUTH for the mailbox; verify LOGIN / PLAIN / XOAUTH2 is allowed."
+
+[diagnostics.smtp.esc.5_7_1]
+what = "Relay access denied - server refuses to forward this message."
+fix  = "Either the sender is not authenticated, the recipient is external and relaying is disabled, or a transport rule is blocking the message."
+
+[diagnostics.smtp.esc.5_7_3]
+what = "Authentication unsuccessful."
+fix  = "Bad password, MFA enabled without app-password, or Basic/Legacy auth disabled on the tenant (O365: 'SMTP AUTH disabled')."
+
+[diagnostics.smtp.esc.5_7_8]
+what = "Authentication credentials invalid."
+fix  = "Username/password rejected by the SASL layer."
+
+[diagnostics.smtp.esc.5_7_57]
+what = "Client was not authenticated to send anonymous mail during MAIL FROM."
+fix  = "Force STARTTLS + AUTH before MAIL FROM. In O365 this is the typical error when the client connects without AUTH."
+
+[diagnostics.smtp.esc.5_7_60]
+what = "SendAsDenied - authenticated user is not allowed to send AS this From: address."
+fix  = "Grant the mailbox 'Send As' (or 'Send on Behalf') rights to the authenticated account, or change the From: header to match the login."
+
+[diagnostics.smtp.esc.5_7_64]
+what = "TenantAttribution; Relay Access Denied."
+fix  = "Authenticated SMTP submission requires a licensed mailbox in O365."
+
+[diagnostics.smtp.esc.5_7_124]
+what = "The user is not authorised to send mail."
+fix  = "Disabled mailbox, blocked by Conditional Access, or licence missing."
+
+[diagnostics.smtp.esc.5_7_135]
+what = "Authentication unsuccessful, the user credentials have expired."
+fix  = "Reset the password / refresh the OAuth token."
+
+[diagnostics.smtp.esc.5_7_139]
+what = "Authentication unsuccessful, the request did not meet the criteria."
+fix  = "Conditional Access policy denied the login (location, device, MFA)."
+
+[diagnostics.smtp.esc.5_7_500]
+what = "Access denied, sending domain disabled."
+fix  = "The sender's domain is blocked for outbound mail on this tenant."
+
+[diagnostics.smtp.esc.5_7_501]
+what = "Access denied, banned sender."
+fix  = "Sender address is on a tenant blocklist."
+
+[diagnostics.smtp.esc.5_7_508]
+what = "Access denied, rate or traffic threshold exceeded."
+fix  = "Throttled; wait and retry, or ask admin to raise the limit."
+
+[diagnostics.smtp.esc.5_7_511]
+what = "Access denied, banned sender."
+fix  = "Sender flagged as spam source."
+
+[diagnostics.smtp.esc.5_7_606]
+what = "Access denied, banned sending IP."
+fix  = "The submitting IP is on a Microsoft blocklist."
+
+[diagnostics.smtp.esc.5_7_708]
+what = "Service refused.  Source IP has bad reputation."
+fix  = "Submit from a different IP or request delisting."
+
+[diagnostics.smtp.esc.5_7_750]
+what = "Client blocked from sending from unregistered domains."
+fix  = "Verify the sender domain in the tenant or use an accepted domain."
+
+[diagnostics.smtp.esc.5_1_0]
+what = "Sender address rejected."
+fix  = "From/MAIL FROM not accepted; usually format or domain policy."
+
+[diagnostics.smtp.esc.5_1_1]
+what = "Bad destination mailbox - recipient does not exist."
+fix  = "Check the recipient address."
+
+[diagnostics.smtp.esc.5_1_7]
+what = "Invalid sender address (malformed)."
+fix  = "Fix the MAIL FROM syntax."
+
+[diagnostics.smtp.esc.5_1_8]
+what = "Sender domain not allowed."
+fix  = "Domain not accepted by the server."
+
+[diagnostics.smtp.esc.5_1_10]
+what = "Recipient address rejected - user unknown."
+fix  = "Typo or non-existent recipient."
+
+[diagnostics.smtp.esc.5_4_1]
+what = "Recipient address rejected: access denied."
+fix  = "Recipient mailbox refuses messages from this sender / domain."
+
+[diagnostics.smtp.esc.5_2_1]
+what = "Mailbox disabled, not accepting messages."
+fix  = "Recipient mailbox suspended."
+
+[diagnostics.smtp.esc.5_2_2]
+what = "Mailbox full."
+fix  = "Recipient quota exceeded."
+
+[diagnostics.smtp.esc.5_3_4]
+what = "Message too big for system."
+fix  = "Reduce message size."
+
+[diagnostics.smtp.esc.4_7_0]
+what = "Temporary authentication failure / throttling."
+fix  = "Try again later; could also be tarpit for repeated bad logins."
+
+[diagnostics.smtp.esc.4_4_2]
+what = "Connection dropped."
+fix  = "Network glitch or server restart; retry."
+
+[diagnostics.smtp.esc.4_3_2]
+what = "System not accepting network messages."
+fix  = "Server maintenance."
+
+# --- IMAP hints (keyed by the substring we match in the server reply) ---
+
+[diagnostics.imap.AUTHENTICATIONFAILED]
+hint = "IMAP login rejected - bad password, MFA without app-password, or Basic Auth disabled."
+
+[diagnostics.imap."LOGIN_failed"]
+hint = "IMAP login rejected by server."
+
+[diagnostics.imap.ALERT]
+hint = "Server returned an ALERT response - read it; admin-defined message."
+
+[diagnostics.imap.UNAVAILABLE]
+hint = "Mailbox/server temporarily unavailable."
+
+[diagnostics.imap.PRIVACYREQUIRED]
+hint = "Server requires TLS before LOGIN - use STARTTLS or implicit SSL."
+
+[diagnostics.imap.CLIENTBUG]
+hint = "Client did something the server considers wrong; usually missing STARTTLS or wrong state."
+
+[diagnostics.imap.LOGINDISABLED]
+hint = "Plain LOGIN is disabled on this server - use STARTTLS/SSL or XOAUTH2."
+
+# --- POP3 hints ---
+
+[diagnostics.pop.authentication_failed]
+hint = "POP3 login rejected - bad credentials or POP disabled for this mailbox."
+
+[diagnostics.pop.logon_failure]
+hint = "POP3 login rejected."
+
+[diagnostics.pop.not_implemented]
+hint = "Server does not support the issued command."
+
+[diagnostics.pop.disabled]
+hint = "POP3 access is disabled for this account / tenant."
+
+# --- Client-side bounce bodies (Gmail's 'Send mail as' family) ---
+
+[diagnostics.bounce.gmail_send_as_en]
+needle = "Send mail as"
+hint = "Gmail's 'Send mail as' upstream login failed.  Settings > See all settings > Accounts and Import > Send mail as > Edit info > re-enter the SMTP password (or an app-password if the source account has 2FA)."
+
+[diagnostics.bounce.gmail_send_as_nl]
+needle = "Mail sturen als"
+hint = "Gmail 'Mail sturen als' upstream-login mislukt.  Instellingen > Alle instellingen weergeven > Accounts en import > Mail sturen als > Gegevens bewerken > voer het SMTP-wachtwoord opnieuw in (of een app-wachtwoord als het bronaccount 2FA gebruikt)."
+
+# ===========================================================================
+# CLI-only strings (prompts; --help text stays compile-time English)
+# ===========================================================================
+[cli.prompt]
+username = "Username / email: "
+password = "Password: "
