@@ -26,6 +26,33 @@ contrast on the elements where colour carries information.
 |------|-------|
 | ![Dark theme](docs/screenshots/gui-dark.png) | ![Light theme](docs/screenshots/gui-light.png) |
 
+## Languages
+
+The GUI, the CLI prompts, and every diagnostic hint can be displayed
+in any of the currently-shipped locales.  The application auto-
+detects the OS locale on startup and applies it if a translation
+exists, otherwise falls back to English.  The Advanced tab carries a
+language picker limited to **your OS locale + English** — deliberately
+two options at most, so the UI does not grow with the translation
+set.
+
+Shipped in v0.1.3:
+
+| Code | Native name | Status |
+|------|-------------|--------|
+| `en` | English | base, hand-maintained |
+| `nl` | Nederlands | native quality |
+| `de` | Deutsch | machine-translated, native review welcome |
+| `es` | Español | machine-translated, native review welcome |
+| `fr` | Français | machine-translated, native review welcome |
+| `it` | Italiano | machine-translated, native review welcome |
+| `pt` | Português | machine-translated, native review welcome |
+
+More languages can be added by dropping a `locales/<code>.toml` file
+in and adding two lines to `src/i18n.rs`.  See
+[`CONTRIBUTING.md` § Translations](CONTRIBUTING.md#translations) for
+the full recipe — PRs welcome.
+
 ## Features
 
 - **Three protocols** in one tool: SMTP (via [`lettre`]), IMAP and POP3

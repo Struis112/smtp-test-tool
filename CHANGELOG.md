@@ -7,7 +7,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Internationalisation framework** (`src/i18n.rs`) with TOML-backed
+  translation tables, compile-time embedded, no extra dep beyond the
+  existing `toml` and the new tiny `sys-locale 0.3`.  Public API:
+  `t(key)`, `t_with(key, args)`, `set_locale(code)`,
+  `current_locale()`, `available_locales()`, `is_supported(code)`,
+  `native_name(code)`.  Missing keys fall back to base 'en'; unknown
+  locales silently use base.
+- **OS locale auto-detection** (`src/locale.rs`) via `sys-locale`,
+  normalised to a 2- or 3-letter code (`nl_NL.UTF-8` -> `nl`).
+- **Localised diagnostic hints**: every string from `smtp_hints_for`,
+  `imap_hints_for`, `pop_hints_for`, and the client-bounce table now
+  flows through `t()`.  Switching locale switches the language of
+  every hint and its 'Action:' / 'Hint:' prefix.
+- **Fully localised GUI**: every label, button, tab name, tooltip,
+  status chip, and Diagnose-tab string.  New **Language picker** on
+  the Advanced tab that always shows OS-locale + English only — at
+  most two options regardless of how many locales ship.
+- **Localised CLI prompts** plus a new `--locale CODE` flag.
+- **`Profile.locale`** (TOML field) for explicit per-profile
+  language override; `None` = auto-detect each launch.
+- **7 shipped languages**: `en` (base, hand-maintained), `nl`
+  (native quality), plus `de` / `es` / `fr` / `it` / `pt`
+  machine-translated with each file's `locale.status_note` flagging
+  review status.
+- **`CONTRIBUTING.md`** gains a `## Translations` section with two
+  recipes: how to native-review a machine-translated file, and how
+  to add a brand-new language.
+
 ### Known issues
+- **Language coverage**: 7 of the planned 25 ship in this commit
+  series (en, nl, de, es, fr, it, pt).  The framework supports more;
+  follow-up commits or community PRs can add the remaining 18
+  (pl, cs, sk, hu, ro, hr, bg, sr, sv, da, no, fi, tr, vi, id, ru,
+  uk, el).  Recipe in `CONTRIBUTING.md`.
 - The `docs/screenshots/gui-{dark,light}.png` files in this release
   show the GUI at v0.1.1: the Provider-preset menu + full-width
   credentials fields are visible, but the new keychain Save/Forget
