@@ -1,0 +1,275 @@
+# smtp-test-tool locale: Ελληνικά (el)
+# status: machine-translated, native review welcome.
+
+[app]
+name = "SMTP Test Tool"
+
+[locale]
+native_name = "Ελληνικά"
+english_name = "Greek"
+status_note = "Μηχανική μετάφραση - επανέλεγχος από φυσικό ομιλητή ευπρόσδεκτος."
+
+[ui.window]
+title = "SMTP Test Tool"
+
+[ui.topbar]
+profile_label = "Προφίλ:"
+save_config = "Αποθήκευση ρυθμίσεων"
+save_config_tooltip = "Γράφει το ενεργό προφίλ πίσω στο αρχείο ρυθμίσεων δίπλα στο εκτελέσιμο."
+provider_preset = "Προεπιλογή παρόχου..."
+provider_preset_tooltip = "Εφαρμόζει μια από τις επιμελημένες προεπιλογές παρόχων στα παρακάτω πεδία host / port / ασφάλεια."
+config_path_none = "δεν υπάρχει αρχείο ρυθμίσεων"
+
+[ui.tab]
+servers = "Διακομιστές"
+send_mail = "Αποστολή μηνύματος"
+tls_auth = "TLS / Auth"
+advanced = "Σύνθετα"
+diagnose = "Ανάλυση επιστροφής"
+
+[ui.servers]
+username = "Όνομα χρήστη:"
+password = "Κωδικός:"
+show = "Εμφάνιση"
+oauth_token = "Τόκεν OAuth:"
+oauth_hint = "(XOAUTH2, προαιρετικό)"
+save_to_keychain = "Αποθήκευση κωδικού στην κλειδοθήκη"
+save_to_keychain_tooltip = "Αποθηκεύει τον κωδικό στην κλειδοθήκη του λειτουργικού συστήματος (Windows Credential Manager / macOS Keychain / Linux Secret Service).  Ποτέ δεν γράφεται στο αρχείο ρυθμίσεων."
+forget_keychain = "Λήσμωση εγγραφής κλειδοθήκης"
+forget_keychain_tooltip = "Διαγράφει την εγγραφή smtp-test-tool για αυτόν τον χρήστη από την κλειδοθήκη του OS.  Το πεδίο κωδικού παραπάνω καθαρίζεται επίσης."
+loaded_from_keychain = "(φορτώθηκε από την κλειδοθήκη)"
+
+[ui.proto]
+test_smtp = "Δοκιμή SMTP"
+test_imap = "Δοκιμή IMAP"
+test_pop3 = "Δοκιμή POP3"
+host = "Host:"
+port = "Πόρτα:"
+security = "Ασφάλεια:"
+security_none = "καμία"
+security_starttls = "starttls"
+security_ssl = "ssl"
+
+[ui.send]
+toggle = "Αποστολή πραγματικά δοκιμαστικού μηνύματος (διαφορετικά δοκιμάζεται μόνο το AUTH)"
+mail_from = "MAIL FROM (φάκελος):"
+from_header = "From: (κεφαλίδα):"
+to = "Προς (διαχωρισμένα με κόμμα):"
+cc = "Κοιν (διαχωρισμένα με κόμμα):"
+bcc = "Κρυφή κοιν (διαχωρισμένα με κόμμα):"
+reply_to = "Απάντηση σε:"
+subject = "Θέμα:"
+body = "Περιεχόμενο:"
+
+[ui.tls]
+auth_mech = "Μηχανισμός SMTP AUTH:"
+insecure = "Απενεργοποίηση επαλήθευσης πιστοποιητικού (ΜΗ ΑΣΦΑΛΕΣ - μόνο για δοκιμή)"
+ca_bundle = "Πακέτο CA (PEM):"
+
+[ui.advanced]
+timeout = "Χρονικό όριο (δ):"
+ehlo = "Όνομα EHLO/HELO:"
+imap_folder = "Φάκελος IMAP:"
+log_level = "Επίπεδο log:"
+theme = "Θέμα:"
+language = "Γλώσσα:"
+language_unsupported = "Η locale OS σας ({code}) δεν έχει μεταφραστεί ακόμη.  Τα κείμενα εμφανίζονται στα Αγγλικά; συνεισφορές ευπρόσδεκτες."
+theme_follow_os = "Ακολουθήστε το OS ({hint})"
+theme_dark = "Σκούρο"
+theme_light = "Ανοιχτό"
+
+[ui.actions]
+run_test = "Εκτέλεση δοκιμής"
+running = "Σε εξέλιξη..."
+clear_log = "Καθαρισμός log"
+
+[ui.status]
+smtp_idle = "SMTP: -"
+imap_idle = "IMAP: -"
+pop3_idle = "POP3: -"
+smtp_pass = "SMTP: ΠΕΡΑΣΕ"
+imap_pass = "IMAP: ΠΕΡΑΣΕ"
+pop3_pass = "POP3: ΠΕΡΑΣΕ"
+smtp_fail = "SMTP: ΑΠΕΤΥΧΕ"
+imap_fail = "IMAP: ΑΠΕΤΥΧΕ"
+pop3_fail = "POP3: ΑΠΕΤΥΧΕ"
+smtp_skip = "SMTP: παράκαμψη"
+imap_skip = "IMAP: παράκαμψη"
+pop3_skip = "POP3: παράκαμψη"
+
+[ui.diagnose]
+intro = "Επικολλήστε παρακάτω το σώμα ενός μηνύματος αποτυχίας παράδοσης για να εξαγάγετε συμβουλές αξιοποιήσιμες από το IT.  Αναγνωρίζει SMTP enhanced status codes (5.7.139, 5.7.60), φράσεις Microsoft 365 (\"basic authentication is disabled\") και επιστροφές από την πλευρά του webmail όπως \"Send mail as / Mail sturen als\" του Gmail.  Τίποτα δεν στέλνεται μέσω δικτύου και το κείμενο δεν αποθηκεύεται στο δίσκο."
+input_placeholder = "Επικολλήστε εδώ το σώμα της επιστροφής..."
+analyse = "Ανάλυση"
+clear = "Καθαρισμός"
+hints_heading = "Συμβουλές"
+no_hints_yet = "(καμία συμβουλή ακόμη - επικολλήστε μια επιστροφή παραπάνω και κάντε κλικ στην Ανάλυση)"
+
+[ui.log]
+heading = "Log"
+
+[diagnostics.scaffold]
+esc_prefix = "ESC {code}: {what}"
+action_prefix = "  -> Ενέργεια: {fix}"
+hint_prefix = "  -> {hint}"
+
+[diagnostics.smtp.esc.5_7_0]
+what = "Απαιτείται έλεγχος ταυτότητας ή ο επιλεγμένος μηχανισμός AUTH δεν επιτρέπεται."
+fix  = "Ενεργοποιήστε το SMTP AUTH για το γραμματοκιβώτιο; επαληθεύστε ότι LOGIN / PLAIN / XOAUTH2 επιτρέπεται."
+
+[diagnostics.smtp.esc.5_7_1]
+what = "Άρνηση πρόσβασης relay - ο διακομιστής αρνείται να προωθήσει αυτό το μήνυμα."
+fix  = "Είτε ο αποστολέας δεν έχει ταυτότητα, ο παραλήπτης είναι εξωτερικός και το relay απενεργοποιημένο, είτε ένα transport rule μπλοκάρει το μήνυμα."
+
+[diagnostics.smtp.esc.5_7_3]
+what = "Έλεγχος ταυτότητας απέτυχε."
+fix  = "Λάθος κωδικός, MFA ενεργό χωρίς app-password, ή Basic/Legacy auth απενεργοποιημένο στον tenant (O365: 'SMTP AUTH disabled')."
+
+[diagnostics.smtp.esc.5_7_8]
+what = "Διαπιστευτήρια ελέγχου ταυτότητας μη έγκυρα."
+fix  = "Όνομα χρήστη/κωδικός απορρίφθηκαν από το επίπεδο SASL."
+
+[diagnostics.smtp.esc.5_7_57]
+what = "Ο πελάτης δεν είχε ταυτότητα για αποστολή ανώνυμης αλληλογραφίας κατά το MAIL FROM."
+fix  = "Επιβάλετε STARTTLS + AUTH πριν από το MAIL FROM.  Στο O365 αυτό είναι το τυπικό σφάλμα όταν ο πελάτης συνδέεται χωρίς AUTH."
+
+[diagnostics.smtp.esc.5_7_60]
+what = "SendAsDenied - ο πιστοποιημένος χρήστης δεν επιτρέπεται να στέλνει ΩΣ αυτή τη διεύθυνση From."
+fix  = "Δώστε στο γραμματοκιβώτιο δικαιώματα 'Send As' (ή 'Send on Behalf') για τον πιστοποιημένο λογαριασμό, ή αλλάξτε την κεφαλίδα From ώστε να ταιριάζει με τη σύνδεση."
+
+[diagnostics.smtp.esc.5_7_64]
+what = "TenantAttribution; Relay Access Denied."
+fix  = "Η πιστοποιημένη υποβολή SMTP απαιτεί αδειοδοτημένο γραμματοκιβώτιο στο O365."
+
+[diagnostics.smtp.esc.5_7_124]
+what = "Ο χρήστης δεν είναι εξουσιοδοτημένος να στέλνει αλληλογραφία."
+fix  = "Απενεργοποιημένο γραμματοκιβώτιο, μπλοκαρισμένο από Conditional Access, ή έλλειψη άδειας."
+
+[diagnostics.smtp.esc.5_7_135]
+what = "Έλεγχος ταυτότητας απέτυχε, τα διαπιστευτήρια του χρήστη έχουν λήξει."
+fix  = "Επαναφέρετε τον κωδικό / ανανεώστε το OAuth token."
+
+[diagnostics.smtp.esc.5_7_139]
+what = "Έλεγχος ταυτότητας απέτυχε; το αίτημα δεν πληρούσε τα κριτήρια."
+fix  = "Μια πολιτική Conditional Access αρνήθηκε τη σύνδεση (τοποθεσία, συσκευή, MFA)."
+
+[diagnostics.smtp.esc.5_7_500]
+what = "Άρνηση πρόσβασης, αποστέλλον domain απενεργοποιημένο."
+fix  = "Το domain του αποστολέα είναι μπλοκαρισμένο για εξερχόμενη αλληλογραφία σε αυτόν τον tenant."
+
+[diagnostics.smtp.esc.5_7_501]
+what = "Άρνηση πρόσβασης, αποκλεισμένος αποστολέας."
+fix  = "Η διεύθυνση του αποστολέα είναι στο blocklist του tenant."
+
+[diagnostics.smtp.esc.5_7_508]
+what = "Άρνηση πρόσβασης, υπέρβαση κατωφλίου ταχύτητας ή κυκλοφορίας."
+fix  = "Throttled; περιμένετε και ξαναπροσπαθήστε, ή ζητήστε από τον admin να αυξήσει το όριο."
+
+[diagnostics.smtp.esc.5_7_511]
+what = "Άρνηση πρόσβασης, αποκλεισμένος αποστολέας."
+fix  = "Ο αποστολέας έχει επισημανθεί ως πηγή spam."
+
+[diagnostics.smtp.esc.5_7_606]
+what = "Άρνηση πρόσβασης, αποκλεισμένη IP αποστολής."
+fix  = "Η IP αποστολής είναι στο blocklist της Microsoft."
+
+[diagnostics.smtp.esc.5_7_708]
+what = "Άρνηση υπηρεσίας.  Η IP πηγής έχει κακή φήμη."
+fix  = "Στείλτε από άλλη IP ή ζητήστε delisting."
+
+[diagnostics.smtp.esc.5_7_750]
+what = "Πελάτης μπλοκαρισμένος από αποστολή από μη καταχωρημένα domains."
+fix  = "Επαληθεύστε το domain του αποστολέα στον tenant ή χρησιμοποιήστε αποδεκτό domain."
+
+[diagnostics.smtp.esc.5_1_0]
+what = "Διεύθυνση αποστολέα απορρίφθηκε."
+fix  = "From/MAIL FROM δεν έγινε αποδεκτή; συνήθως μορφή ή πολιτική domain."
+
+[diagnostics.smtp.esc.5_1_1]
+what = "Λάθος γραμματοκιβώτιο προορισμού - ο παραλήπτης δεν υπάρχει."
+fix  = "Ελέγξτε τη διεύθυνση παραλήπτη."
+
+[diagnostics.smtp.esc.5_1_7]
+what = "Μη έγκυρη διεύθυνση αποστολέα (κακοδιατυπωμένη)."
+fix  = "Διορθώστε τη σύνταξη MAIL FROM."
+
+[diagnostics.smtp.esc.5_1_8]
+what = "Domain αποστολέα μη επιτρεπτό."
+fix  = "Το domain δεν γίνεται αποδεκτό από τον διακομιστή."
+
+[diagnostics.smtp.esc.5_1_10]
+what = "Διεύθυνση παραλήπτη απορρίφθηκε - χρήστης άγνωστος."
+fix  = "Ορθογραφικό λάθος ή ανύπαρκτος παραλήπτης."
+
+[diagnostics.smtp.esc.5_4_1]
+what = "Διεύθυνση παραλήπτη απορρίφθηκε: άρνηση πρόσβασης."
+fix  = "Το γραμματοκιβώτιο του παραλήπτη αρνείται μηνύματα από αυτόν τον αποστολέα / domain."
+
+[diagnostics.smtp.esc.5_2_1]
+what = "Γραμματοκιβώτιο απενεργοποιημένο, δεν δέχεται μηνύματα."
+fix  = "Γραμματοκιβώτιο παραλήπτη σε αναστολή."
+
+[diagnostics.smtp.esc.5_2_2]
+what = "Γραμματοκιβώτιο γεμάτο."
+fix  = "Υπέρβαση ποσόστωσης παραλήπτη."
+
+[diagnostics.smtp.esc.5_3_4]
+what = "Μήνυμα πολύ μεγάλο για το σύστημα."
+fix  = "Μειώστε το μέγεθος του μηνύματος."
+
+[diagnostics.smtp.esc.4_7_0]
+what = "Προσωρινή αποτυχία ελέγχου ταυτότητας / throttling."
+fix  = "Δοκιμάστε ξανά αργότερα; μπορεί επίσης να είναι tarpit για επαναλαμβανόμενες λάθος συνδέσεις."
+
+[diagnostics.smtp.esc.4_4_2]
+what = "Σύνδεση διακόπηκε."
+fix  = "Δικτυακή αστοχία ή επανεκκίνηση διακομιστή; δοκιμάστε ξανά."
+
+[diagnostics.smtp.esc.4_3_2]
+what = "Το σύστημα δεν δέχεται δικτυακά μηνύματα."
+fix  = "Συντήρηση διακομιστή."
+
+[diagnostics.imap.AUTHENTICATIONFAILED]
+hint = "Σύνδεση IMAP απορρίφθηκε - λάθος κωδικός, MFA χωρίς app-password, ή Basic Auth απενεργοποιημένο."
+
+[diagnostics.imap."LOGIN_failed"]
+hint = "Σύνδεση IMAP απορρίφθηκε από τον διακομιστή."
+
+[diagnostics.imap.ALERT]
+hint = "Ο διακομιστής επέστρεψε απάντηση ALERT - διαβάστε την; μήνυμα ορισμένο από τον διαχειριστή."
+
+[diagnostics.imap.UNAVAILABLE]
+hint = "Γραμματοκιβώτιο/διακομιστής προσωρινά μη διαθέσιμα."
+
+[diagnostics.imap.PRIVACYREQUIRED]
+hint = "Ο διακομιστής απαιτεί TLS πριν από το LOGIN - χρησιμοποιήστε STARTTLS ή έμμεσο SSL."
+
+[diagnostics.imap.CLIENTBUG]
+hint = "Ο πελάτης έκανε κάτι που ο διακομιστής θεωρεί λάθος; συνήθως λείπει STARTTLS ή λάθος κατάσταση."
+
+[diagnostics.imap.LOGINDISABLED]
+hint = "Plain LOGIN είναι απενεργοποιημένο σε αυτόν τον διακομιστή - χρησιμοποιήστε STARTTLS/SSL ή XOAUTH2."
+
+[diagnostics.pop.authentication_failed]
+hint = "Σύνδεση POP3 απορρίφθηκε - λάθος διαπιστευτήρια ή POP απενεργοποιημένο για αυτό το γραμματοκιβώτιο."
+
+[diagnostics.pop.logon_failure]
+hint = "Σύνδεση POP3 απορρίφθηκε."
+
+[diagnostics.pop.not_implemented]
+hint = "Ο διακομιστής δεν υποστηρίζει την εντολή που εκδόθηκε."
+
+[diagnostics.pop.disabled]
+hint = "Η πρόσβαση POP3 είναι απενεργοποιημένη για αυτόν τον λογαριασμό / tenant."
+
+[diagnostics.bounce.gmail_send_as_en]
+needle = "Send mail as"
+hint = "Η upstream σύνδεση 'Send mail as' του Gmail απέτυχε.  Ρυθμίσεις > Δείτε όλες τις ρυθμίσεις > Λογαριασμοί και εισαγωγή > Αποστολή ως > Επεξεργασία πληροφοριών > εισάγετε ξανά τον κωδικό SMTP (ή app-password αν ο λογαριασμός προέλευσης έχει 2FA)."
+
+[diagnostics.bounce.gmail_send_as_nl]
+needle = "Mail sturen als"
+hint = "Η upstream σύνδεση 'Mail sturen als' (Send mail as) του Gmail απέτυχε.  Ρυθμίσεις > Δείτε όλες τις ρυθμίσεις > Λογαριασμοί και εισαγωγή > Αποστολή ως > Επεξεργασία πληροφοριών > εισάγετε ξανά τον κωδικό SMTP (ή app-password αν ο λογαριασμός προέλευσης έχει 2FA)."
+
+[cli.prompt]
+username = "Όνομα χρήστη / e-mail: "
+password = "Κωδικός: "

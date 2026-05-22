@@ -1,0 +1,275 @@
+# smtp-test-tool locale: Svenska (sv)
+# status: machine-translated, native review welcome.
+
+[app]
+name = "SMTP Test Tool"
+
+[locale]
+native_name = "Svenska"
+english_name = "Swedish"
+status_note = "Maskinöversättning - granskning av modersmålstalare välkommen."
+
+[ui.window]
+title = "SMTP Test Tool"
+
+[ui.topbar]
+profile_label = "Profil:"
+save_config = "Spara konfiguration"
+save_config_tooltip = "Skriver den aktiva profilen tillbaka till konfigurationsfilen bredvid den körbara filen."
+provider_preset = "Leverantörsförval..."
+provider_preset_tooltip = "Tillämpar ett av de kurerade leverantörsförvalen på fälten värd / port / säkerhet nedan."
+config_path_none = "ingen konfigurationsfil"
+
+[ui.tab]
+servers = "Servrar"
+send_mail = "Skicka e-post"
+tls_auth = "TLS / Auth"
+advanced = "Avancerat"
+diagnose = "Analysera studs"
+
+[ui.servers]
+username = "Användarnamn:"
+password = "Lösenord:"
+show = "Visa"
+oauth_token = "OAuth-token:"
+oauth_hint = "(XOAUTH2, valfritt)"
+save_to_keychain = "Spara lösenord i nyckelringen"
+save_to_keychain_tooltip = "Sparar lösenordet i operativsystemets nyckelring (Windows Credential Manager / macOS Keychain / Linux Secret Service).  Skrivs aldrig till konfigurationsfilen."
+forget_keychain = "Glöm nyckelringspost"
+forget_keychain_tooltip = "Tar bort smtp-test-tool-posten för denna användare från OS:ets nyckelring.  Lösenordsfältet ovan rensas också."
+loaded_from_keychain = "(läst från nyckelringen)"
+
+[ui.proto]
+test_smtp = "Testa SMTP"
+test_imap = "Testa IMAP"
+test_pop3 = "Testa POP3"
+host = "Värd:"
+port = "Port:"
+security = "Säkerhet:"
+security_none = "ingen"
+security_starttls = "starttls"
+security_ssl = "ssl"
+
+[ui.send]
+toggle = "Skicka faktiskt ett testmeddelande (annars testas endast AUTH)"
+mail_from = "MAIL FROM (kuvert):"
+from_header = "From: (rubrik):"
+to = "Till (separerade med komma):"
+cc = "Kopia (separerade med komma):"
+bcc = "Dold kopia (separerade med komma):"
+reply_to = "Svara till:"
+subject = "Ämne:"
+body = "Innehåll:"
+
+[ui.tls]
+auth_mech = "SMTP AUTH-mekanism:"
+insecure = "Inaktivera certifikatverifiering (OSÄKERT - endast för test)"
+ca_bundle = "CA-bunt (PEM):"
+
+[ui.advanced]
+timeout = "Tidsgräns (s):"
+ehlo = "EHLO/HELO-namn:"
+imap_folder = "IMAP-mapp:"
+log_level = "Loggnivå:"
+theme = "Tema:"
+language = "Språk:"
+language_unsupported = "Din OS-locale ({code}) är inte översatt ännu.  Texterna visas på engelska; bidrag välkomna."
+theme_follow_os = "Följ OS ({hint})"
+theme_dark = "Mörkt"
+theme_light = "Ljust"
+
+[ui.actions]
+run_test = "Kör test"
+running = "Pågår..."
+clear_log = "Rensa logg"
+
+[ui.status]
+smtp_idle = "SMTP: -"
+imap_idle = "IMAP: -"
+pop3_idle = "POP3: -"
+smtp_pass = "SMTP: GODKÄND"
+imap_pass = "IMAP: GODKÄND"
+pop3_pass = "POP3: GODKÄND"
+smtp_fail = "SMTP: MISSLYCKADES"
+imap_fail = "IMAP: MISSLYCKADES"
+pop3_fail = "POP3: MISSLYCKADES"
+smtp_skip = "SMTP: hoppad över"
+imap_skip = "IMAP: hoppad över"
+pop3_skip = "POP3: hoppad över"
+
+[ui.diagnose]
+intro = "Klistra in nedan kroppen av ett leveransfel-meddelande för att extrahera IT-användbara tips.  Känner igen SMTP enhanced status codes (5.7.139, 5.7.60), Microsoft 365-fraser (\"basic authentication is disabled\") och webbmailssidans studsar som Gmails \"Send mail as / Mail sturen als\".  Inget skickas över nätverket och texten lagras inte på disk."
+input_placeholder = "Klistra in studsens kropp här..."
+analyse = "Analysera"
+clear = "Rensa"
+hints_heading = "Tips"
+no_hints_yet = "(inga tips ännu - klistra in en studs ovan och klicka Analysera)"
+
+[ui.log]
+heading = "Logg"
+
+[diagnostics.scaffold]
+esc_prefix = "ESC {code}: {what}"
+action_prefix = "  -> Åtgärd: {fix}"
+hint_prefix = "  -> {hint}"
+
+[diagnostics.smtp.esc.5_7_0]
+what = "Autentisering krävs eller vald AUTH-mekanism inte tillåten."
+fix  = "Aktivera SMTP AUTH för brevlådan; kontrollera att LOGIN / PLAIN / XOAUTH2 är tillåten."
+
+[diagnostics.smtp.esc.5_7_1]
+what = "Relay-åtkomst nekad - servern vägrar vidarebefordra detta meddelande."
+fix  = "Antingen är avsändaren inte autentiserad, mottagaren är extern och relay är avaktiverat, eller en transport rule blockerar meddelandet."
+
+[diagnostics.smtp.esc.5_7_3]
+what = "Autentisering misslyckades."
+fix  = "Fel lösenord, MFA aktiverat utan app-password, eller Basic/Legacy auth avaktiverat på tenanten (O365: 'SMTP AUTH disabled')."
+
+[diagnostics.smtp.esc.5_7_8]
+what = "Autentiseringsuppgifter ogiltiga."
+fix  = "Användarnamn/lösenord avvisat av SASL-lagret."
+
+[diagnostics.smtp.esc.5_7_57]
+what = "Klient inte autentiserad för att skicka anonym post under MAIL FROM."
+fix  = "Tvinga STARTTLS + AUTH före MAIL FROM.  I O365 är det det typiska felet när klienten ansluter utan AUTH."
+
+[diagnostics.smtp.esc.5_7_60]
+what = "SendAsDenied - den autentiserade användaren får inte skicka SOM denna From-adress."
+fix  = "Ge brevlådan 'Send As' (eller 'Send on Behalf') rättigheter för det autentiserade kontot, eller ändra From-headern så den matchar inloggningen."
+
+[diagnostics.smtp.esc.5_7_64]
+what = "TenantAttribution; Relay Access Denied."
+fix  = "Autentiserad SMTP-inlämning kräver en licensierad brevlåda i O365."
+
+[diagnostics.smtp.esc.5_7_124]
+what = "Användaren är inte behörig att skicka post."
+fix  = "Inaktiverad brevlåda, blockerad av Conditional Access, eller saknad licens."
+
+[diagnostics.smtp.esc.5_7_135]
+what = "Autentisering misslyckades, användaruppgifterna har gått ut."
+fix  = "Återställ lösenordet / uppdatera OAuth-token."
+
+[diagnostics.smtp.esc.5_7_139]
+what = "Autentisering misslyckades; begäran uppfyllde inte kriterierna."
+fix  = "En Conditional Access-policy nekade inloggningen (plats, enhet, MFA)."
+
+[diagnostics.smtp.esc.5_7_500]
+what = "Åtkomst nekad, avsändande domän avaktiverad."
+fix  = "Avsändarens domän är blockerad för utgående post på denna tenant."
+
+[diagnostics.smtp.esc.5_7_501]
+what = "Åtkomst nekad, bannlyst avsändare."
+fix  = "Avsändarens adress finns på en tenant-blocklist."
+
+[diagnostics.smtp.esc.5_7_508]
+what = "Åtkomst nekad, hastighets- eller trafiktröskel överskriden."
+fix  = "Throttled; vänta och försök igen, eller be admin höja gränsen."
+
+[diagnostics.smtp.esc.5_7_511]
+what = "Åtkomst nekad, bannlyst avsändare."
+fix  = "Avsändaren markerad som spam-källa."
+
+[diagnostics.smtp.esc.5_7_606]
+what = "Åtkomst nekad, bannlyst sändande IP."
+fix  = "Sändande IP finns på en Microsoft-blocklist."
+
+[diagnostics.smtp.esc.5_7_708]
+what = "Tjänst nekad.  Käll-IP har dåligt rykte."
+fix  = "Skicka från en annan IP eller begär delisting."
+
+[diagnostics.smtp.esc.5_7_750]
+what = "Klient blockerad för att skicka från oregistrerade domäner."
+fix  = "Verifiera avsändarens domän på tenanten eller använd en accepterad domän."
+
+[diagnostics.smtp.esc.5_1_0]
+what = "Avsändaradress avvisad."
+fix  = "From/MAIL FROM ej accepterad; vanligen format eller domänpolicy."
+
+[diagnostics.smtp.esc.5_1_1]
+what = "Fel destinationsbrevlåda - mottagaren finns inte."
+fix  = "Kontrollera mottagaradressen."
+
+[diagnostics.smtp.esc.5_1_7]
+what = "Ogiltig avsändaradress (felformaterad)."
+fix  = "Rätta MAIL FROM-syntaxen."
+
+[diagnostics.smtp.esc.5_1_8]
+what = "Avsändardomän inte tillåten."
+fix  = "Domän ej accepterad av servern."
+
+[diagnostics.smtp.esc.5_1_10]
+what = "Mottagaradress avvisad - användare okänd."
+fix  = "Felskrivning eller obefintlig mottagare."
+
+[diagnostics.smtp.esc.5_4_1]
+what = "Mottagaradress avvisad: åtkomst nekad."
+fix  = "Mottagarens brevlåda avvisar meddelanden från denna avsändare / domän."
+
+[diagnostics.smtp.esc.5_2_1]
+what = "Brevlåda avaktiverad, accepterar inte meddelanden."
+fix  = "Mottagarens brevlåda avstängd."
+
+[diagnostics.smtp.esc.5_2_2]
+what = "Brevlåda full."
+fix  = "Mottagarens kvot överskriden."
+
+[diagnostics.smtp.esc.5_3_4]
+what = "Meddelandet för stort för systemet."
+fix  = "Minska meddelandets storlek."
+
+[diagnostics.smtp.esc.4_7_0]
+what = "Tillfälligt autentiseringsfel / throttling."
+fix  = "Försök igen senare; kan också vara tarpit för upprepade felaktiga inloggningar."
+
+[diagnostics.smtp.esc.4_4_2]
+what = "Anslutning bruten."
+fix  = "Nätverksfel eller serverrestart; försök igen."
+
+[diagnostics.smtp.esc.4_3_2]
+what = "Systemet accepterar inte nätverksmeddelanden."
+fix  = "Serverunderhåll."
+
+[diagnostics.imap.AUTHENTICATIONFAILED]
+hint = "IMAP-inloggning avvisad - fel lösenord, MFA utan app-password, eller Basic Auth avaktiverat."
+
+[diagnostics.imap."LOGIN_failed"]
+hint = "IMAP-inloggning avvisad av servern."
+
+[diagnostics.imap.ALERT]
+hint = "Servern returnerade ALERT-svar - läs det; meddelande definierat av administratör."
+
+[diagnostics.imap.UNAVAILABLE]
+hint = "Brevlåda/server tillfälligt otillgänglig."
+
+[diagnostics.imap.PRIVACYREQUIRED]
+hint = "Servern kräver TLS före LOGIN - använd STARTTLS eller implicit SSL."
+
+[diagnostics.imap.CLIENTBUG]
+hint = "Klienten gjorde något som servern betraktar som fel; vanligen saknad STARTTLS eller fel tillstånd."
+
+[diagnostics.imap.LOGINDISABLED]
+hint = "Plain LOGIN är avaktiverat på denna server - använd STARTTLS/SSL eller XOAUTH2."
+
+[diagnostics.pop.authentication_failed]
+hint = "POP3-inloggning avvisad - fel uppgifter eller POP avaktiverat för denna brevlåda."
+
+[diagnostics.pop.logon_failure]
+hint = "POP3-inloggning avvisad."
+
+[diagnostics.pop.not_implemented]
+hint = "Servern stöder inte det utfärdade kommandot."
+
+[diagnostics.pop.disabled]
+hint = "POP3-åtkomst är avaktiverad för detta konto / tenant."
+
+[diagnostics.bounce.gmail_send_as_en]
+needle = "Send mail as"
+hint = "Gmails uppströms-inloggning 'Send mail as' misslyckades.  Inställningar > Visa alla inställningar > Konton och import > Skicka som > Redigera info > ange SMTP-lösenordet igen (eller ett app-password om källkontot har 2FA)."
+
+[diagnostics.bounce.gmail_send_as_nl]
+needle = "Mail sturen als"
+hint = "Gmails uppströms-inloggning 'Mail sturen als' (Send mail as) misslyckades.  Inställningar > Visa alla inställningar > Konton och import > Skicka som > Redigera info > ange SMTP-lösenordet igen (eller ett app-password om källkontot har 2FA)."
+
+[cli.prompt]
+username = "Användarnamn / e-post: "
+password = "Lösenord: "

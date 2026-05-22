@@ -1,0 +1,275 @@
+# smtp-test-tool locale: Türkçe (tr)
+# status: machine-translated, native review welcome.
+
+[app]
+name = "SMTP Test Tool"
+
+[locale]
+native_name = "Türkçe"
+english_name = "Turkish"
+status_note = "Makine çevirisi - ana dil konuşurunun incelemesi memnuniyetle karşılanır."
+
+[ui.window]
+title = "SMTP Test Tool"
+
+[ui.topbar]
+profile_label = "Profil:"
+save_config = "Yapılandırmayı kaydet"
+save_config_tooltip = "Aktif profili çalıştırılabilir dosyanın yanındaki yapılandırma dosyasına geri yazar."
+provider_preset = "Sağlayıcı önayarı..."
+provider_preset_tooltip = "Aşağıdaki sunucu / port / güvenlik alanlarına seçili sağlayıcı önayarlarından birini uygular."
+config_path_none = "yapılandırma dosyası yok"
+
+[ui.tab]
+servers = "Sunucular"
+send_mail = "Posta gönder"
+tls_auth = "TLS / Auth"
+advanced = "Gelişmiş"
+diagnose = "Geri dönüşü analiz et"
+
+[ui.servers]
+username = "Kullanıcı adı:"
+password = "Şifre:"
+show = "Göster"
+oauth_token = "OAuth token:"
+oauth_hint = "(XOAUTH2, isteğe bağlı)"
+save_to_keychain = "Şifreyi anahtarlığa kaydet"
+save_to_keychain_tooltip = "Şifreyi işletim sistemi anahtarlığına kaydeder (Windows Credential Manager / macOS Keychain / Linux Secret Service).  Yapılandırma dosyasına asla yazılmaz."
+forget_keychain = "Anahtarlık girişini unut"
+forget_keychain_tooltip = "Bu kullanıcı için smtp-test-tool girdisini OS anahtarlığından siler.  Yukarıdaki şifre alanı da temizlenir."
+loaded_from_keychain = "(anahtarlıktan yüklendi)"
+
+[ui.proto]
+test_smtp = "SMTP'yi test et"
+test_imap = "IMAP'i test et"
+test_pop3 = "POP3'ü test et"
+host = "Sunucu:"
+port = "Port:"
+security = "Güvenlik:"
+security_none = "yok"
+security_starttls = "starttls"
+security_ssl = "ssl"
+
+[ui.send]
+toggle = "Gerçekten test e-postası gönder (aksi takdirde yalnızca AUTH test edilir)"
+mail_from = "MAIL FROM (zarf):"
+from_header = "From: (başlık):"
+to = "Kime (virgülle ayrılmış):"
+cc = "Cc (virgülle ayrılmış):"
+bcc = "Bcc (virgülle ayrılmış):"
+reply_to = "Yanıtla:"
+subject = "Konu:"
+body = "İçerik:"
+
+[ui.tls]
+auth_mech = "SMTP AUTH mekanizması:"
+insecure = "Sertifika doğrulamasını devre dışı bırak (GÜVENSİZ - yalnızca test)"
+ca_bundle = "CA paketi (PEM):"
+
+[ui.advanced]
+timeout = "Zaman aşımı (s):"
+ehlo = "EHLO/HELO adı:"
+imap_folder = "IMAP klasörü:"
+log_level = "Log seviyesi:"
+theme = "Tema:"
+language = "Dil:"
+language_unsupported = "OS yereliniz ({code}) henüz çevrilmedi.  Metinler İngilizce gösterilir; katkılar memnuniyetle karşılanır."
+theme_follow_os = "OS'yi takip et ({hint})"
+theme_dark = "Koyu"
+theme_light = "Açık"
+
+[ui.actions]
+run_test = "Testi çalıştır"
+running = "Çalışıyor..."
+clear_log = "Logu temizle"
+
+[ui.status]
+smtp_idle = "SMTP: -"
+imap_idle = "IMAP: -"
+pop3_idle = "POP3: -"
+smtp_pass = "SMTP: GEÇTİ"
+imap_pass = "IMAP: GEÇTİ"
+pop3_pass = "POP3: GEÇTİ"
+smtp_fail = "SMTP: BAŞARISIZ"
+imap_fail = "IMAP: BAŞARISIZ"
+pop3_fail = "POP3: BAŞARISIZ"
+smtp_skip = "SMTP: atlandı"
+imap_skip = "IMAP: atlandı"
+pop3_skip = "POP3: atlandı"
+
+[ui.diagnose]
+intro = "Aşağıya bir teslim başarısızlığı mesajının gövdesini yapıştırın, BT için eylem yapılabilir ipuçları çıkarın.  SMTP enhanced status kodlarını (5.7.139, 5.7.60), Microsoft 365 ifadelerini (\"basic authentication is disabled\") ve Gmail'in \"Send mail as / Mail sturen als\" gibi webmail tarafı geri dönüşlerini tanır.  Ağ üzerinden hiçbir şey gönderilmez ve metin diske kaydedilmez."
+input_placeholder = "Geri dönüş gövdesini buraya yapıştırın..."
+analyse = "Analiz et"
+clear = "Temizle"
+hints_heading = "İpuçları"
+no_hints_yet = "(henüz ipucu yok - yukarıya geri dönüş yapıştırın ve Analiz Et'e tıklayın)"
+
+[ui.log]
+heading = "Log"
+
+[diagnostics.scaffold]
+esc_prefix = "ESC {code}: {what}"
+action_prefix = "  -> Eylem: {fix}"
+hint_prefix = "  -> {hint}"
+
+[diagnostics.smtp.esc.5_7_0]
+what = "Kimlik doğrulama gerekli veya seçilen AUTH mekanizması izin verilmiyor."
+fix  = "Posta kutusu için SMTP AUTH'u etkinleştirin; LOGIN / PLAIN / XOAUTH2'nin izin verildiğini doğrulayın."
+
+[diagnostics.smtp.esc.5_7_1]
+what = "Relay erişimi reddedildi - sunucu bu mesajı iletmeyi reddediyor."
+fix  = "Ya gönderen kimlik doğrulamadı, alıcı harici ve relay devre dışı, ya da bir transport rule mesajı engelliyor."
+
+[diagnostics.smtp.esc.5_7_3]
+what = "Kimlik doğrulama başarısız."
+fix  = "Yanlış şifre, app-password olmadan MFA, veya tenant'ta Basic/Legacy auth devre dışı (O365: 'SMTP AUTH disabled')."
+
+[diagnostics.smtp.esc.5_7_8]
+what = "Kimlik doğrulama bilgileri geçersiz."
+fix  = "SASL katmanı kullanıcı adı/şifreyi reddetti."
+
+[diagnostics.smtp.esc.5_7_57]
+what = "İstemci MAIL FROM sırasında anonim posta göndermek için kimlik doğrulamamış."
+fix  = "MAIL FROM öncesi STARTTLS + AUTH'u zorla.  O365'te istemci AUTH olmadan bağlandığında tipik hata budur."
+
+[diagnostics.smtp.esc.5_7_60]
+what = "SendAsDenied - kimlik doğrulanmış kullanıcı bu From adresi OLARAK gönderemez."
+fix  = "Posta kutusuna kimlik doğrulanmış hesap için 'Send As' (veya 'Send on Behalf') haklarını verin veya From başlığını login ile eşleşecek şekilde değiştirin."
+
+[diagnostics.smtp.esc.5_7_64]
+what = "TenantAttribution; Relay Access Denied."
+fix  = "Kimlik doğrulanmış SMTP submission O365'te lisanslı posta kutusu gerektirir."
+
+[diagnostics.smtp.esc.5_7_124]
+what = "Kullanıcı posta göndermek için yetkili değil."
+fix  = "Devre dışı posta kutusu, Conditional Access tarafından engellenmiş veya lisans eksik."
+
+[diagnostics.smtp.esc.5_7_135]
+what = "Kimlik doğrulama başarısız, kullanıcı bilgileri süresi doldu."
+fix  = "Şifreyi sıfırlayın / OAuth token'ı yenileyin."
+
+[diagnostics.smtp.esc.5_7_139]
+what = "Kimlik doğrulama başarısız; istek kriterleri karşılamadı."
+fix  = "Bir Conditional Access politikası login'i reddetti (konum, cihaz, MFA)."
+
+[diagnostics.smtp.esc.5_7_500]
+what = "Erişim reddedildi, gönderen alan adı devre dışı."
+fix  = "Bu tenant'ta gönderenin alan adı giden posta için engellenmiş."
+
+[diagnostics.smtp.esc.5_7_501]
+what = "Erişim reddedildi, yasaklı gönderen."
+fix  = "Gönderenin adresi tenant blocklistinde."
+
+[diagnostics.smtp.esc.5_7_508]
+what = "Erişim reddedildi, hız veya trafik eşiği aşıldı."
+fix  = "Throttled; bekleyin ve tekrar deneyin veya yöneticiden limiti yükseltmesini isteyin."
+
+[diagnostics.smtp.esc.5_7_511]
+what = "Erişim reddedildi, yasaklı gönderen."
+fix  = "Gönderen spam kaynağı olarak işaretlendi."
+
+[diagnostics.smtp.esc.5_7_606]
+what = "Erişim reddedildi, yasaklı gönderen IP."
+fix  = "Gönderen IP Microsoft blocklistinde."
+
+[diagnostics.smtp.esc.5_7_708]
+what = "Hizmet reddedildi.  Kaynak IP kötü itibara sahip."
+fix  = "Başka bir IP'den gönderin veya delisting talep edin."
+
+[diagnostics.smtp.esc.5_7_750]
+what = "İstemci kayıtsız alan adlarından gönderim için engellendi."
+fix  = "Tenant'ta gönderen alan adını doğrulayın veya kabul edilen alan adı kullanın."
+
+[diagnostics.smtp.esc.5_1_0]
+what = "Gönderen adresi reddedildi."
+fix  = "From/MAIL FROM kabul edilmedi; genellikle format veya alan adı politikası."
+
+[diagnostics.smtp.esc.5_1_1]
+what = "Yanlış hedef posta kutusu - alıcı yok."
+fix  = "Alıcı adresini kontrol edin."
+
+[diagnostics.smtp.esc.5_1_7]
+what = "Geçersiz gönderen adresi (yanlış biçimlendirilmiş)."
+fix  = "MAIL FROM sözdizimini düzeltin."
+
+[diagnostics.smtp.esc.5_1_8]
+what = "Gönderen alan adı izin verilmiyor."
+fix  = "Sunucu alan adını kabul etmiyor."
+
+[diagnostics.smtp.esc.5_1_10]
+what = "Alıcı adresi reddedildi - kullanıcı bilinmiyor."
+fix  = "Yazım hatası veya var olmayan alıcı."
+
+[diagnostics.smtp.esc.5_4_1]
+what = "Alıcı adresi reddedildi: erişim reddedildi."
+fix  = "Alıcı posta kutusu bu gönderenden / alan adından mesajları reddediyor."
+
+[diagnostics.smtp.esc.5_2_1]
+what = "Posta kutusu devre dışı, mesaj kabul etmiyor."
+fix  = "Alıcının posta kutusu askıya alındı."
+
+[diagnostics.smtp.esc.5_2_2]
+what = "Posta kutusu dolu."
+fix  = "Alıcının kotası aşıldı."
+
+[diagnostics.smtp.esc.5_3_4]
+what = "Mesaj sistem için çok büyük."
+fix  = "Mesaj boyutunu azaltın."
+
+[diagnostics.smtp.esc.4_7_0]
+what = "Geçici kimlik doğrulama hatası / throttling."
+fix  = "Daha sonra tekrar deneyin; tekrarlanan hatalı login'ler için tarpit de olabilir."
+
+[diagnostics.smtp.esc.4_4_2]
+what = "Bağlantı kesildi."
+fix  = "Ağ kesintisi veya sunucu yeniden başlatma; tekrar deneyin."
+
+[diagnostics.smtp.esc.4_3_2]
+what = "Sistem ağ mesajlarını kabul etmiyor."
+fix  = "Sunucu bakımı."
+
+[diagnostics.imap.AUTHENTICATIONFAILED]
+hint = "IMAP login reddedildi - yanlış şifre, app-password olmadan MFA, veya Basic Auth devre dışı."
+
+[diagnostics.imap."LOGIN_failed"]
+hint = "IMAP login sunucu tarafından reddedildi."
+
+[diagnostics.imap.ALERT]
+hint = "Sunucu ALERT yanıtı döndürdü - okuyun; yönetici tarafından tanımlanan mesaj."
+
+[diagnostics.imap.UNAVAILABLE]
+hint = "Posta kutusu/sunucu geçici olarak kullanılamıyor."
+
+[diagnostics.imap.PRIVACYREQUIRED]
+hint = "Sunucu LOGIN öncesi TLS gerektiriyor - STARTTLS veya implicit SSL kullanın."
+
+[diagnostics.imap.CLIENTBUG]
+hint = "İstemci sunucunun yanlış bulduğu bir şey yaptı; genellikle eksik STARTTLS veya yanlış durum."
+
+[diagnostics.imap.LOGINDISABLED]
+hint = "Plain LOGIN bu sunucuda devre dışı - STARTTLS/SSL veya XOAUTH2 kullanın."
+
+[diagnostics.pop.authentication_failed]
+hint = "POP3 login reddedildi - yanlış bilgiler veya bu posta kutusu için POP devre dışı."
+
+[diagnostics.pop.logon_failure]
+hint = "POP3 login reddedildi."
+
+[diagnostics.pop.not_implemented]
+hint = "Sunucu verilen komutu desteklemiyor."
+
+[diagnostics.pop.disabled]
+hint = "POP3 erişimi bu hesap / tenant için devre dışı."
+
+[diagnostics.bounce.gmail_send_as_en]
+needle = "Send mail as"
+hint = "Gmail'in 'Send mail as' upstream login başarısız oldu.  Ayarlar > Tüm ayarları gör > Hesaplar ve içe aktarma > Farklı gönder > Bilgileri düzenle > SMTP şifresini tekrar girin (veya kaynak hesabın 2FA'sı varsa app-password)."
+
+[diagnostics.bounce.gmail_send_as_nl]
+needle = "Mail sturen als"
+hint = "Gmail'in 'Mail sturen als' (Send mail as) upstream login başarısız oldu.  Ayarlar > Tüm ayarları gör > Hesaplar ve içe aktarma > Farklı gönder > Bilgileri düzenle > SMTP şifresini tekrar girin (veya kaynak hesabın 2FA'sı varsa app-password)."
+
+[cli.prompt]
+username = "Kullanıcı adı / e-posta: "
+password = "Şifre: "

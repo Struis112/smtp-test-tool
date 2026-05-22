@@ -1,0 +1,275 @@
+# smtp-test-tool locale: Slovenčina (sk)
+# status: machine-translated, native review welcome.
+
+[app]
+name = "SMTP Test Tool"
+
+[locale]
+native_name = "Slovenčina"
+english_name = "Slovak"
+status_note = "Strojový preklad - revízia rodeným hovoriacim vítaná."
+
+[ui.window]
+title = "SMTP Test Tool"
+
+[ui.topbar]
+profile_label = "Profil:"
+save_config = "Uložiť konfiguráciu"
+save_config_tooltip = "Zapíše aktívny profil späť do konfiguračného súboru vedľa spustiteľného súboru."
+provider_preset = "Predvoľba poskytovateľa..."
+provider_preset_tooltip = "Použije jednu z kurátorovaných predvolieb poskytovateľov na polia host / port / zabezpečenie nižšie."
+config_path_none = "žiadny konfiguračný súbor"
+
+[ui.tab]
+servers = "Servery"
+send_mail = "Odoslať e-mail"
+tls_auth = "TLS / Auth"
+advanced = "Pokročilé"
+diagnose = "Analyzovať odraz"
+
+[ui.servers]
+username = "Používateľské meno:"
+password = "Heslo:"
+show = "Zobraziť"
+oauth_token = "OAuth token:"
+oauth_hint = "(XOAUTH2, voliteľné)"
+save_to_keychain = "Uložiť heslo do kľúčenky"
+save_to_keychain_tooltip = "Uloží heslo do kľúčenky operačného systému (Windows Credential Manager / macOS Keychain / Linux Secret Service).  Nikdy sa nezapisuje do konfiguračného súboru."
+forget_keychain = "Zabudnúť položku kľúčenky"
+forget_keychain_tooltip = "Vymaže položku smtp-test-tool tohto používateľa z kľúčenky OS.  Pole hesla vyššie sa tiež vyprázdni."
+loaded_from_keychain = "(načítané z kľúčenky)"
+
+[ui.proto]
+test_smtp = "Testovať SMTP"
+test_imap = "Testovať IMAP"
+test_pop3 = "Testovať POP3"
+host = "Host:"
+port = "Port:"
+security = "Zabezpečenie:"
+security_none = "žiadne"
+security_starttls = "starttls"
+security_ssl = "ssl"
+
+[ui.send]
+toggle = "Skutočne odoslať testovací e-mail (inak sa testuje len AUTH)"
+mail_from = "MAIL FROM (obálka):"
+from_header = "From: (hlavička):"
+to = "Komu (oddelené čiarkami):"
+cc = "Kópia (oddelené čiarkami):"
+bcc = "Skrytá kópia (oddelené čiarkami):"
+reply_to = "Odpovedať:"
+subject = "Predmet:"
+body = "Obsah:"
+
+[ui.tls]
+auth_mech = "SMTP AUTH mechanizmus:"
+insecure = "Zakázať overenie certifikátu (NEBEZPEČNÉ - len pre test)"
+ca_bundle = "CA balík (PEM):"
+
+[ui.advanced]
+timeout = "Časový limit (s):"
+ehlo = "Názov EHLO/HELO:"
+imap_folder = "IMAP priečinok:"
+log_level = "Úroveň logu:"
+theme = "Motív:"
+language = "Jazyk:"
+language_unsupported = "Vaša OS locale ({code}) ešte nie je preložená.  Texty sa zobrazujú v angličtine; príspevky vítané."
+theme_follow_os = "Sledovať OS ({hint})"
+theme_dark = "Tmavý"
+theme_light = "Svetlý"
+
+[ui.actions]
+run_test = "Spustiť test"
+running = "Prebieha..."
+clear_log = "Vyčistiť log"
+
+[ui.status]
+smtp_idle = "SMTP: -"
+imap_idle = "IMAP: -"
+pop3_idle = "POP3: -"
+smtp_pass = "SMTP: PREŠIEL"
+imap_pass = "IMAP: PREŠIEL"
+pop3_pass = "POP3: PREŠIEL"
+smtp_fail = "SMTP: ZLYHAL"
+imap_fail = "IMAP: ZLYHAL"
+pop3_fail = "POP3: ZLYHAL"
+smtp_skip = "SMTP: preskočené"
+imap_skip = "IMAP: preskočené"
+pop3_skip = "POP3: preskočené"
+
+[ui.diagnose]
+intro = "Vložte nižšie telo správy o nedoručení pre extrakciu IT-akčných pokynov.  Rozpoznáva SMTP enhanced status kódy (5.7.139, 5.7.60), frázy Microsoft 365 (\"basic authentication is disabled\") a webmailové odrazy ako \"Send mail as / Mail sturen als\" v Gmaile.  Nič sa neposiela po sieti a text sa neukladá na disk."
+input_placeholder = "Vložte sem telo odrazu..."
+analyse = "Analyzovať"
+clear = "Vyčistiť"
+hints_heading = "Pokyny"
+no_hints_yet = "(zatiaľ žiadne pokyny - vložte odraz vyššie a kliknite na Analyzovať)"
+
+[ui.log]
+heading = "Log"
+
+[diagnostics.scaffold]
+esc_prefix = "ESC {code}: {what}"
+action_prefix = "  -> Akcia: {fix}"
+hint_prefix = "  -> {hint}"
+
+[diagnostics.smtp.esc.5_7_0]
+what = "Vyžadované overenie alebo zvolený AUTH mechanizmus nie je povolený."
+fix  = "Povoľte SMTP AUTH pre schránku; overte, či LOGIN / PLAIN / XOAUTH2 je povolený."
+
+[diagnostics.smtp.esc.5_7_1]
+what = "Relay prístup zamietnutý - server odmieta preposlať túto správu."
+fix  = "Buď odosielateľ nie je overený, príjemca je externý a relay je vypnutý, alebo transport rule blokuje správu."
+
+[diagnostics.smtp.esc.5_7_3]
+what = "Overenie neúspešné."
+fix  = "Zlé heslo, MFA zapnutá bez app-password, alebo Basic/Legacy auth zakázané v tenante (O365: 'SMTP AUTH disabled')."
+
+[diagnostics.smtp.esc.5_7_8]
+what = "Overovacie údaje neplatné."
+fix  = "Používateľské meno/heslo odmietnuté vrstvou SASL."
+
+[diagnostics.smtp.esc.5_7_57]
+what = "Klient nebol overený na odoslanie anonymnej pošty počas MAIL FROM."
+fix  = "Vynúťte STARTTLS + AUTH pred MAIL FROM.  V O365 je to typická chyba, keď sa klient pripojí bez AUTH."
+
+[diagnostics.smtp.esc.5_7_60]
+what = "SendAsDenied - overený používateľ nemôže odosielať AKO táto From adresa."
+fix  = "Udeľte schránke práva 'Send As' (alebo 'Send on Behalf') pre overený účet, alebo zmeňte From hlavičku, aby zodpovedala loginu."
+
+[diagnostics.smtp.esc.5_7_64]
+what = "TenantAttribution; Relay Access Denied."
+fix  = "Overené SMTP odosielanie vyžaduje licencovanú schránku v O365."
+
+[diagnostics.smtp.esc.5_7_124]
+what = "Používateľ nie je oprávnený odosielať poštu."
+fix  = "Zakázaná schránka, blokovaná Conditional Access, alebo chýba licencia."
+
+[diagnostics.smtp.esc.5_7_135]
+what = "Overenie neúspešné, používateľské údaje vypršali."
+fix  = "Resetujte heslo / obnovte OAuth token."
+
+[diagnostics.smtp.esc.5_7_139]
+what = "Overenie neúspešné; požiadavka nesplnila kritériá."
+fix  = "Politika Conditional Access odmietla login (lokalita, zariadenie, MFA)."
+
+[diagnostics.smtp.esc.5_7_500]
+what = "Prístup zamietnutý, odosielajúca doména zakázaná."
+fix  = "Doména odosielateľa je blokovaná pre odchodzu poštu v tomto tenante."
+
+[diagnostics.smtp.esc.5_7_501]
+what = "Prístup zamietnutý, zakázaný odosielateľ."
+fix  = "Adresa odosielateľa je na blocklistu tenantu."
+
+[diagnostics.smtp.esc.5_7_508]
+what = "Prístup zamietnutý, prekročený prah rýchlosti alebo prevádzky."
+fix  = "Throttlovaný; počkajte a skúste znova, alebo požiadajte administrátora o zvýšenie limitu."
+
+[diagnostics.smtp.esc.5_7_511]
+what = "Prístup zamietnutý, zakázaný odosielateľ."
+fix  = "Odosielateľ označený ako zdroj spamu."
+
+[diagnostics.smtp.esc.5_7_606]
+what = "Prístup zamietnutý, zakázaná odosielajúca IP."
+fix  = "Odosielajúca IP je na blocklistu Microsoftu."
+
+[diagnostics.smtp.esc.5_7_708]
+what = "Služba odmietnutá.  Zdrojová IP má zlú reputáciu."
+fix  = "Odošlite z inej IP alebo požiadajte o delisting."
+
+[diagnostics.smtp.esc.5_7_750]
+what = "Klient blokovaný pre odosielanie z neregistrovaných domén."
+fix  = "Overte doménu odosielateľa v tenante alebo použite akceptovanú doménu."
+
+[diagnostics.smtp.esc.5_1_0]
+what = "Adresa odosielateľa odmietnutá."
+fix  = "From/MAIL FROM neakceptované; zvyčajne formát alebo politika domény."
+
+[diagnostics.smtp.esc.5_1_1]
+what = "Zlá cieľová schránka - príjemca neexistuje."
+fix  = "Skontrolujte adresu príjemcu."
+
+[diagnostics.smtp.esc.5_1_7]
+what = "Neplatná adresa odosielateľa (zdeformovaná)."
+fix  = "Opravte syntax MAIL FROM."
+
+[diagnostics.smtp.esc.5_1_8]
+what = "Doména odosielateľa nie je povolená."
+fix  = "Doména serverom neakceptovaná."
+
+[diagnostics.smtp.esc.5_1_10]
+what = "Adresa príjemcu odmietnutá - používateľ neznámy."
+fix  = "Preklep alebo neexistujúci príjemca."
+
+[diagnostics.smtp.esc.5_4_1]
+what = "Adresa príjemcu odmietnutá: prístup zamietnutý."
+fix  = "Schránka príjemcu odmieta správy od tohto odosielateľa / domény."
+
+[diagnostics.smtp.esc.5_2_1]
+what = "Schránka zakázaná, neprijíma správy."
+fix  = "Schránka príjemcu pozastavená."
+
+[diagnostics.smtp.esc.5_2_2]
+what = "Schránka plná."
+fix  = "Kvóta príjemcu prekročená."
+
+[diagnostics.smtp.esc.5_3_4]
+what = "Správa je príliš veľká pre systém."
+fix  = "Zmenšite veľkosť správy."
+
+[diagnostics.smtp.esc.4_7_0]
+what = "Dočasné zlyhanie overenia / throttling."
+fix  = "Skúste znova neskôr; môže to byť aj tarpit pre opakované chybné logins."
+
+[diagnostics.smtp.esc.4_4_2]
+what = "Spojenie prerušené."
+fix  = "Sieťový výpadok alebo reštart servera; skúste znova."
+
+[diagnostics.smtp.esc.4_3_2]
+what = "Systém neprijíma sieťové správy."
+fix  = "Údržba servera."
+
+[diagnostics.imap.AUTHENTICATIONFAILED]
+hint = "IMAP login odmietnutý - zlé heslo, MFA bez app-password, alebo Basic Auth zakázaný."
+
+[diagnostics.imap."LOGIN_failed"]
+hint = "IMAP login odmietnutý serverom."
+
+[diagnostics.imap.ALERT]
+hint = "Server vrátil ALERT odpoveď - prečítajte si ju; správa definovaná administrátorom."
+
+[diagnostics.imap.UNAVAILABLE]
+hint = "Schránka/server dočasne nedostupné."
+
+[diagnostics.imap.PRIVACYREQUIRED]
+hint = "Server vyžaduje TLS pred LOGIN - použite STARTTLS alebo implicitné SSL."
+
+[diagnostics.imap.CLIENTBUG]
+hint = "Klient urobil niečo, čo server považuje za zlé; zvyčajne chýba STARTTLS alebo zlý stav."
+
+[diagnostics.imap.LOGINDISABLED]
+hint = "Plain LOGIN je na tomto serveri zakázaný - použite STARTTLS/SSL alebo XOAUTH2."
+
+[diagnostics.pop.authentication_failed]
+hint = "POP3 login odmietnutý - zlé údaje alebo POP zakázaný pre túto schránku."
+
+[diagnostics.pop.logon_failure]
+hint = "POP3 login odmietnutý."
+
+[diagnostics.pop.not_implemented]
+hint = "Server nepodporuje vydaný príkaz."
+
+[diagnostics.pop.disabled]
+hint = "POP3 prístup je zakázaný pre tento účet / tenant."
+
+[diagnostics.bounce.gmail_send_as_en]
+needle = "Send mail as"
+hint = "Upstream login 'Send mail as' Gmailu zlyhal.  Nastavenia > Zobraziť všetky nastavenia > Účty a import > Posielať ako > Upraviť informácie > znova zadajte SMTP heslo (alebo app-password, ak zdrojový účet má 2FA)."
+
+[diagnostics.bounce.gmail_send_as_nl]
+needle = "Mail sturen als"
+hint = "Upstream login 'Mail sturen als' (Send mail as) Gmailu zlyhal.  Nastavenia > Zobraziť všetky nastavenia > Účty a import > Posielať ako > Upraviť informácie > znova zadajte SMTP heslo (alebo app-password, ak zdrojový účet má 2FA)."
+
+[cli.prompt]
+username = "Používateľské meno / e-mail: "
+password = "Heslo: "

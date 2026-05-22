@@ -1,0 +1,275 @@
+# smtp-test-tool locale: Українська (uk)
+# status: machine-translated, native review welcome.
+
+[app]
+name = "SMTP Test Tool"
+
+[locale]
+native_name = "Українська"
+english_name = "Ukrainian"
+status_note = "Машинний переклад - перевірка носієм мови вітається."
+
+[ui.window]
+title = "SMTP Test Tool"
+
+[ui.topbar]
+profile_label = "Профіль:"
+save_config = "Зберегти конфігурацію"
+save_config_tooltip = "Записує активний профіль назад до файлу конфігурації поруч з виконуваним файлом."
+provider_preset = "Передустановка провайдера..."
+provider_preset_tooltip = "Застосовує одну з курованих передустановок провайдерів до полів хост / порт / безпека нижче."
+config_path_none = "немає файлу конфігурації"
+
+[ui.tab]
+servers = "Сервери"
+send_mail = "Надіслати листа"
+tls_auth = "TLS / Auth"
+advanced = "Розширені"
+diagnose = "Аналіз відмови"
+
+[ui.servers]
+username = "Ім'я користувача:"
+password = "Пароль:"
+show = "Показати"
+oauth_token = "OAuth токен:"
+oauth_hint = "(XOAUTH2, необов'язково)"
+save_to_keychain = "Зберегти пароль у в'язці ключів"
+save_to_keychain_tooltip = "Зберігає пароль у в'язці ключів ОС (Windows Credential Manager / macOS Keychain / Linux Secret Service).  Ніколи не записується до файлу конфігурації."
+forget_keychain = "Забути запис у в'язці ключів"
+forget_keychain_tooltip = "Видаляє запис smtp-test-tool для цього користувача з в'язки ключів ОС.  Поле пароля вище також очищується."
+loaded_from_keychain = "(завантажено з в'язки ключів)"
+
+[ui.proto]
+test_smtp = "Тестувати SMTP"
+test_imap = "Тестувати IMAP"
+test_pop3 = "Тестувати POP3"
+host = "Хост:"
+port = "Порт:"
+security = "Безпека:"
+security_none = "немає"
+security_starttls = "starttls"
+security_ssl = "ssl"
+
+[ui.send]
+toggle = "Дійсно надіслати тестового листа (інакше тестується лише AUTH)"
+mail_from = "MAIL FROM (конверт):"
+from_header = "From: (заголовок):"
+to = "Кому (через кому):"
+cc = "Копія (через кому):"
+bcc = "Прихована копія (через кому):"
+reply_to = "Відповісти:"
+subject = "Тема:"
+body = "Зміст:"
+
+[ui.tls]
+auth_mech = "Механізм SMTP AUTH:"
+insecure = "Вимкнути перевірку сертифіката (НЕБЕЗПЕЧНО - лише для тесту)"
+ca_bundle = "Пакет CA (PEM):"
+
+[ui.advanced]
+timeout = "Тайм-аут (с):"
+ehlo = "Ім'я EHLO/HELO:"
+imap_folder = "Папка IMAP:"
+log_level = "Рівень лога:"
+theme = "Тема:"
+language = "Мова:"
+language_unsupported = "Ваша locale ОС ({code}) ще не перекладена.  Тексти відображаються англійською; внески вітаються."
+theme_follow_os = "Слідувати ОС ({hint})"
+theme_dark = "Темна"
+theme_light = "Світла"
+
+[ui.actions]
+run_test = "Запустити тест"
+running = "Виконується..."
+clear_log = "Очистити лог"
+
+[ui.status]
+smtp_idle = "SMTP: -"
+imap_idle = "IMAP: -"
+pop3_idle = "POP3: -"
+smtp_pass = "SMTP: ПРОЙДЕНО"
+imap_pass = "IMAP: ПРОЙДЕНО"
+pop3_pass = "POP3: ПРОЙДЕНО"
+smtp_fail = "SMTP: НЕВДАЧА"
+imap_fail = "IMAP: НЕВДАЧА"
+pop3_fail = "POP3: НЕВДАЧА"
+smtp_skip = "SMTP: пропущено"
+imap_skip = "IMAP: пропущено"
+pop3_skip = "POP3: пропущено"
+
+[ui.diagnose]
+intro = "Вставте нижче тіло повідомлення про невдалу доставку для виокремлення IT-діючих підказок.  Розпізнає SMTP enhanced status коди (5.7.139, 5.7.60), фрази Microsoft 365 (\"basic authentication is disabled\") та відмови з боку вебмейла, такі як \"Send mail as / Mail sturen als\" Gmail.  Нічого не надсилається мережею і текст не зберігається на диск."
+input_placeholder = "Вставте тіло відмови тут..."
+analyse = "Аналізувати"
+clear = "Очистити"
+hints_heading = "Підказки"
+no_hints_yet = "(ще немає підказок - вставте відмову вище і натисніть Аналізувати)"
+
+[ui.log]
+heading = "Лог"
+
+[diagnostics.scaffold]
+esc_prefix = "ESC {code}: {what}"
+action_prefix = "  -> Дія: {fix}"
+hint_prefix = "  -> {hint}"
+
+[diagnostics.smtp.esc.5_7_0]
+what = "Потрібна автентифікація або обраний AUTH механізм не дозволений."
+fix  = "Увімкніть SMTP AUTH для поштової скриньки; перевірте, що LOGIN / PLAIN / XOAUTH2 дозволений."
+
+[diagnostics.smtp.esc.5_7_1]
+what = "Доступ relay відмовлено - сервер відмовляється переслати це повідомлення."
+fix  = "Або відправник не автентифікований, отримувач зовнішній і relay вимкнено, або transport rule блокує повідомлення."
+
+[diagnostics.smtp.esc.5_7_3]
+what = "Автентифікація неуспішна."
+fix  = "Невірний пароль, MFA увімкнено без app-password, або Basic/Legacy auth вимкнено на tenant (O365: 'SMTP AUTH disabled')."
+
+[diagnostics.smtp.esc.5_7_8]
+what = "Облікові дані автентифікації недійсні."
+fix  = "Ім'я користувача/пароль відхилено шаром SASL."
+
+[diagnostics.smtp.esc.5_7_57]
+what = "Клієнт не був автентифікований для надсилання анонімної пошти під час MAIL FROM."
+fix  = "Примусово встановіть STARTTLS + AUTH перед MAIL FROM.  У O365 це типова помилка, коли клієнт підключається без AUTH."
+
+[diagnostics.smtp.esc.5_7_60]
+what = "SendAsDenied - автентифікований користувач не може надсилати ЯК ця адреса From."
+fix  = "Надайте поштовій скриньці права 'Send As' (або 'Send on Behalf') для автентифікованого облікового запису або змініть заголовок From, щоб відповідав логіну."
+
+[diagnostics.smtp.esc.5_7_64]
+what = "TenantAttribution; Relay Access Denied."
+fix  = "Автентифікована SMTP-відправка вимагає ліцензовану поштову скриньку в O365."
+
+[diagnostics.smtp.esc.5_7_124]
+what = "Користувач не уповноважений надсилати пошту."
+fix  = "Вимкнена поштова скринька, заблокована Conditional Access, або відсутня ліцензія."
+
+[diagnostics.smtp.esc.5_7_135]
+what = "Автентифікація неуспішна, облікові дані користувача спливли."
+fix  = "Скиньте пароль / оновіть OAuth токен."
+
+[diagnostics.smtp.esc.5_7_139]
+what = "Автентифікація неуспішна; запит не відповідає критеріям."
+fix  = "Політика Conditional Access відхилила вхід (місцезнаходження, пристрій, MFA)."
+
+[diagnostics.smtp.esc.5_7_500]
+what = "Доступ заборонено, відправник домен вимкнено."
+fix  = "Домен відправника заблоковано для вихідної пошти на цьому tenant."
+
+[diagnostics.smtp.esc.5_7_501]
+what = "Доступ заборонено, заборонений відправник."
+fix  = "Адреса відправника в blocklist tenant."
+
+[diagnostics.smtp.esc.5_7_508]
+what = "Доступ заборонено, перевищено поріг швидкості або трафіку."
+fix  = "Throttled; зачекайте та повторіть, або попросіть адміна підвищити ліміт."
+
+[diagnostics.smtp.esc.5_7_511]
+what = "Доступ заборонено, заборонений відправник."
+fix  = "Відправник позначений як джерело спаму."
+
+[diagnostics.smtp.esc.5_7_606]
+what = "Доступ заборонено, заборонений надсилаючий IP."
+fix  = "Надсилаючий IP в blocklist Microsoft."
+
+[diagnostics.smtp.esc.5_7_708]
+what = "Сервіс відмовлено.  Вихідний IP має погану репутацію."
+fix  = "Надішліть з іншого IP або запросіть delisting."
+
+[diagnostics.smtp.esc.5_7_750]
+what = "Клієнт заблокований для надсилання з незареєстрованих доменів."
+fix  = "Перевірте домен відправника в tenant або використовуйте прийнятий домен."
+
+[diagnostics.smtp.esc.5_1_0]
+what = "Адресу відправника відхилено."
+fix  = "From/MAIL FROM не прийнято; зазвичай формат або політика домену."
+
+[diagnostics.smtp.esc.5_1_1]
+what = "Неправильна цільова поштова скринька - отримувача не існує."
+fix  = "Перевірте адресу отримувача."
+
+[diagnostics.smtp.esc.5_1_7]
+what = "Недійсна адреса відправника (неправильно сформована)."
+fix  = "Виправте синтаксис MAIL FROM."
+
+[diagnostics.smtp.esc.5_1_8]
+what = "Домен відправника не дозволено."
+fix  = "Сервер не приймає домен."
+
+[diagnostics.smtp.esc.5_1_10]
+what = "Адресу отримувача відхилено - користувач невідомий."
+fix  = "Помилка набору або неіснуючий отримувач."
+
+[diagnostics.smtp.esc.5_4_1]
+what = "Адресу отримувача відхилено: доступ заборонено."
+fix  = "Поштова скринька отримувача відмовляє в повідомленнях від цього відправника / домену."
+
+[diagnostics.smtp.esc.5_2_1]
+what = "Поштова скринька вимкнена, не приймає повідомлення."
+fix  = "Поштова скринька отримувача призупинена."
+
+[diagnostics.smtp.esc.5_2_2]
+what = "Поштова скринька заповнена."
+fix  = "Квота отримувача перевищена."
+
+[diagnostics.smtp.esc.5_3_4]
+what = "Повідомлення занадто велике для системи."
+fix  = "Зменшіть розмір повідомлення."
+
+[diagnostics.smtp.esc.4_7_0]
+what = "Тимчасова невдача автентифікації / throttling."
+fix  = "Повторіть пізніше; також може бути tarpit для повторюваних невірних входів."
+
+[diagnostics.smtp.esc.4_4_2]
+what = "З'єднання перервано."
+fix  = "Мережевий збій або перезапуск сервера; повторіть."
+
+[diagnostics.smtp.esc.4_3_2]
+what = "Система не приймає мережеві повідомлення."
+fix  = "Обслуговування сервера."
+
+[diagnostics.imap.AUTHENTICATIONFAILED]
+hint = "Вхід IMAP відхилено - невірний пароль, MFA без app-password, або Basic Auth вимкнено."
+
+[diagnostics.imap."LOGIN_failed"]
+hint = "Вхід IMAP відхилено сервером."
+
+[diagnostics.imap.ALERT]
+hint = "Сервер повернув відповідь ALERT - прочитайте; повідомлення визначене адміністратором."
+
+[diagnostics.imap.UNAVAILABLE]
+hint = "Поштова скринька/сервер тимчасово недоступні."
+
+[diagnostics.imap.PRIVACYREQUIRED]
+hint = "Сервер вимагає TLS перед LOGIN - використайте STARTTLS або неявний SSL."
+
+[diagnostics.imap.CLIENTBUG]
+hint = "Клієнт зробив щось, що сервер вважає неправильним; зазвичай відсутній STARTTLS або неправильний стан."
+
+[diagnostics.imap.LOGINDISABLED]
+hint = "Plain LOGIN вимкнено на цьому сервері - використайте STARTTLS/SSL або XOAUTH2."
+
+[diagnostics.pop.authentication_failed]
+hint = "Вхід POP3 відхилено - невірні облікові дані або POP вимкнено для цієї поштової скриньки."
+
+[diagnostics.pop.logon_failure]
+hint = "Вхід POP3 відхилено."
+
+[diagnostics.pop.not_implemented]
+hint = "Сервер не підтримує видану команду."
+
+[diagnostics.pop.disabled]
+hint = "Доступ POP3 вимкнено для цього облікового запису / tenant."
+
+[diagnostics.bounce.gmail_send_as_en]
+needle = "Send mail as"
+hint = "Upstream-вхід 'Send mail as' Gmail не вдався.  Налаштування > Переглянути всі налаштування > Облікові записи та імпорт > Надсилати як > Редагувати інформацію > введіть пароль SMTP знову (або app-password, якщо вихідний обліковий запис має 2FA)."
+
+[diagnostics.bounce.gmail_send_as_nl]
+needle = "Mail sturen als"
+hint = "Upstream-вхід 'Mail sturen als' (Send mail as) Gmail не вдався.  Налаштування > Переглянути всі налаштування > Облікові записи та імпорт > Надсилати як > Редагувати інформацію > введіть пароль SMTP знову (або app-password, якщо вихідний обліковий запис має 2FA)."
+
+[cli.prompt]
+username = "Ім'я користувача / e-mail: "
+password = "Пароль: "

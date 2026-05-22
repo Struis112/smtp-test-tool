@@ -1,0 +1,276 @@
+# smtp-test-tool locale: Srpski (sr)
+# status: machine-translated, native review welcome.
+# Latin script chosen for IT-context compatibility with default fonts.
+
+[app]
+name = "SMTP Test Tool"
+
+[locale]
+native_name = "Srpski"
+english_name = "Serbian"
+status_note = "Mašinski prevod - revizija izvornog govornika dobrodošla."
+
+[ui.window]
+title = "SMTP Test Tool"
+
+[ui.topbar]
+profile_label = "Profil:"
+save_config = "Sačuvaj konfiguraciju"
+save_config_tooltip = "Zapisuje aktivni profil nazad u konfiguracioni fajl pored izvršnog fajla."
+provider_preset = "Preset provajdera..."
+provider_preset_tooltip = "Primenjuje jedan od kuriranih preseta provajdera na polja host / port / bezbednost ispod."
+config_path_none = "nema konfiguracionog fajla"
+
+[ui.tab]
+servers = "Serveri"
+send_mail = "Pošalji poruku"
+tls_auth = "TLS / Auth"
+advanced = "Napredno"
+diagnose = "Analiziraj odbijanje"
+
+[ui.servers]
+username = "Korisničko ime:"
+password = "Lozinka:"
+show = "Prikaži"
+oauth_token = "OAuth token:"
+oauth_hint = "(XOAUTH2, opciono)"
+save_to_keychain = "Sačuvaj lozinku u privesku"
+save_to_keychain_tooltip = "Čuva lozinku u privesku operativnog sistema (Windows Credential Manager / macOS Keychain / Linux Secret Service).  Nikad se ne piše u konfiguracioni fajl."
+forget_keychain = "Zaboravi unos priveska"
+forget_keychain_tooltip = "Briše unos smtp-test-tool za ovog korisnika iz priveska OS-a.  Polje lozinke iznad se takođe prazni."
+loaded_from_keychain = "(učitano iz priveska)"
+
+[ui.proto]
+test_smtp = "Testiraj SMTP"
+test_imap = "Testiraj IMAP"
+test_pop3 = "Testiraj POP3"
+host = "Host:"
+port = "Port:"
+security = "Bezbednost:"
+security_none = "ništa"
+security_starttls = "starttls"
+security_ssl = "ssl"
+
+[ui.send]
+toggle = "Stvarno pošalji probnu poruku (inače se testira samo AUTH)"
+mail_from = "MAIL FROM (omot):"
+from_header = "From: (zaglavlje):"
+to = "Prima (odvojeno zarezima):"
+cc = "Cc (odvojeno zarezima):"
+bcc = "Bcc (odvojeno zarezima):"
+reply_to = "Odgovori na:"
+subject = "Predmet:"
+body = "Sadržaj:"
+
+[ui.tls]
+auth_mech = "SMTP AUTH mehanizam:"
+insecure = "Onemogući proveru sertifikata (NEBEZBEDNO - samo za test)"
+ca_bundle = "CA paket (PEM):"
+
+[ui.advanced]
+timeout = "Vreme čekanja (s):"
+ehlo = "EHLO/HELO ime:"
+imap_folder = "IMAP fascikla:"
+log_level = "Nivo loga:"
+theme = "Tema:"
+language = "Jezik:"
+language_unsupported = "Vaš OS locale ({code}) još nije preveden.  Tekstovi se prikazuju na engleskom; doprinosi dobrodošli."
+theme_follow_os = "Prati OS ({hint})"
+theme_dark = "Tamna"
+theme_light = "Svetla"
+
+[ui.actions]
+run_test = "Pokreni test"
+running = "U toku..."
+clear_log = "Očisti log"
+
+[ui.status]
+smtp_idle = "SMTP: -"
+imap_idle = "IMAP: -"
+pop3_idle = "POP3: -"
+smtp_pass = "SMTP: PROŠAO"
+imap_pass = "IMAP: PROŠAO"
+pop3_pass = "POP3: PROŠAO"
+smtp_fail = "SMTP: PAO"
+imap_fail = "IMAP: PAO"
+pop3_fail = "POP3: PAO"
+smtp_skip = "SMTP: preskočeno"
+imap_skip = "IMAP: preskočeno"
+pop3_skip = "POP3: preskočeno"
+
+[ui.diagnose]
+intro = "Nalepite ispod telo poruke o neisporuci za izdvajanje IT-iskoristivih saveta.  Prepoznaje SMTP enhanced status kodove (5.7.139, 5.7.60), fraze Microsoft 365 (\"basic authentication is disabled\") i webmail odbijanja kao \"Send mail as / Mail sturen als\" Gmail-a.  Ništa se ne šalje mrežom i tekst se ne čuva na disku."
+input_placeholder = "Ovde nalepite telo odbijanja..."
+analyse = "Analiziraj"
+clear = "Očisti"
+hints_heading = "Saveti"
+no_hints_yet = "(još nema saveta - nalepite odbijanje iznad i kliknite Analiziraj)"
+
+[ui.log]
+heading = "Log"
+
+[diagnostics.scaffold]
+esc_prefix = "ESC {code}: {what}"
+action_prefix = "  -> Akcija: {fix}"
+hint_prefix = "  -> {hint}"
+
+[diagnostics.smtp.esc.5_7_0]
+what = "Potrebna autentikacija ili izabrani AUTH mehanizam nije dozvoljen."
+fix  = "Omogućite SMTP AUTH za poštansko sanduče; proverite da je LOGIN / PLAIN / XOAUTH2 dozvoljen."
+
+[diagnostics.smtp.esc.5_7_1]
+what = "Relay pristup odbijen - server odbija da prosledi ovu poruku."
+fix  = "Ili pošiljalac nije autentikovan, primalac je spoljni i relay je onemogućen, ili transport rule blokira poruku."
+
+[diagnostics.smtp.esc.5_7_3]
+what = "Autentikacija neuspešna."
+fix  = "Pogrešna lozinka, MFA uključen bez app-password, ili Basic/Legacy auth onemogućen na tenantu (O365: 'SMTP AUTH disabled')."
+
+[diagnostics.smtp.esc.5_7_8]
+what = "Autentikacioni podaci nevažeći."
+fix  = "Korisničko ime/lozinka odbijena od strane SASL sloja."
+
+[diagnostics.smtp.esc.5_7_57]
+what = "Klijent nije bio autentikovan za slanje anonimne pošte tokom MAIL FROM."
+fix  = "Prinudite STARTTLS + AUTH pre MAIL FROM.  U O365 je to tipična greška kada se klijent povezuje bez AUTH."
+
+[diagnostics.smtp.esc.5_7_60]
+what = "SendAsDenied - autentikovani korisnik ne sme slati KAO ova From adresa."
+fix  = "Dodelite poštanskom sandučetu 'Send As' (ili 'Send on Behalf') prava za autentikovani nalog, ili promenite From zaglavlje da odgovara loginu."
+
+[diagnostics.smtp.esc.5_7_64]
+what = "TenantAttribution; Relay Access Denied."
+fix  = "Autentikovana SMTP submisija zahteva licencirano poštansko sanduče u O365."
+
+[diagnostics.smtp.esc.5_7_124]
+what = "Korisnik nije ovlašćen za slanje pošte."
+fix  = "Onemogućeno sanduče, blokirano Conditional Access, ili nedostaje licenca."
+
+[diagnostics.smtp.esc.5_7_135]
+what = "Autentikacija neuspešna, korisnički podaci su istekli."
+fix  = "Resetujte lozinku / osvežite OAuth token."
+
+[diagnostics.smtp.esc.5_7_139]
+what = "Autentikacija neuspešna; zahtev nije zadovoljio kriterijume."
+fix  = "Conditional Access politika je odbila login (lokacija, uređaj, MFA)."
+
+[diagnostics.smtp.esc.5_7_500]
+what = "Pristup odbijen, šaljući domen onemogućen."
+fix  = "Domen pošiljaoca je blokiran za izlaznu poštu na ovom tenantu."
+
+[diagnostics.smtp.esc.5_7_501]
+what = "Pristup odbijen, zabranjen pošiljalac."
+fix  = "Adresa pošiljaoca je na blocklistu tenanta."
+
+[diagnostics.smtp.esc.5_7_508]
+what = "Pristup odbijen, premašen prag brzine ili saobraćaja."
+fix  = "Throttled; sačekajte i pokušajte ponovo, ili tražite admina da poveća limit."
+
+[diagnostics.smtp.esc.5_7_511]
+what = "Pristup odbijen, zabranjen pošiljalac."
+fix  = "Pošiljalac označen kao izvor spama."
+
+[diagnostics.smtp.esc.5_7_606]
+what = "Pristup odbijen, zabranjen šaljući IP."
+fix  = "Šaljući IP je na Microsoft blocklistu."
+
+[diagnostics.smtp.esc.5_7_708]
+what = "Servis odbijen.  Izvorni IP ima lošu reputaciju."
+fix  = "Pošaljite sa drugog IP-a ili tražite delisting."
+
+[diagnostics.smtp.esc.5_7_750]
+what = "Klijent blokiran za slanje sa neregistrovanih domena."
+fix  = "Proverite domen pošiljaoca u tenantu ili koristite prihvaćen domen."
+
+[diagnostics.smtp.esc.5_1_0]
+what = "Adresa pošiljaoca odbijena."
+fix  = "From/MAIL FROM nije prihvaćen; obično format ili politika domena."
+
+[diagnostics.smtp.esc.5_1_1]
+what = "Loše odredišno sanduče - primalac ne postoji."
+fix  = "Proverite adresu primaoca."
+
+[diagnostics.smtp.esc.5_1_7]
+what = "Nevažeća adresa pošiljaoca (loše formatirana)."
+fix  = "Ispravite sintaksu MAIL FROM."
+
+[diagnostics.smtp.esc.5_1_8]
+what = "Domen pošiljaoca nije dozvoljen."
+fix  = "Server ne prihvata domen."
+
+[diagnostics.smtp.esc.5_1_10]
+what = "Adresa primaoca odbijena - korisnik nepoznat."
+fix  = "Štamparska greška ili nepostojeći primalac."
+
+[diagnostics.smtp.esc.5_4_1]
+what = "Adresa primaoca odbijena: pristup odbijen."
+fix  = "Sanduče primaoca odbija poruke od ovog pošiljaoca / domena."
+
+[diagnostics.smtp.esc.5_2_1]
+what = "Sanduče onemogućeno, ne prihvata poruke."
+fix  = "Sanduče primaoca suspendovano."
+
+[diagnostics.smtp.esc.5_2_2]
+what = "Sanduče puno."
+fix  = "Kvota primaoca prekoračena."
+
+[diagnostics.smtp.esc.5_3_4]
+what = "Poruka prevelika za sistem."
+fix  = "Smanjite veličinu poruke."
+
+[diagnostics.smtp.esc.4_7_0]
+what = "Privremena greška autentikacije / throttling."
+fix  = "Pokušajte ponovo kasnije; može biti i tarpit za ponavljane pogrešne login-e."
+
+[diagnostics.smtp.esc.4_4_2]
+what = "Veza prekinuta."
+fix  = "Mrežni hipak ili restart servera; pokušajte ponovo."
+
+[diagnostics.smtp.esc.4_3_2]
+what = "Sistem ne prihvata mrežne poruke."
+fix  = "Održavanje servera."
+
+[diagnostics.imap.AUTHENTICATIONFAILED]
+hint = "IMAP login odbijen - pogrešna lozinka, MFA bez app-password, ili Basic Auth onemogućen."
+
+[diagnostics.imap."LOGIN_failed"]
+hint = "IMAP login odbijen od strane servera."
+
+[diagnostics.imap.ALERT]
+hint = "Server je vratio ALERT odgovor - pročitajte ga; poruka definisana administratorom."
+
+[diagnostics.imap.UNAVAILABLE]
+hint = "Sanduče/server privremeno nedostupni."
+
+[diagnostics.imap.PRIVACYREQUIRED]
+hint = "Server zahteva TLS pre LOGIN - koristite STARTTLS ili implicitni SSL."
+
+[diagnostics.imap.CLIENTBUG]
+hint = "Klijent je uradio nešto što server smatra pogrešnim; obično nedostaje STARTTLS ili pogrešno stanje."
+
+[diagnostics.imap.LOGINDISABLED]
+hint = "Plain LOGIN je onemogućen na ovom serveru - koristite STARTTLS/SSL ili XOAUTH2."
+
+[diagnostics.pop.authentication_failed]
+hint = "POP3 login odbijen - pogrešni podaci ili POP onemogućen za ovo sanduče."
+
+[diagnostics.pop.logon_failure]
+hint = "POP3 login odbijen."
+
+[diagnostics.pop.not_implemented]
+hint = "Server ne podržava izdatu komandu."
+
+[diagnostics.pop.disabled]
+hint = "POP3 pristup je onemogućen za ovaj nalog / tenant."
+
+[diagnostics.bounce.gmail_send_as_en]
+needle = "Send mail as"
+hint = "Upstream login 'Send mail as' Gmail-a nije uspeo.  Podešavanja > Prikaži sva podešavanja > Nalozi i uvoz > Pošalji kao > Uredi info > ponovo unesite SMTP lozinku (ili app-password ako izvorni nalog ima 2FA)."
+
+[diagnostics.bounce.gmail_send_as_nl]
+needle = "Mail sturen als"
+hint = "Upstream login 'Mail sturen als' (Send mail as) Gmail-a nije uspeo.  Podešavanja > Prikaži sva podešavanja > Nalozi i uvoz > Pošalji kao > Uredi info > ponovo unesite SMTP lozinku (ili app-password ako izvorni nalog ima 2FA)."
+
+[cli.prompt]
+username = "Korisničko ime / e-mail: "
+password = "Lozinka: "

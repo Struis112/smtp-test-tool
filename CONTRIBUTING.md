@@ -40,15 +40,16 @@ The Definition of Done is in [`AGENTS.md §3`](AGENTS.md). In short:
 
 ## Translations
 
-The tool ships translations for a growing list of languages under
+The tool ships translations for 25 languages under
 `locales/<bcp47>.toml`.  As of v0.1.3 the set is:
 
 * `en` — base, hand-maintained by the maintainer.  Every key the
   code looks up MUST exist here.
 * `nl` — native-quality (the maintainer is a Dutch speaker).
-* `de`, `es`, `fr`, `it`, `pt` — **machine-translated**, native
-  review welcome.  The file's `locale.status_note` says so in that
-  language.
+* `bg`, `cs`, `da`, `de`, `el`, `es`, `fi`, `fr`, `hr`, `hu`, `id`,
+  `it`, `no`, `pl`, `pt`, `ro`, `ru`, `sk`, `sr`, `sv`, `tr`, `uk`,
+  `vi` — **machine-translated**, native review welcome.  Each
+  file's `locale.status_note` says so in that file's own language.
 
 ### Reviewing a machine-translated file
 

@@ -1,0 +1,275 @@
+# smtp-test-tool locale: Norsk (no)
+# status: machine-translated, native review welcome.
+
+[app]
+name = "SMTP Test Tool"
+
+[locale]
+native_name = "Norsk"
+english_name = "Norwegian"
+status_note = "Maskinoversettelse - gjennomgang av morsmålsbruker velkommen."
+
+[ui.window]
+title = "SMTP Test Tool"
+
+[ui.topbar]
+profile_label = "Profil:"
+save_config = "Lagre konfigurasjon"
+save_config_tooltip = "Skriver den aktive profilen tilbake til konfigurasjonsfilen ved siden av kjørbar fil."
+provider_preset = "Leverandørforhåndsinnstilling..."
+provider_preset_tooltip = "Bruker en av de kuraterte leverandørforhåndsinnstillingene på feltene vert / port / sikkerhet nedenfor."
+config_path_none = "ingen konfigurasjonsfil"
+
+[ui.tab]
+servers = "Servere"
+send_mail = "Send e-post"
+tls_auth = "TLS / Auth"
+advanced = "Avansert"
+diagnose = "Analyser sprett"
+
+[ui.servers]
+username = "Brukernavn:"
+password = "Passord:"
+show = "Vis"
+oauth_token = "OAuth-token:"
+oauth_hint = "(XOAUTH2, valgfritt)"
+save_to_keychain = "Lagre passord i nøkkelringen"
+save_to_keychain_tooltip = "Lagrer passordet i operativsystemets nøkkelring (Windows Credential Manager / macOS Keychain / Linux Secret Service).  Skrives aldri til konfigurasjonsfilen."
+forget_keychain = "Glem nøkkelring-oppføring"
+forget_keychain_tooltip = "Sletter smtp-test-tool-oppføringen for denne brukeren fra OS-nøkkelringen.  Passord-feltet over tømmes også."
+loaded_from_keychain = "(lastet fra nøkkelringen)"
+
+[ui.proto]
+test_smtp = "Test SMTP"
+test_imap = "Test IMAP"
+test_pop3 = "Test POP3"
+host = "Vert:"
+port = "Port:"
+security = "Sikkerhet:"
+security_none = "ingen"
+security_starttls = "starttls"
+security_ssl = "ssl"
+
+[ui.send]
+toggle = "Send faktisk en test-e-post (ellers testes bare AUTH)"
+mail_from = "MAIL FROM (konvolutt):"
+from_header = "From: (hode):"
+to = "Til (kommaseparert):"
+cc = "Kopi (kommaseparert):"
+bcc = "Blind kopi (kommaseparert):"
+reply_to = "Svar til:"
+subject = "Emne:"
+body = "Innhold:"
+
+[ui.tls]
+auth_mech = "SMTP AUTH-mekanisme:"
+insecure = "Deaktiver sertifikatverifisering (USIKKERT - kun for test)"
+ca_bundle = "CA-bundle (PEM):"
+
+[ui.advanced]
+timeout = "Tidsavbrudd (s):"
+ehlo = "EHLO/HELO-navn:"
+imap_folder = "IMAP-mappe:"
+log_level = "Loggnivå:"
+theme = "Tema:"
+language = "Språk:"
+language_unsupported = "OS-locale ({code}) er ikke oversatt ennå.  Tekster vises på engelsk; bidrag velkomne."
+theme_follow_os = "Følg OS ({hint})"
+theme_dark = "Mørk"
+theme_light = "Lys"
+
+[ui.actions]
+run_test = "Kjør test"
+running = "Kjører..."
+clear_log = "Tøm logg"
+
+[ui.status]
+smtp_idle = "SMTP: -"
+imap_idle = "IMAP: -"
+pop3_idle = "POP3: -"
+smtp_pass = "SMTP: BESTÅTT"
+imap_pass = "IMAP: BESTÅTT"
+pop3_pass = "POP3: BESTÅTT"
+smtp_fail = "SMTP: FEIL"
+imap_fail = "IMAP: FEIL"
+pop3_fail = "POP3: FEIL"
+smtp_skip = "SMTP: hoppet over"
+imap_skip = "IMAP: hoppet over"
+pop3_skip = "POP3: hoppet over"
+
+[ui.diagnose]
+intro = "Lim inn brødteksten av en leveringsfeil-melding for å trekke ut IT-handlingsbare tips.  Gjenkjenner SMTP enhanced status-koder (5.7.139, 5.7.60), Microsoft 365-fraser (\"basic authentication is disabled\") og webmail-side sprett som Gmails \"Send mail as / Mail sturen als\".  Ingenting sendes over nettverket og teksten lagres ikke på disk."
+input_placeholder = "Lim inn sprett-brødtekst her..."
+analyse = "Analyser"
+clear = "Tøm"
+hints_heading = "Tips"
+no_hints_yet = "(ingen tips ennå - lim inn en sprett ovenfor og klikk Analyser)"
+
+[ui.log]
+heading = "Logg"
+
+[diagnostics.scaffold]
+esc_prefix = "ESC {code}: {what}"
+action_prefix = "  -> Handling: {fix}"
+hint_prefix = "  -> {hint}"
+
+[diagnostics.smtp.esc.5_7_0]
+what = "Autentisering kreves eller valgt AUTH-mekanisme ikke tillatt."
+fix  = "Aktiver SMTP AUTH for postboksen; verifiser at LOGIN / PLAIN / XOAUTH2 er tillatt."
+
+[diagnostics.smtp.esc.5_7_1]
+what = "Relay-tilgang avvist - serveren nekter å videresende denne meldingen."
+fix  = "Enten er avsender ikke autentisert, mottakeren er ekstern og relay er deaktivert, eller en transport rule blokkerer meldingen."
+
+[diagnostics.smtp.esc.5_7_3]
+what = "Autentisering mislyktes."
+fix  = "Feil passord, MFA aktivert uten app-password, eller Basic/Legacy auth deaktivert på tenanten (O365: 'SMTP AUTH disabled')."
+
+[diagnostics.smtp.esc.5_7_8]
+what = "Autentiseringsdata ugyldige."
+fix  = "Brukernavn/passord avvist av SASL-laget."
+
+[diagnostics.smtp.esc.5_7_57]
+what = "Klient ikke autentisert til å sende anonym post under MAIL FROM."
+fix  = "Tving STARTTLS + AUTH før MAIL FROM.  I O365 er det den typiske feilen når klienten kobler til uten AUTH."
+
+[diagnostics.smtp.esc.5_7_60]
+what = "SendAsDenied - den autentiserte brukeren får ikke sende SOM denne From-adressen."
+fix  = "Gi postboksen 'Send As' (eller 'Send on Behalf') rettigheter for den autentiserte kontoen, eller endre From-headeren slik at den matcher innloggingen."
+
+[diagnostics.smtp.esc.5_7_64]
+what = "TenantAttribution; Relay Access Denied."
+fix  = "Autentisert SMTP-innsending krever en lisensiert postboks i O365."
+
+[diagnostics.smtp.esc.5_7_124]
+what = "Brukeren har ikke tillatelse til å sende post."
+fix  = "Deaktivert postboks, blokkert av Conditional Access, eller manglende lisens."
+
+[diagnostics.smtp.esc.5_7_135]
+what = "Autentisering mislyktes, brukerdataene har utløpt."
+fix  = "Tilbakestill passordet / forny OAuth-tokenet."
+
+[diagnostics.smtp.esc.5_7_139]
+what = "Autentisering mislyktes; forespørselen oppfylte ikke kriteriene."
+fix  = "En Conditional Access-policy avviste innloggingen (sted, enhet, MFA)."
+
+[diagnostics.smtp.esc.5_7_500]
+what = "Tilgang avvist, sendende domene deaktivert."
+fix  = "Avsenderens domene er blokkert for utgående post på denne tenanten."
+
+[diagnostics.smtp.esc.5_7_501]
+what = "Tilgang avvist, bannlyst avsender."
+fix  = "Avsenderens adresse er på en tenant-blocklist."
+
+[diagnostics.smtp.esc.5_7_508]
+what = "Tilgang avvist, hastighets- eller trafikkterskel overskredet."
+fix  = "Throttled; vent og prøv igjen, eller be admin om å øke grensen."
+
+[diagnostics.smtp.esc.5_7_511]
+what = "Tilgang avvist, bannlyst avsender."
+fix  = "Avsender merket som spam-kilde."
+
+[diagnostics.smtp.esc.5_7_606]
+what = "Tilgang avvist, bannlyst sendende IP."
+fix  = "Sendende IP er på en Microsoft-blocklist."
+
+[diagnostics.smtp.esc.5_7_708]
+what = "Tjeneste avvist.  Kilde-IP har dårlig omdømme."
+fix  = "Send fra en annen IP eller be om delisting."
+
+[diagnostics.smtp.esc.5_7_750]
+what = "Klient blokkert fra å sende fra uregistrerte domener."
+fix  = "Verifiser avsenderens domene på tenanten eller bruk et akseptert domene."
+
+[diagnostics.smtp.esc.5_1_0]
+what = "Avsenderadresse avvist."
+fix  = "From/MAIL FROM ikke akseptert; vanligvis format eller domenepolicy."
+
+[diagnostics.smtp.esc.5_1_1]
+what = "Feil destinasjonspostboks - mottakeren finnes ikke."
+fix  = "Sjekk mottakerens adresse."
+
+[diagnostics.smtp.esc.5_1_7]
+what = "Ugyldig avsenderadresse (feilformatert)."
+fix  = "Korriger MAIL FROM-syntaksen."
+
+[diagnostics.smtp.esc.5_1_8]
+what = "Avsenderdomene ikke tillatt."
+fix  = "Domene ikke akseptert av serveren."
+
+[diagnostics.smtp.esc.5_1_10]
+what = "Mottakeradresse avvist - bruker ukjent."
+fix  = "Skrivefeil eller ikke-eksisterende mottaker."
+
+[diagnostics.smtp.esc.5_4_1]
+what = "Mottakeradresse avvist: tilgang avvist."
+fix  = "Mottakerens postboks avviser meldinger fra denne avsenderen / dette domenet."
+
+[diagnostics.smtp.esc.5_2_1]
+what = "Postboks deaktivert, aksepterer ikke meldinger."
+fix  = "Mottakerens postboks suspendert."
+
+[diagnostics.smtp.esc.5_2_2]
+what = "Postboks full."
+fix  = "Mottakerens kvote overskredet."
+
+[diagnostics.smtp.esc.5_3_4]
+what = "Melding for stor for systemet."
+fix  = "Reduser meldingsstørrelsen."
+
+[diagnostics.smtp.esc.4_7_0]
+what = "Midlertidig autentiseringsfeil / throttling."
+fix  = "Prøv igjen senere; kan også være tarpit for gjentatte feilaktige innlogginger."
+
+[diagnostics.smtp.esc.4_4_2]
+what = "Tilkobling brutt."
+fix  = "Nettverksglipp eller server-omstart; prøv igjen."
+
+[diagnostics.smtp.esc.4_3_2]
+what = "Systemet aksepterer ikke nettverksmeldinger."
+fix  = "Server-vedlikehold."
+
+[diagnostics.imap.AUTHENTICATIONFAILED]
+hint = "IMAP-innlogging avvist - feil passord, MFA uten app-password, eller Basic Auth deaktivert."
+
+[diagnostics.imap."LOGIN_failed"]
+hint = "IMAP-innlogging avvist av serveren."
+
+[diagnostics.imap.ALERT]
+hint = "Serveren returnerte et ALERT-svar - les det; melding definert av administrator."
+
+[diagnostics.imap.UNAVAILABLE]
+hint = "Postboks/server midlertidig utilgjengelig."
+
+[diagnostics.imap.PRIVACYREQUIRED]
+hint = "Serveren krever TLS før LOGIN - bruk STARTTLS eller implisitt SSL."
+
+[diagnostics.imap.CLIENTBUG]
+hint = "Klienten gjorde noe serveren anser som feil; vanligvis manglende STARTTLS eller feil tilstand."
+
+[diagnostics.imap.LOGINDISABLED]
+hint = "Plain LOGIN er deaktivert på denne serveren - bruk STARTTLS/SSL eller XOAUTH2."
+
+[diagnostics.pop.authentication_failed]
+hint = "POP3-innlogging avvist - feil opplysninger eller POP deaktivert for denne postboksen."
+
+[diagnostics.pop.logon_failure]
+hint = "POP3-innlogging avvist."
+
+[diagnostics.pop.not_implemented]
+hint = "Serveren støtter ikke den utstedte kommandoen."
+
+[diagnostics.pop.disabled]
+hint = "POP3-tilgang er deaktivert for denne kontoen / tenanten."
+
+[diagnostics.bounce.gmail_send_as_en]
+needle = "Send mail as"
+hint = "Gmails oppstrøms-innlogging 'Send mail as' mislyktes.  Innstillinger > Se alle innstillinger > Kontoer og import > Send post som > Rediger info > skriv inn SMTP-passordet på nytt (eller et app-password hvis kildekontoen har 2FA)."
+
+[diagnostics.bounce.gmail_send_as_nl]
+needle = "Mail sturen als"
+hint = "Gmails oppstrøms-innlogging 'Mail sturen als' (Send mail as) mislyktes.  Innstillinger > Se alle innstillinger > Kontoer og import > Send post som > Rediger info > skriv inn SMTP-passordet på nytt (eller et app-password hvis kildekontoen har 2FA)."
+
+[cli.prompt]
+username = "Brukernavn / e-post: "
+password = "Passord: "

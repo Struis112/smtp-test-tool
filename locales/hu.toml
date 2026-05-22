@@ -1,0 +1,275 @@
+# smtp-test-tool locale: Magyar (hu)
+# status: machine-translated, native review welcome.
+
+[app]
+name = "SMTP Test Tool"
+
+[locale]
+native_name = "Magyar"
+english_name = "Hungarian"
+status_note = "Gépi fordítás - anyanyelvi lektorálás szívesen fogadott."
+
+[ui.window]
+title = "SMTP Test Tool"
+
+[ui.topbar]
+profile_label = "Profil:"
+save_config = "Konfiguráció mentése"
+save_config_tooltip = "Az aktív profilt visszaírja a futtatható fájl melletti konfigurációs fájlba."
+provider_preset = "Szolgáltató előbeállítás..."
+provider_preset_tooltip = "Egy gondozott szolgáltató-előbeállítást alkalmaz az alábbi host / port / biztonság mezőkre."
+config_path_none = "nincs konfigurációs fájl"
+
+[ui.tab]
+servers = "Szerverek"
+send_mail = "Levél küldése"
+tls_auth = "TLS / Auth"
+advanced = "Speciális"
+diagnose = "Visszapattanás elemzése"
+
+[ui.servers]
+username = "Felhasználónév:"
+password = "Jelszó:"
+show = "Mutatás"
+oauth_token = "OAuth token:"
+oauth_hint = "(XOAUTH2, opcionális)"
+save_to_keychain = "Jelszó mentése a kulcstartóba"
+save_to_keychain_tooltip = "Elmenti a jelszót az operációs rendszer kulcstartójába (Windows Credential Manager / macOS Keychain / Linux Secret Service).  Sosem írja a konfigurációs fájlba."
+forget_keychain = "Kulcstartó bejegyzés törlése"
+forget_keychain_tooltip = "Törli a smtp-test-tool bejegyzést ehhez a felhasználóhoz az OS kulcstartójából.  A fenti jelszómező is törlődik."
+loaded_from_keychain = "(kulcstartóból betöltve)"
+
+[ui.proto]
+test_smtp = "SMTP tesztelése"
+test_imap = "IMAP tesztelése"
+test_pop3 = "POP3 tesztelése"
+host = "Host:"
+port = "Port:"
+security = "Biztonság:"
+security_none = "nincs"
+security_starttls = "starttls"
+security_ssl = "ssl"
+
+[ui.send]
+toggle = "Valódi teszt-email küldése (egyébként csak az AUTH-t teszteli)"
+mail_from = "MAIL FROM (boríték):"
+from_header = "From: (fejléc):"
+to = "Címzett (vesszővel elválasztva):"
+cc = "Másolat (vesszővel elválasztva):"
+bcc = "Titkos másolat (vesszővel elválasztva):"
+reply_to = "Válasz:"
+subject = "Tárgy:"
+body = "Tartalom:"
+
+[ui.tls]
+auth_mech = "SMTP AUTH mechanizmus:"
+insecure = "Tanúsítvány-ellenőrzés letiltása (NEM BIZTONSÁGOS - csak teszthez)"
+ca_bundle = "CA csomag (PEM):"
+
+[ui.advanced]
+timeout = "Időtúllépés (s):"
+ehlo = "EHLO/HELO név:"
+imap_folder = "IMAP mappa:"
+log_level = "Log szint:"
+theme = "Téma:"
+language = "Nyelv:"
+language_unsupported = "Az OS locale ({code}) még nincs lefordítva.  A szövegek angolul jelennek meg; hozzájárulás szívesen fogadott."
+theme_follow_os = "OS követése ({hint})"
+theme_dark = "Sötét"
+theme_light = "Világos"
+
+[ui.actions]
+run_test = "Teszt futtatása"
+running = "Folyamatban..."
+clear_log = "Log törlése"
+
+[ui.status]
+smtp_idle = "SMTP: -"
+imap_idle = "IMAP: -"
+pop3_idle = "POP3: -"
+smtp_pass = "SMTP: SIKERES"
+imap_pass = "IMAP: SIKERES"
+pop3_pass = "POP3: SIKERES"
+smtp_fail = "SMTP: HIBA"
+imap_fail = "IMAP: HIBA"
+pop3_fail = "POP3: HIBA"
+smtp_skip = "SMTP: kihagyva"
+imap_skip = "IMAP: kihagyva"
+pop3_skip = "POP3: kihagyva"
+
+[ui.diagnose]
+intro = "Illessze be alább egy kézbesítési hiba törzsét, hogy IT-szempontból akcióra váltható tippeket kapjon.  Felismeri az SMTP enhanced status code-okat (5.7.139, 5.7.60), a Microsoft 365 kifejezéseket (\"basic authentication is disabled\") és a webmail-oldali visszapattanásokat, mint a Gmail \"Send mail as / Mail sturen als\".  Semmi nem megy a hálózaton keresztül és a szöveg nem mentődik lemezre."
+input_placeholder = "Illessze be a visszapattanás törzsét..."
+analyse = "Elemzés"
+clear = "Törlés"
+hints_heading = "Tippek"
+no_hints_yet = "(még nincsenek tippek - illesszen be egy visszapattanást fent és kattintson az Elemzésre)"
+
+[ui.log]
+heading = "Log"
+
+[diagnostics.scaffold]
+esc_prefix = "ESC {code}: {what}"
+action_prefix = "  -> Művelet: {fix}"
+hint_prefix = "  -> {hint}"
+
+[diagnostics.smtp.esc.5_7_0]
+what = "Hitelesítés szükséges, vagy a választott AUTH mechanizmus nem engedélyezett."
+fix  = "Engedélyezze az SMTP AUTH-t a postafiókhoz; ellenőrizze, hogy LOGIN / PLAIN / XOAUTH2 engedélyezett-e."
+
+[diagnostics.smtp.esc.5_7_1]
+what = "Relay hozzáférés megtagadva - a szerver megtagadja a továbbítást."
+fix  = "Vagy a feladó nincs hitelesítve, a címzett külső és a relay le van tiltva, vagy egy transport rule blokkolja az üzenetet."
+
+[diagnostics.smtp.esc.5_7_3]
+what = "Hitelesítés sikertelen."
+fix  = "Rossz jelszó, MFA aktív app-password nélkül, vagy a Basic/Legacy auth le van tiltva a tenanton (O365: 'SMTP AUTH disabled')."
+
+[diagnostics.smtp.esc.5_7_8]
+what = "Hitelesítési adatok érvénytelenek."
+fix  = "Felhasználónév/jelszó elutasítva a SASL réteg által."
+
+[diagnostics.smtp.esc.5_7_57]
+what = "A kliens nem volt hitelesítve a MAIL FROM során az anonim levél küldéshez."
+fix  = "Kényszerítse a STARTTLS + AUTH lépést a MAIL FROM előtt.  O365-ben ez a tipikus hiba, ha a kliens AUTH nélkül csatlakozik."
+
+[diagnostics.smtp.esc.5_7_60]
+what = "SendAsDenied - a hitelesített felhasználó nem küldhet MINT ez a From cím."
+fix  = "Adjon a postafióknak 'Send As' (vagy 'Send on Behalf') jogot a hitelesített fiókhoz, vagy módosítsa a From fejlécet, hogy egyezzen a logginal."
+
+[diagnostics.smtp.esc.5_7_64]
+what = "TenantAttribution; Relay Access Denied."
+fix  = "A hitelesített SMTP-küldéshez licencelt postafiók szükséges az O365-ben."
+
+[diagnostics.smtp.esc.5_7_124]
+what = "A felhasználó nem jogosult levélküldésre."
+fix  = "Letiltott postafiók, Conditional Access blokkolja, vagy hiányzik a licenc."
+
+[diagnostics.smtp.esc.5_7_135]
+what = "Hitelesítés sikertelen, a felhasználói adatok lejártak."
+fix  = "Állítsa vissza a jelszót / frissítse az OAuth tokent."
+
+[diagnostics.smtp.esc.5_7_139]
+what = "Hitelesítés sikertelen; a kérés nem felelt meg a feltételeknek."
+fix  = "Egy Conditional Access szabály megtagadta a bejelentkezést (hely, eszköz, MFA)."
+
+[diagnostics.smtp.esc.5_7_500]
+what = "Hozzáférés megtagadva, küldő domain letiltva."
+fix  = "A feladó domainja blokkolva van kimenő levélre ezen a tenanton."
+
+[diagnostics.smtp.esc.5_7_501]
+what = "Hozzáférés megtagadva, kitiltott feladó."
+fix  = "A feladó címe a tenant blocklistájában van."
+
+[diagnostics.smtp.esc.5_7_508]
+what = "Hozzáférés megtagadva, sebesség- vagy forgalomküszöb átlépve."
+fix  = "Throttle-olva; várjon és próbálja újra, vagy kérje az admint a limit emelésére."
+
+[diagnostics.smtp.esc.5_7_511]
+what = "Hozzáférés megtagadva, kitiltott feladó."
+fix  = "A feladó spam-forrásként van megjelölve."
+
+[diagnostics.smtp.esc.5_7_606]
+what = "Hozzáférés megtagadva, kitiltott küldő IP."
+fix  = "A küldő IP a Microsoft blocklistjén van."
+
+[diagnostics.smtp.esc.5_7_708]
+what = "Szolgáltatás elutasítva.  A forrás IP rossz hírnévvel rendelkezik."
+fix  = "Küldjön másik IP-ről vagy kérjen delistinget."
+
+[diagnostics.smtp.esc.5_7_750]
+what = "A kliens blokkolva van nem regisztrált domainekről való küldéshez."
+fix  = "Ellenőrizze a feladó domainját a tenanton vagy használjon elfogadott domaint."
+
+[diagnostics.smtp.esc.5_1_0]
+what = "Feladó cím elutasítva."
+fix  = "From/MAIL FROM nem elfogadva; általában formátum vagy domain szabály."
+
+[diagnostics.smtp.esc.5_1_1]
+what = "Rossz célpostafiók - a címzett nem létezik."
+fix  = "Ellenőrizze a címzett címét."
+
+[diagnostics.smtp.esc.5_1_7]
+what = "Érvénytelen feladó cím (rosszul formázott)."
+fix  = "Javítsa a MAIL FROM szintaxisát."
+
+[diagnostics.smtp.esc.5_1_8]
+what = "Feladó domain nem engedélyezett."
+fix  = "A szerver nem fogadja el a domaint."
+
+[diagnostics.smtp.esc.5_1_10]
+what = "Címzett cím elutasítva - felhasználó ismeretlen."
+fix  = "Elgépelés vagy nem létező címzett."
+
+[diagnostics.smtp.esc.5_4_1]
+what = "Címzett cím elutasítva: hozzáférés megtagadva."
+fix  = "A címzett postafiókja elutasítja a leveleket ettől a feladótól / domaintől."
+
+[diagnostics.smtp.esc.5_2_1]
+what = "Postafiók letiltva, nem fogad üzeneteket."
+fix  = "Címzett postafiók felfüggesztve."
+
+[diagnostics.smtp.esc.5_2_2]
+what = "Postafiók megtelt."
+fix  = "A címzett kvótája túllépve."
+
+[diagnostics.smtp.esc.5_3_4]
+what = "Az üzenet túl nagy a rendszer számára."
+fix  = "Csökkentse az üzenet méretét."
+
+[diagnostics.smtp.esc.4_7_0]
+what = "Ideiglenes hitelesítési hiba / throttling."
+fix  = "Próbálja újra később; lehet tarpit is ismételt hibás bejelentkezésekre."
+
+[diagnostics.smtp.esc.4_4_2]
+what = "Kapcsolat megszakadt."
+fix  = "Hálózati zavar vagy szerver újraindítás; próbálja újra."
+
+[diagnostics.smtp.esc.4_3_2]
+what = "A rendszer nem fogad hálózati üzeneteket."
+fix  = "Szerver karbantartás."
+
+[diagnostics.imap.AUTHENTICATIONFAILED]
+hint = "IMAP bejelentkezés elutasítva - rossz jelszó, MFA app-password nélkül, vagy Basic Auth letiltva."
+
+[diagnostics.imap."LOGIN_failed"]
+hint = "IMAP bejelentkezés elutasítva a szerver által."
+
+[diagnostics.imap.ALERT]
+hint = "A szerver ALERT választ adott - olvassa el; adminisztrátor által meghatározott üzenet."
+
+[diagnostics.imap.UNAVAILABLE]
+hint = "Postafiók/szerver átmenetileg elérhetetlen."
+
+[diagnostics.imap.PRIVACYREQUIRED]
+hint = "A szerver TLS-t igényel LOGIN előtt - használja a STARTTLS-t vagy implicit SSL-t."
+
+[diagnostics.imap.CLIENTBUG]
+hint = "A kliens olyat tett, amit a szerver hibásnak tart; általában hiányzó STARTTLS vagy rossz állapot."
+
+[diagnostics.imap.LOGINDISABLED]
+hint = "Plain LOGIN le van tiltva ezen a szerveren - használja a STARTTLS/SSL-t vagy XOAUTH2-t."
+
+[diagnostics.pop.authentication_failed]
+hint = "POP3 bejelentkezés elutasítva - rossz hitelesítő adatok vagy POP letiltva ehhez a postafiókhoz."
+
+[diagnostics.pop.logon_failure]
+hint = "POP3 bejelentkezés elutasítva."
+
+[diagnostics.pop.not_implemented]
+hint = "A szerver nem támogatja a kiadott parancsot."
+
+[diagnostics.pop.disabled]
+hint = "A POP3 hozzáférés le van tiltva ehhez a fiókhoz / tenanthoz."
+
+[diagnostics.bounce.gmail_send_as_en]
+needle = "Send mail as"
+hint = "A Gmail 'Send mail as' upstream bejelentkezése meghiúsult.  Beállítások > Az összes beállítás megjelenítése > Fiókok és import > Küldés mint > Adatok szerkesztése > adja meg újra az SMTP jelszót (vagy app-passwordöt, ha a forrásfiókon van 2FA)."
+
+[diagnostics.bounce.gmail_send_as_nl]
+needle = "Mail sturen als"
+hint = "A Gmail 'Mail sturen als' (Send mail as) upstream bejelentkezése meghiúsult.  Beállítások > Az összes beállítás megjelenítése > Fiókok és import > Küldés mint > Adatok szerkesztése > adja meg újra az SMTP jelszót (vagy app-passwordöt, ha a forrásfiókon van 2FA)."
+
+[cli.prompt]
+username = "Felhasználónév / e-mail: "
+password = "Jelszó: "

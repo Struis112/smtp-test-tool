@@ -1,0 +1,275 @@
+# smtp-test-tool locale: Suomi (fi)
+# status: machine-translated, native review welcome.
+
+[app]
+name = "SMTP Test Tool"
+
+[locale]
+native_name = "Suomi"
+english_name = "Finnish"
+status_note = "Konekäännös - äidinkielisen tarkistus tervetullut."
+
+[ui.window]
+title = "SMTP Test Tool"
+
+[ui.topbar]
+profile_label = "Profiili:"
+save_config = "Tallenna määritys"
+save_config_tooltip = "Kirjoittaa aktiivisen profiilin takaisin määritystiedostoon suoritettavan tiedoston viereen."
+provider_preset = "Palveluntarjoajan esiasetus..."
+provider_preset_tooltip = "Soveltaa yhden valikoiduista palveluntarjoajan esiasetuksista alla oleviin isäntä / portti / suojaus -kenttiin."
+config_path_none = "ei määritystiedostoa"
+
+[ui.tab]
+servers = "Palvelimet"
+send_mail = "Lähetä viesti"
+tls_auth = "TLS / Auth"
+advanced = "Lisäasetukset"
+diagnose = "Analysoi hylkäys"
+
+[ui.servers]
+username = "Käyttäjänimi:"
+password = "Salasana:"
+show = "Näytä"
+oauth_token = "OAuth-token:"
+oauth_hint = "(XOAUTH2, valinnainen)"
+save_to_keychain = "Tallenna salasana avainnippuun"
+save_to_keychain_tooltip = "Tallentaa salasanan käyttöjärjestelmän avainnippuun (Windows Credential Manager / macOS Keychain / Linux Secret Service).  Ei koskaan kirjoiteta määritystiedostoon."
+forget_keychain = "Unohda avainnippumerkintä"
+forget_keychain_tooltip = "Poistaa smtp-test-tool-merkinnän tälle käyttäjälle käyttöjärjestelmän avainnipusta.  Yläpuolen salasanakenttä myös tyhjennetään."
+loaded_from_keychain = "(ladattu avainnipusta)"
+
+[ui.proto]
+test_smtp = "Testaa SMTP"
+test_imap = "Testaa IMAP"
+test_pop3 = "Testaa POP3"
+host = "Isäntä:"
+port = "Portti:"
+security = "Suojaus:"
+security_none = "ei mitään"
+security_starttls = "starttls"
+security_ssl = "ssl"
+
+[ui.send]
+toggle = "Lähetä todella testiviesti (muuten testataan vain AUTH)"
+mail_from = "MAIL FROM (kirjekuori):"
+from_header = "From: (otsikko):"
+to = "Vastaanottaja (pilkuilla erotettu):"
+cc = "Kopio (pilkuilla erotettu):"
+bcc = "Piilokopio (pilkuilla erotettu):"
+reply_to = "Vastaus:"
+subject = "Aihe:"
+body = "Sisältö:"
+
+[ui.tls]
+auth_mech = "SMTP AUTH -mekanismi:"
+insecure = "Poista varmenteen tarkistus käytöstä (TURVATON - vain testaukseen)"
+ca_bundle = "CA-paketti (PEM):"
+
+[ui.advanced]
+timeout = "Aikakatkaisu (s):"
+ehlo = "EHLO/HELO-nimi:"
+imap_folder = "IMAP-kansio:"
+log_level = "Lokitaso:"
+theme = "Teema:"
+language = "Kieli:"
+language_unsupported = "Käyttöjärjestelmäsi locale ({code}) ei ole vielä käännetty.  Tekstit näytetään englanniksi; osallistuminen tervetullutta."
+theme_follow_os = "Seuraa OS:ää ({hint})"
+theme_dark = "Tumma"
+theme_light = "Vaalea"
+
+[ui.actions]
+run_test = "Suorita testi"
+running = "Käynnissä..."
+clear_log = "Tyhjennä loki"
+
+[ui.status]
+smtp_idle = "SMTP: -"
+imap_idle = "IMAP: -"
+pop3_idle = "POP3: -"
+smtp_pass = "SMTP: HYVÄKSYTTY"
+imap_pass = "IMAP: HYVÄKSYTTY"
+pop3_pass = "POP3: HYVÄKSYTTY"
+smtp_fail = "SMTP: HYLÄTTY"
+imap_fail = "IMAP: HYLÄTTY"
+pop3_fail = "POP3: HYLÄTTY"
+smtp_skip = "SMTP: ohitettu"
+imap_skip = "IMAP: ohitettu"
+pop3_skip = "POP3: ohitettu"
+
+[ui.diagnose]
+intro = "Liitä alle toimittamatta jättämisen viestin runko poimiaksesi IT-toiminta-vinkit.  Tunnistaa SMTP enhanced status -koodit (5.7.139, 5.7.60), Microsoft 365 -fraasit (\"basic authentication is disabled\") ja webmail-puolen hylkäykset kuten Gmailin \"Send mail as / Mail sturen als\".  Mitään ei lähetetä verkon yli ja tekstiä ei tallenneta levylle."
+input_placeholder = "Liitä hylkäyksen runko tähän..."
+analyse = "Analysoi"
+clear = "Tyhjennä"
+hints_heading = "Vinkit"
+no_hints_yet = "(ei vinkkejä vielä - liitä hylkäys yllä ja klikkaa Analysoi)"
+
+[ui.log]
+heading = "Loki"
+
+[diagnostics.scaffold]
+esc_prefix = "ESC {code}: {what}"
+action_prefix = "  -> Toimenpide: {fix}"
+hint_prefix = "  -> {hint}"
+
+[diagnostics.smtp.esc.5_7_0]
+what = "Todennus vaaditaan tai valittu AUTH-mekanismi ei ole sallittu."
+fix  = "Ota SMTP AUTH käyttöön postilaatikolle; varmista, että LOGIN / PLAIN / XOAUTH2 on sallittu."
+
+[diagnostics.smtp.esc.5_7_1]
+what = "Relay-pääsy estetty - palvelin kieltäytyy välittämästä tätä viestiä."
+fix  = "Joko lähettäjä ei ole todennettu, vastaanottaja on ulkoinen ja relay on poistettu käytöstä, tai transport rule estää viestin."
+
+[diagnostics.smtp.esc.5_7_3]
+what = "Todennus epäonnistui."
+fix  = "Väärä salasana, MFA käytössä ilman app-passwordia, tai Basic/Legacy auth poistettu käytöstä vuokraajalla (O365: 'SMTP AUTH disabled')."
+
+[diagnostics.smtp.esc.5_7_8]
+what = "Todennustiedot virheellisiä."
+fix  = "SASL-kerros hylkäsi käyttäjänimen/salasanan."
+
+[diagnostics.smtp.esc.5_7_57]
+what = "Asiakasta ei todennettu lähettämään anonyymiä postia MAIL FROM:n aikana."
+fix  = "Pakota STARTTLS + AUTH ennen MAIL FROMia.  O365:ssä tämä on tyypillinen virhe, kun asiakas yhdistää ilman AUTHia."
+
+[diagnostics.smtp.esc.5_7_60]
+what = "SendAsDenied - todennettu käyttäjä ei saa lähettää NIMENÄ tämä From-osoite."
+fix  = "Myönnä postilaatikolle 'Send As' (tai 'Send on Behalf') -oikeudet todennetulle tilille tai vaihda From-otsikko vastaamaan kirjautumista."
+
+[diagnostics.smtp.esc.5_7_64]
+what = "TenantAttribution; Relay Access Denied."
+fix  = "Todennettu SMTP-lähetys vaatii lisensoidun postilaatikon O365:ssä."
+
+[diagnostics.smtp.esc.5_7_124]
+what = "Käyttäjällä ei ole oikeutta lähettää postia."
+fix  = "Käytöstä poistettu postilaatikko, Conditional Access estää, tai puuttuva lisenssi."
+
+[diagnostics.smtp.esc.5_7_135]
+what = "Todennus epäonnistui, käyttäjätiedot ovat vanhentuneet."
+fix  = "Nollaa salasana / päivitä OAuth-token."
+
+[diagnostics.smtp.esc.5_7_139]
+what = "Todennus epäonnistui; pyyntö ei täyttänyt kriteerejä."
+fix  = "Conditional Access -käytäntö hylkäsi kirjautumisen (sijainti, laite, MFA)."
+
+[diagnostics.smtp.esc.5_7_500]
+what = "Pääsy estetty, lähettävä toimialue poistettu käytöstä."
+fix  = "Lähettäjän toimialue on estetty lähtevälle postille tässä vuokraajassa."
+
+[diagnostics.smtp.esc.5_7_501]
+what = "Pääsy estetty, kielletty lähettäjä."
+fix  = "Lähettäjän osoite on vuokraajan blocklist-listalla."
+
+[diagnostics.smtp.esc.5_7_508]
+what = "Pääsy estetty, nopeus- tai liikennekynnys ylitetty."
+fix  = "Throttled; odota ja yritä uudelleen, tai pyydä ylläpitäjää nostamaan rajaa."
+
+[diagnostics.smtp.esc.5_7_511]
+what = "Pääsy estetty, kielletty lähettäjä."
+fix  = "Lähettäjä merkitty roskapostin lähteeksi."
+
+[diagnostics.smtp.esc.5_7_606]
+what = "Pääsy estetty, kielletty lähettävä IP."
+fix  = "Lähettävä IP on Microsoftin blocklist-listalla."
+
+[diagnostics.smtp.esc.5_7_708]
+what = "Palvelu hylätty.  Lähde-IP:llä on huono maine."
+fix  = "Lähetä toisesta IP:stä tai pyydä delistingiä."
+
+[diagnostics.smtp.esc.5_7_750]
+what = "Asiakas estetty lähettämästä rekisteröimättömistä toimialueista."
+fix  = "Varmenna lähettäjän toimialue vuokraajassa tai käytä hyväksyttyä toimialuetta."
+
+[diagnostics.smtp.esc.5_1_0]
+what = "Lähettäjän osoite hylätty."
+fix  = "From/MAIL FROM ei hyväksytty; yleensä muoto- tai toimialue-käytäntö."
+
+[diagnostics.smtp.esc.5_1_1]
+what = "Väärä kohdepostilaatikko - vastaanottajaa ei ole."
+fix  = "Tarkista vastaanottajan osoite."
+
+[diagnostics.smtp.esc.5_1_7]
+what = "Virheellinen lähettäjän osoite (väärin muotoiltu)."
+fix  = "Korjaa MAIL FROM -syntaksi."
+
+[diagnostics.smtp.esc.5_1_8]
+what = "Lähettäjän toimialue ei sallittu."
+fix  = "Palvelin ei hyväksy toimialuetta."
+
+[diagnostics.smtp.esc.5_1_10]
+what = "Vastaanottajan osoite hylätty - käyttäjä tuntematon."
+fix  = "Kirjoitusvirhe tai olematon vastaanottaja."
+
+[diagnostics.smtp.esc.5_4_1]
+what = "Vastaanottajan osoite hylätty: pääsy estetty."
+fix  = "Vastaanottajan postilaatikko hylkää viestit tältä lähettäjältä / toimialueelta."
+
+[diagnostics.smtp.esc.5_2_1]
+what = "Postilaatikko poistettu käytöstä, ei hyväksy viestejä."
+fix  = "Vastaanottajan postilaatikko keskeytetty."
+
+[diagnostics.smtp.esc.5_2_2]
+what = "Postilaatikko täynnä."
+fix  = "Vastaanottajan kiintiö ylittyi."
+
+[diagnostics.smtp.esc.5_3_4]
+what = "Viesti liian suuri järjestelmälle."
+fix  = "Pienennä viestin kokoa."
+
+[diagnostics.smtp.esc.4_7_0]
+what = "Tilapäinen todennusvirhe / throttling."
+fix  = "Yritä myöhemmin uudelleen; voi olla myös tarpit toistuville virheellisille kirjautumisille."
+
+[diagnostics.smtp.esc.4_4_2]
+what = "Yhteys katkesi."
+fix  = "Verkkokatkos tai palvelimen uudelleenkäynnistys; yritä uudelleen."
+
+[diagnostics.smtp.esc.4_3_2]
+what = "Järjestelmä ei hyväksy verkkoviestejä."
+fix  = "Palvelimen huolto."
+
+[diagnostics.imap.AUTHENTICATIONFAILED]
+hint = "IMAP-kirjautuminen hylätty - väärä salasana, MFA ilman app-passwordia, tai Basic Auth poistettu käytöstä."
+
+[diagnostics.imap."LOGIN_failed"]
+hint = "IMAP-kirjautuminen palvelimen hylkäämä."
+
+[diagnostics.imap.ALERT]
+hint = "Palvelin palautti ALERT-vastauksen - lue se; ylläpitäjän määrittämä viesti."
+
+[diagnostics.imap.UNAVAILABLE]
+hint = "Postilaatikko/palvelin tilapäisesti ei käytettävissä."
+
+[diagnostics.imap.PRIVACYREQUIRED]
+hint = "Palvelin vaatii TLS:n ennen LOGINia - käytä STARTTLS tai implisiittinen SSL."
+
+[diagnostics.imap.CLIENTBUG]
+hint = "Asiakas teki jotain, mitä palvelin pitää virheellisenä; yleensä puuttuva STARTTLS tai väärä tila."
+
+[diagnostics.imap.LOGINDISABLED]
+hint = "Plain LOGIN on poistettu käytöstä tällä palvelimella - käytä STARTTLS/SSL tai XOAUTH2."
+
+[diagnostics.pop.authentication_failed]
+hint = "POP3-kirjautuminen hylätty - väärät tiedot tai POP poistettu käytöstä tälle postilaatikolle."
+
+[diagnostics.pop.logon_failure]
+hint = "POP3-kirjautuminen hylätty."
+
+[diagnostics.pop.not_implemented]
+hint = "Palvelin ei tue annettua komentoa."
+
+[diagnostics.pop.disabled]
+hint = "POP3-pääsy on poistettu käytöstä tältä tililtä / vuokraajalta."
+
+[diagnostics.bounce.gmail_send_as_en]
+needle = "Send mail as"
+hint = "Gmailin upstream-kirjautuminen 'Send mail as' epäonnistui.  Asetukset > Näytä kaikki asetukset > Tilit ja tuonti > Lähetä viesti nimellä > Muokkaa tietoja > anna SMTP-salasana uudelleen (tai app-password, jos lähdetilillä on 2FA)."
+
+[diagnostics.bounce.gmail_send_as_nl]
+needle = "Mail sturen als"
+hint = "Gmailin upstream-kirjautuminen 'Mail sturen als' (Send mail as) epäonnistui.  Asetukset > Näytä kaikki asetukset > Tilit ja tuonti > Lähetä viesti nimellä > Muokkaa tietoja > anna SMTP-salasana uudelleen (tai app-password, jos lähdetilillä on 2FA)."
+
+[cli.prompt]
+username = "Käyttäjänimi / sähköposti: "
+password = "Salasana: "

@@ -1,0 +1,275 @@
+# smtp-test-tool locale: Български (bg)
+# status: machine-translated, native review welcome.
+
+[app]
+name = "SMTP Test Tool"
+
+[locale]
+native_name = "Български"
+english_name = "Bulgarian"
+status_note = "Машинен превод - редакция от носител на езика добре дошла."
+
+[ui.window]
+title = "SMTP Test Tool"
+
+[ui.topbar]
+profile_label = "Профил:"
+save_config = "Запазване на конфигурацията"
+save_config_tooltip = "Записва активния профил обратно в конфигурационния файл до изпълнимия файл."
+provider_preset = "Предварителна настройка на доставчик..."
+provider_preset_tooltip = "Прилага една от подбраните предварителни настройки на доставчици към полетата хост / порт / сигурност по-долу."
+config_path_none = "няма конфигурационен файл"
+
+[ui.tab]
+servers = "Сървъри"
+send_mail = "Изпращане на писмо"
+tls_auth = "TLS / Auth"
+advanced = "Разширени"
+diagnose = "Анализ на отказ"
+
+[ui.servers]
+username = "Потребителско име:"
+password = "Парола:"
+show = "Показване"
+oauth_token = "OAuth токен:"
+oauth_hint = "(XOAUTH2, по избор)"
+save_to_keychain = "Запазване на парола в ключодържателя"
+save_to_keychain_tooltip = "Запазва паролата в ключодържателя на ОС (Windows Credential Manager / macOS Keychain / Linux Secret Service).  Никога не се записва в конфигурационния файл."
+forget_keychain = "Забравяне на запис в ключодържателя"
+forget_keychain_tooltip = "Изтрива записа на smtp-test-tool за този потребител от ключодържателя на ОС.  Полето на паролата по-горе също се изчиства."
+loaded_from_keychain = "(заредено от ключодържателя)"
+
+[ui.proto]
+test_smtp = "Тест на SMTP"
+test_imap = "Тест на IMAP"
+test_pop3 = "Тест на POP3"
+host = "Хост:"
+port = "Порт:"
+security = "Сигурност:"
+security_none = "няма"
+security_starttls = "starttls"
+security_ssl = "ssl"
+
+[ui.send]
+toggle = "Действително изпращане на тестово писмо (иначе се тества само AUTH)"
+mail_from = "MAIL FROM (плик):"
+from_header = "From: (заглавие):"
+to = "До (разделени със запетаи):"
+cc = "Cc (разделени със запетаи):"
+bcc = "Bcc (разделени със запетаи):"
+reply_to = "Отговор до:"
+subject = "Тема:"
+body = "Съдържание:"
+
+[ui.tls]
+auth_mech = "SMTP AUTH механизъм:"
+insecure = "Изключване на проверката на сертификати (НЕЗАЩИТЕНО - само за тест)"
+ca_bundle = "CA пакет (PEM):"
+
+[ui.advanced]
+timeout = "Изчакване (с):"
+ehlo = "EHLO/HELO име:"
+imap_folder = "IMAP папка:"
+log_level = "Ниво на лог:"
+theme = "Тема:"
+language = "Език:"
+language_unsupported = "Вашата ОС локала ({code}) все още не е преведена.  Текстовете се показват на английски; приноси добре дошли."
+theme_follow_os = "Следване на ОС ({hint})"
+theme_dark = "Тъмна"
+theme_light = "Светла"
+
+[ui.actions]
+run_test = "Изпълнение на теста"
+running = "В процес..."
+clear_log = "Изчистване на лога"
+
+[ui.status]
+smtp_idle = "SMTP: -"
+imap_idle = "IMAP: -"
+pop3_idle = "POP3: -"
+smtp_pass = "SMTP: УСПЕХ"
+imap_pass = "IMAP: УСПЕХ"
+pop3_pass = "POP3: УСПЕХ"
+smtp_fail = "SMTP: НЕУСПЕХ"
+imap_fail = "IMAP: НЕУСПЕХ"
+pop3_fail = "POP3: НЕУСПЕХ"
+smtp_skip = "SMTP: пропуснат"
+imap_skip = "IMAP: пропуснат"
+pop3_skip = "POP3: пропуснат"
+
+[ui.diagnose]
+intro = "Поставете по-долу тялото на съобщение за неуспешна доставка, за да извлечете полезни за ИТ съвети.  Разпознава SMTP enhanced status кодове (5.7.139, 5.7.60), фрази на Microsoft 365 (\"basic authentication is disabled\") и уеб-страни откази като \"Send mail as / Mail sturen als\" на Gmail.  Нищо не се изпраща по мрежата и текстът не се записва на диска."
+input_placeholder = "Поставете тук тялото на отказа..."
+analyse = "Анализ"
+clear = "Изчистване"
+hints_heading = "Съвети"
+no_hints_yet = "(все още няма съвети - поставете отказ горе и щракнете Анализ)"
+
+[ui.log]
+heading = "Лог"
+
+[diagnostics.scaffold]
+esc_prefix = "ESC {code}: {what}"
+action_prefix = "  -> Действие: {fix}"
+hint_prefix = "  -> {hint}"
+
+[diagnostics.smtp.esc.5_7_0]
+what = "Изисква се удостоверяване или избраният механизъм AUTH не е разрешен."
+fix  = "Разрешете SMTP AUTH за пощенската кутия; проверете дали LOGIN / PLAIN / XOAUTH2 е разрешен."
+
+[diagnostics.smtp.esc.5_7_1]
+what = "Достъп до relay отказан - сървърът отказва да препрати това съобщение."
+fix  = "Или подателят не е удостоверен, получателят е външен и relay е изключен, или transport rule блокира съобщението."
+
+[diagnostics.smtp.esc.5_7_3]
+what = "Удостоверяването неуспешно."
+fix  = "Грешна парола, MFA активиран без app-password, или Basic/Legacy auth изключен на tenant (O365: 'SMTP AUTH disabled')."
+
+[diagnostics.smtp.esc.5_7_8]
+what = "Невалидни идентификационни данни."
+fix  = "Потребителско име/парола отхвърлени от SASL слоя."
+
+[diagnostics.smtp.esc.5_7_57]
+what = "Клиентът не беше удостоверен за изпращане на анонимна поща по време на MAIL FROM."
+fix  = "Принудете STARTTLS + AUTH преди MAIL FROM.  В O365 това е типичната грешка, когато клиентът се свързва без AUTH."
+
+[diagnostics.smtp.esc.5_7_60]
+what = "SendAsDenied - удостовереният потребител не може да изпраща КАТО този From адрес."
+fix  = "Предоставете на пощенската кутия права 'Send As' (или 'Send on Behalf') за удостоверения акаунт, или променете From заглавието да съвпада с логина."
+
+[diagnostics.smtp.esc.5_7_64]
+what = "TenantAttribution; Relay Access Denied."
+fix  = "Удостоверена SMTP submission изисква лицензирана пощенска кутия в O365."
+
+[diagnostics.smtp.esc.5_7_124]
+what = "Потребителят не е оторизиран да изпраща поща."
+fix  = "Изключена пощенска кутия, блокирана от Conditional Access, или липсва лиценз."
+
+[diagnostics.smtp.esc.5_7_135]
+what = "Удостоверяването неуспешно, потребителските данни са изтекли."
+fix  = "Възстановете паролата / обновете OAuth токена."
+
+[diagnostics.smtp.esc.5_7_139]
+what = "Удостоверяването неуспешно; заявката не отговаряше на критериите."
+fix  = "Политика на Conditional Access отказа входа (местоположение, устройство, MFA)."
+
+[diagnostics.smtp.esc.5_7_500]
+what = "Достъп отказан, изпращащият домейн е изключен."
+fix  = "Домейнът на подателя е блокиран за изходяща поща на този tenant."
+
+[diagnostics.smtp.esc.5_7_501]
+what = "Достъп отказан, забранен подател."
+fix  = "Адресът на подателя е в blocklist на tenant."
+
+[diagnostics.smtp.esc.5_7_508]
+what = "Достъп отказан, превишен праг на скорост или трафик."
+fix  = "Throttle; изчакайте и опитайте отново, или помолете админа да повиши лимита."
+
+[diagnostics.smtp.esc.5_7_511]
+what = "Достъп отказан, забранен подател."
+fix  = "Подателят е маркиран като източник на спам."
+
+[diagnostics.smtp.esc.5_7_606]
+what = "Достъп отказан, забранен изпращащ IP."
+fix  = "Изпращащият IP е в blocklist на Microsoft."
+
+[diagnostics.smtp.esc.5_7_708]
+what = "Услугата отказана.  Изходният IP има лоша репутация."
+fix  = "Изпратете от друг IP или поискайте delisting."
+
+[diagnostics.smtp.esc.5_7_750]
+what = "Клиент блокиран за изпращане от нерегистрирани домейни."
+fix  = "Проверете домейна на подателя в tenant или използвайте приет домейн."
+
+[diagnostics.smtp.esc.5_1_0]
+what = "Адресът на подателя отхвърлен."
+fix  = "From/MAIL FROM не приет; обикновено формат или политика на домейн."
+
+[diagnostics.smtp.esc.5_1_1]
+what = "Грешна пощенска кутия на местоназначение - получателят не съществува."
+fix  = "Проверете адреса на получателя."
+
+[diagnostics.smtp.esc.5_1_7]
+what = "Невалиден адрес на подател (зле форматиран)."
+fix  = "Поправете синтаксиса на MAIL FROM."
+
+[diagnostics.smtp.esc.5_1_8]
+what = "Домейнът на подателя не е разрешен."
+fix  = "Домейнът не се приема от сървъра."
+
+[diagnostics.smtp.esc.5_1_10]
+what = "Адресът на получателя отхвърлен - потребителят е неизвестен."
+fix  = "Печатна грешка или несъществуващ получател."
+
+[diagnostics.smtp.esc.5_4_1]
+what = "Адресът на получателя отхвърлен: достъп отказан."
+fix  = "Пощенската кутия на получателя отказва съобщения от този подател / домейн."
+
+[diagnostics.smtp.esc.5_2_1]
+what = "Пощенската кутия изключена, не приема съобщения."
+fix  = "Пощенската кутия на получателя суспендирана."
+
+[diagnostics.smtp.esc.5_2_2]
+what = "Пощенската кутия пълна."
+fix  = "Квотата на получателя надхвърлена."
+
+[diagnostics.smtp.esc.5_3_4]
+what = "Съобщението твърде голямо за системата."
+fix  = "Намалете размера на съобщението."
+
+[diagnostics.smtp.esc.4_7_0]
+what = "Временен неуспех на удостоверяване / throttling."
+fix  = "Опитайте отново по-късно; може да е и tarpit за повтарящи се грешни входвания."
+
+[diagnostics.smtp.esc.4_4_2]
+what = "Връзката прекъсната."
+fix  = "Мрежова дисфункция или рестарт на сървъра; опитайте отново."
+
+[diagnostics.smtp.esc.4_3_2]
+what = "Системата не приема мрежови съобщения."
+fix  = "Поддръжка на сървъра."
+
+[diagnostics.imap.AUTHENTICATIONFAILED]
+hint = "IMAP вход отхвърлен - грешна парола, MFA без app-password, или Basic Auth изключен."
+
+[diagnostics.imap."LOGIN_failed"]
+hint = "IMAP вход отхвърлен от сървъра."
+
+[diagnostics.imap.ALERT]
+hint = "Сървърът върна ALERT отговор - прочетете го; съобщение, дефинирано от администратор."
+
+[diagnostics.imap.UNAVAILABLE]
+hint = "Пощенска кутия/сървър временно недостъпни."
+
+[diagnostics.imap.PRIVACYREQUIRED]
+hint = "Сървърът изисква TLS преди LOGIN - използвайте STARTTLS или имплицитен SSL."
+
+[diagnostics.imap.CLIENTBUG]
+hint = "Клиентът направи нещо, което сървърът смята за грешно; обикновено липсва STARTTLS или грешно състояние."
+
+[diagnostics.imap.LOGINDISABLED]
+hint = "Plain LOGIN е изключен на този сървър - използвайте STARTTLS/SSL или XOAUTH2."
+
+[diagnostics.pop.authentication_failed]
+hint = "POP3 вход отхвърлен - грешни данни или POP изключен за тази пощенска кутия."
+
+[diagnostics.pop.logon_failure]
+hint = "POP3 вход отхвърлен."
+
+[diagnostics.pop.not_implemented]
+hint = "Сървърът не поддържа издадената команда."
+
+[diagnostics.pop.disabled]
+hint = "POP3 достъпът е изключен за този акаунт / tenant."
+
+[diagnostics.bounce.gmail_send_as_en]
+needle = "Send mail as"
+hint = "Upstream вход 'Send mail as' на Gmail неуспешен.  Настройки > Вижте всички настройки > Акаунти и импортиране > Изпращане като > Редактиране на информацията > въведете отново SMTP паролата (или app-password ако изходният акаунт има 2FA)."
+
+[diagnostics.bounce.gmail_send_as_nl]
+needle = "Mail sturen als"
+hint = "Upstream вход 'Mail sturen als' (Send mail as) на Gmail неуспешен.  Настройки > Вижте всички настройки > Акаунти и импортиране > Изпращане като > Редактиране на информацията > въведете отново SMTP паролата (или app-password ако изходният акаунт има 2FA)."
+
+[cli.prompt]
+username = "Потребителско име / имейл: "
+password = "Парола: "

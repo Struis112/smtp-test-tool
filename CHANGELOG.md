@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-05-22
+
 ### Added
 - **Internationalisation framework** (`src/i18n.rs`) with TOML-backed
   translation tables, compile-time embedded, no extra dep beyond the
@@ -28,20 +30,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Localised CLI prompts** plus a new `--locale CODE` flag.
 - **`Profile.locale`** (TOML field) for explicit per-profile
   language override; `None` = auto-detect each launch.
-- **7 shipped languages**: `en` (base, hand-maintained), `nl`
-  (native quality), plus `de` / `es` / `fr` / `it` / `pt`
-  machine-translated with each file's `locale.status_note` flagging
-  review status.
+- **25 shipped languages**: `en` (base, hand-maintained), `nl`
+  (native quality), plus 23 machine-translated languages covering
+  the full Latin / Cyrillic / Greek script range: `bg`, `cs`, `da`,
+  `de`, `el`, `es`, `fi`, `fr`, `hr`, `hu`, `id`, `it`, `no`, `pl`,
+  `pt`, `ro`, `ru`, `sk`, `sr`, `sv`, `tr`, `uk`, `vi`.  Each
+  machine-translated file's `locale.status_note` flags review
+  status in that file's own language.
 - **`CONTRIBUTING.md`** gains a `## Translations` section with two
   recipes: how to native-review a machine-translated file, and how
   to add a brand-new language.
 
 ### Known issues
-- **Language coverage**: 7 of the planned 25 ship in this commit
-  series (en, nl, de, es, fr, it, pt).  The framework supports more;
-  follow-up commits or community PRs can add the remaining 18
-  (pl, cs, sk, hu, ro, hr, bg, sr, sv, da, no, fi, tr, vi, id, ru,
-  uk, el).  Recipe in `CONTRIBUTING.md`.
+- **CJK / Indic / Arabic / Thai not yet shipped.**  eframe's bundled
+  fonts cover Latin + Cyrillic + Greek; shipping Chinese / Japanese /
+  Korean / Hindi / Bengali / Tamil / Telugu / Arabic / Persian / Urdu /
+  Thai requires either bundling Noto fonts (≈30-40 MB binary growth)
+  or implementing OS-font discovery (via `font-kit` or hand-rolled).
+  Tracked as a future-work item.
 - The `docs/screenshots/gui-{dark,light}.png` files in this release
   show the GUI at v0.1.1: the Provider-preset menu + full-width
   credentials fields are visible, but the new keychain Save/Forget
@@ -170,7 +176,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   baseline, dark+light mode on every OS is mandatory, atomic
   conventional commits, no shortcuts.
 
-[Unreleased]: https://github.com/Struis112/smtp-test-tool/compare/v0.1.2...HEAD
+[Unreleased]: https://github.com/Struis112/smtp-test-tool/compare/v0.1.3...HEAD
+[0.1.3]: https://github.com/Struis112/smtp-test-tool/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/Struis112/smtp-test-tool/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/Struis112/smtp-test-tool/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/Struis112/smtp-test-tool/releases/tag/v0.1.0

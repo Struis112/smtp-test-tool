@@ -43,23 +43,62 @@ pub const BASE: &str = "en";
 // a translation.  The build will fail on missing file, which is the
 // behaviour we want - a stray entry in LOCALES with no source file would
 // be a quieter footgun.
+// Native-quality (hand-maintained or native-reviewed):
 const EN_TOML: &str = include_str!("../locales/en.toml");
 const NL_TOML: &str = include_str!("../locales/nl.toml");
+// Machine-translated (each file's locale.status_note documents this):
+const BG_TOML: &str = include_str!("../locales/bg.toml");
+const CS_TOML: &str = include_str!("../locales/cs.toml");
+const DA_TOML: &str = include_str!("../locales/da.toml");
 const DE_TOML: &str = include_str!("../locales/de.toml");
+const EL_TOML: &str = include_str!("../locales/el.toml");
 const ES_TOML: &str = include_str!("../locales/es.toml");
+const FI_TOML: &str = include_str!("../locales/fi.toml");
 const FR_TOML: &str = include_str!("../locales/fr.toml");
+const HR_TOML: &str = include_str!("../locales/hr.toml");
+const HU_TOML: &str = include_str!("../locales/hu.toml");
+const ID_TOML: &str = include_str!("../locales/id.toml");
 const IT_TOML: &str = include_str!("../locales/it.toml");
+const NO_TOML: &str = include_str!("../locales/no.toml");
+const PL_TOML: &str = include_str!("../locales/pl.toml");
 const PT_TOML: &str = include_str!("../locales/pt.toml");
+const RO_TOML: &str = include_str!("../locales/ro.toml");
+const RU_TOML: &str = include_str!("../locales/ru.toml");
+const SK_TOML: &str = include_str!("../locales/sk.toml");
+const SR_TOML: &str = include_str!("../locales/sr.toml");
+const SV_TOML: &str = include_str!("../locales/sv.toml");
+const TR_TOML: &str = include_str!("../locales/tr.toml");
+const UK_TOML: &str = include_str!("../locales/uk.toml");
+const VI_TOML: &str = include_str!("../locales/vi.toml");
 
-/// Codes of every shipped locale, sorted.  Wired by [`available_locales`].
+/// Codes of every shipped locale.  Order = alphabetical except `en` first
+/// (it is the base / fallback target).  Wired by [`available_locales`].
 const LOCALES: &[(&str, &str)] = &[
     ("en", EN_TOML),
-    ("nl", NL_TOML),
+    ("bg", BG_TOML),
+    ("cs", CS_TOML),
+    ("da", DA_TOML),
     ("de", DE_TOML),
+    ("el", EL_TOML),
     ("es", ES_TOML),
+    ("fi", FI_TOML),
     ("fr", FR_TOML),
+    ("hr", HR_TOML),
+    ("hu", HU_TOML),
+    ("id", ID_TOML),
     ("it", IT_TOML),
+    ("nl", NL_TOML),
+    ("no", NO_TOML),
+    ("pl", PL_TOML),
     ("pt", PT_TOML),
+    ("ro", RO_TOML),
+    ("ru", RU_TOML),
+    ("sk", SK_TOML),
+    ("sr", SR_TOML),
+    ("sv", SV_TOML),
+    ("tr", TR_TOML),
+    ("uk", UK_TOML),
+    ("vi", VI_TOML),
 ];
 
 // ---- runtime tables ------------------------------------------------------

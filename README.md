@@ -36,22 +36,41 @@ language picker limited to **your OS locale + English** — deliberately
 two options at most, so the UI does not grow with the translation
 set.
 
-Shipped in v0.1.3:
+Shipped in v0.1.3 — **25 languages**:
 
 | Code | Native name | Status |
 |------|-------------|--------|
 | `en` | English | base, hand-maintained |
 | `nl` | Nederlands | native quality |
+| `bg` | Български | machine-translated, native review welcome |
+| `cs` | Čeština | machine-translated, native review welcome |
+| `da` | Dansk | machine-translated, native review welcome |
 | `de` | Deutsch | machine-translated, native review welcome |
+| `el` | Ελληνικά | machine-translated, native review welcome |
 | `es` | Español | machine-translated, native review welcome |
+| `fi` | Suomi | machine-translated, native review welcome |
 | `fr` | Français | machine-translated, native review welcome |
+| `hr` | Hrvatski | machine-translated, native review welcome |
+| `hu` | Magyar | machine-translated, native review welcome |
+| `id` | Bahasa Indonesia | machine-translated, native review welcome |
 | `it` | Italiano | machine-translated, native review welcome |
+| `no` | Norsk | machine-translated, native review welcome |
+| `pl` | Polski | machine-translated, native review welcome |
 | `pt` | Português | machine-translated, native review welcome |
+| `ro` | Română | machine-translated, native review welcome |
+| `ru` | Русский | machine-translated, native review welcome |
+| `sk` | Slovenčina | machine-translated, native review welcome |
+| `sr` | Srpski | machine-translated, native review welcome |
+| `sv` | Svenska | machine-translated, native review welcome |
+| `tr` | Türkçe | machine-translated, native review welcome |
+| `uk` | Українська | machine-translated, native review welcome |
+| `vi` | Tiếng Việt | machine-translated, native review welcome |
 
-More languages can be added by dropping a `locales/<code>.toml` file
-in and adding two lines to `src/i18n.rs`.  See
-[`CONTRIBUTING.md` § Translations](CONTRIBUTING.md#translations) for
-the full recipe — PRs welcome.
+All shipped locales render correctly with eframe's bundled fonts
+(Latin / Cyrillic / Greek scripts).  CJK, Indic, Arabic, and Thai
+locales need extra font bundling and will land in a future release.
+See [`CONTRIBUTING.md` § Translations](CONTRIBUTING.md#translations)
+for the native-review recipe — PRs welcome.
 
 ## Features
 

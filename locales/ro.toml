@@ -1,0 +1,275 @@
+# smtp-test-tool locale: Română (ro)
+# status: machine-translated, native review welcome.
+
+[app]
+name = "SMTP Test Tool"
+
+[locale]
+native_name = "Română"
+english_name = "Romanian"
+status_note = "Traducere automată - recenzie de vorbitor nativ binevenită."
+
+[ui.window]
+title = "SMTP Test Tool"
+
+[ui.topbar]
+profile_label = "Profil:"
+save_config = "Salvează configurația"
+save_config_tooltip = "Scrie profilul activ înapoi în fișierul de configurație de lângă executabil."
+provider_preset = "Presetare furnizor..."
+provider_preset_tooltip = "Aplică una dintre presetările de furnizori asupra câmpurilor gazdă / port / securitate de mai jos."
+config_path_none = "fără fișier de configurație"
+
+[ui.tab]
+servers = "Servere"
+send_mail = "Trimite mesaj"
+tls_auth = "TLS / Auth"
+advanced = "Avansat"
+diagnose = "Analizează respingerea"
+
+[ui.servers]
+username = "Nume utilizator:"
+password = "Parolă:"
+show = "Arată"
+oauth_token = "Token OAuth:"
+oauth_hint = "(XOAUTH2, opțional)"
+save_to_keychain = "Salvează parola în breloc"
+save_to_keychain_tooltip = "Salvează parola în brelocul sistemului de operare (Windows Credential Manager / macOS Keychain / Linux Secret Service).  Niciodată nu este scrisă în fișierul de configurație."
+forget_keychain = "Uită intrarea din breloc"
+forget_keychain_tooltip = "Șterge intrarea smtp-test-tool pentru acest utilizator din brelocul OS.  Câmpul parolei de mai sus este și el golit."
+loaded_from_keychain = "(încărcată din breloc)"
+
+[ui.proto]
+test_smtp = "Testează SMTP"
+test_imap = "Testează IMAP"
+test_pop3 = "Testează POP3"
+host = "Gazdă:"
+port = "Port:"
+security = "Securitate:"
+security_none = "niciuna"
+security_starttls = "starttls"
+security_ssl = "ssl"
+
+[ui.send]
+toggle = "Trimite efectiv un mesaj de test (altfel doar AUTH este testat)"
+mail_from = "MAIL FROM (plic):"
+from_header = "From: (antet):"
+to = "Către (separate prin virgule):"
+cc = "Cc (separate prin virgule):"
+bcc = "Bcc (separate prin virgule):"
+reply_to = "Răspunde la:"
+subject = "Subiect:"
+body = "Conținut:"
+
+[ui.tls]
+auth_mech = "Mecanism SMTP AUTH:"
+insecure = "Dezactivează verificarea certificatului (NESIGUR - doar pentru test)"
+ca_bundle = "Pachet CA (PEM):"
+
+[ui.advanced]
+timeout = "Timeout (s):"
+ehlo = "Nume EHLO/HELO:"
+imap_folder = "Folder IMAP:"
+log_level = "Nivel log:"
+theme = "Temă:"
+language = "Limbă:"
+language_unsupported = "Locala OS ({code}) nu este încă tradusă.  Textele sunt afișate în engleză; contribuții binevenite."
+theme_follow_os = "Urmează OS ({hint})"
+theme_dark = "Întunecat"
+theme_light = "Luminos"
+
+[ui.actions]
+run_test = "Rulează testul"
+running = "În curs..."
+clear_log = "Curăță logul"
+
+[ui.status]
+smtp_idle = "SMTP: -"
+imap_idle = "IMAP: -"
+pop3_idle = "POP3: -"
+smtp_pass = "SMTP: TRECUT"
+imap_pass = "IMAP: TRECUT"
+pop3_pass = "POP3: TRECUT"
+smtp_fail = "SMTP: EȘUAT"
+imap_fail = "IMAP: EȘUAT"
+pop3_fail = "POP3: EȘUAT"
+smtp_skip = "SMTP: omis"
+imap_skip = "IMAP: omis"
+pop3_skip = "POP3: omis"
+
+[ui.diagnose]
+intro = "Lipiți mai jos corpul unui mesaj de eșec al livrării pentru a extrage indicii utilizabile de IT.  Recunoaște SMTP enhanced status codes (5.7.139, 5.7.60), fraze Microsoft 365 (\"basic authentication is disabled\") și respingeri din partea webmail-ului precum \"Send mail as / Mail sturen als\" de la Gmail.  Nimic nu este trimis pe rețea și textul nu este salvat pe disc."
+input_placeholder = "Lipiți aici corpul respingerii..."
+analyse = "Analizează"
+clear = "Curăță"
+hints_heading = "Indicii"
+no_hints_yet = "(încă nu sunt indicii - lipiți o respingere mai sus și apăsați Analizează)"
+
+[ui.log]
+heading = "Log"
+
+[diagnostics.scaffold]
+esc_prefix = "ESC {code}: {what}"
+action_prefix = "  -> Acțiune: {fix}"
+hint_prefix = "  -> {hint}"
+
+[diagnostics.smtp.esc.5_7_0]
+what = "Autentificare necesară sau mecanismul AUTH ales nu este permis."
+fix  = "Activați SMTP AUTH pentru cutia poștală; verificați că LOGIN / PLAIN / XOAUTH2 este permis."
+
+[diagnostics.smtp.esc.5_7_1]
+what = "Acces relay refuzat - serverul refuză să retransmită acest mesaj."
+fix  = "Fie expeditorul nu este autentificat, destinatarul este extern și relay-ul este dezactivat, fie o transport rule blochează mesajul."
+
+[diagnostics.smtp.esc.5_7_3]
+what = "Autentificare eșuată."
+fix  = "Parolă greșită, MFA activ fără app-password, sau Basic/Legacy auth dezactivat pe tenant (O365: 'SMTP AUTH disabled')."
+
+[diagnostics.smtp.esc.5_7_8]
+what = "Date de autentificare invalide."
+fix  = "Nume utilizator/parolă respins de stratul SASL."
+
+[diagnostics.smtp.esc.5_7_57]
+what = "Clientul nu era autentificat pentru a trimite mail anonim în timpul MAIL FROM."
+fix  = "Forțați STARTTLS + AUTH înainte de MAIL FROM.  În O365 e eroarea tipică când clientul se conectează fără AUTH."
+
+[diagnostics.smtp.esc.5_7_60]
+what = "SendAsDenied - utilizatorul autentificat nu poate trimite CA această adresă From."
+fix  = "Acordați cutiei drepturi 'Send As' (sau 'Send on Behalf') pentru contul autentificat sau modificați antetul From să se potrivească cu loginul."
+
+[diagnostics.smtp.esc.5_7_64]
+what = "TenantAttribution; Relay Access Denied."
+fix  = "Submisia SMTP autentificată necesită o cutie poștală licențiată în O365."
+
+[diagnostics.smtp.esc.5_7_124]
+what = "Utilizatorul nu este autorizat să trimită mail."
+fix  = "Cutie dezactivată, blocată de Conditional Access, sau licență lipsă."
+
+[diagnostics.smtp.esc.5_7_135]
+what = "Autentificare eșuată, datele utilizatorului au expirat."
+fix  = "Resetați parola / reîmprospătați tokenul OAuth."
+
+[diagnostics.smtp.esc.5_7_139]
+what = "Autentificare eșuată; cererea nu a îndeplinit criteriile."
+fix  = "O politică Conditional Access a refuzat loginul (locație, dispozitiv, MFA)."
+
+[diagnostics.smtp.esc.5_7_500]
+what = "Acces refuzat, domeniu de trimitere dezactivat."
+fix  = "Domeniul expeditorului este blocat pentru mail ieșit pe acest tenant."
+
+[diagnostics.smtp.esc.5_7_501]
+what = "Acces refuzat, expeditor interzis."
+fix  = "Adresa expeditorului este pe o blocklist a tenantului."
+
+[diagnostics.smtp.esc.5_7_508]
+what = "Acces refuzat, prag de viteză sau trafic depășit."
+fix  = "Throttle; așteptați și reîncercați, sau cereți adminului să crească limita."
+
+[diagnostics.smtp.esc.5_7_511]
+what = "Acces refuzat, expeditor interzis."
+fix  = "Expeditor marcat ca sursă de spam."
+
+[diagnostics.smtp.esc.5_7_606]
+what = "Acces refuzat, IP de trimitere interzis."
+fix  = "IP-ul de trimitere este pe o blocklist Microsoft."
+
+[diagnostics.smtp.esc.5_7_708]
+what = "Serviciu refuzat.  IP-ul sursă are reputație proastă."
+fix  = "Trimiteți de la alt IP sau cereți delisting."
+
+[diagnostics.smtp.esc.5_7_750]
+what = "Client blocat pentru trimitere din domenii neînregistrate."
+fix  = "Verificați domeniul expeditorului în tenant sau folosiți un domeniu acceptat."
+
+[diagnostics.smtp.esc.5_1_0]
+what = "Adresă expeditor respinsă."
+fix  = "From/MAIL FROM neacceptat; de obicei format sau politică de domeniu."
+
+[diagnostics.smtp.esc.5_1_1]
+what = "Cutie destinație greșită - destinatar inexistent."
+fix  = "Verificați adresa destinatarului."
+
+[diagnostics.smtp.esc.5_1_7]
+what = "Adresă expeditor invalidă (malformată)."
+fix  = "Corectați sintaxa MAIL FROM."
+
+[diagnostics.smtp.esc.5_1_8]
+what = "Domeniu expeditor nepermis."
+fix  = "Domeniu neacceptat de server."
+
+[diagnostics.smtp.esc.5_1_10]
+what = "Adresă destinatar respinsă - utilizator necunoscut."
+fix  = "Greșeală de tastare sau destinatar inexistent."
+
+[diagnostics.smtp.esc.5_4_1]
+what = "Adresă destinatar respinsă: acces refuzat."
+fix  = "Cutia destinatarului refuză mesaje de la acest expeditor / domeniu."
+
+[diagnostics.smtp.esc.5_2_1]
+what = "Cutie dezactivată, nu acceptă mesaje."
+fix  = "Cutie destinatar suspendată."
+
+[diagnostics.smtp.esc.5_2_2]
+what = "Cutie plină."
+fix  = "Cotă destinatar depășită."
+
+[diagnostics.smtp.esc.5_3_4]
+what = "Mesaj prea mare pentru sistem."
+fix  = "Reduceți dimensiunea mesajului."
+
+[diagnostics.smtp.esc.4_7_0]
+what = "Eșec temporar de autentificare / throttling."
+fix  = "Reîncercați mai târziu; poate fi și tarpit pentru login-uri greșite repetate."
+
+[diagnostics.smtp.esc.4_4_2]
+what = "Conexiune întreruptă."
+fix  = "Pană de rețea sau restart server; reîncercați."
+
+[diagnostics.smtp.esc.4_3_2]
+what = "Sistemul nu acceptă mesaje de rețea."
+fix  = "Mentenanță server."
+
+[diagnostics.imap.AUTHENTICATIONFAILED]
+hint = "Login IMAP respins - parolă greșită, MFA fără app-password, sau Basic Auth dezactivat."
+
+[diagnostics.imap."LOGIN_failed"]
+hint = "Login IMAP respins de server."
+
+[diagnostics.imap.ALERT]
+hint = "Serverul a returnat un răspuns ALERT - citiți-l; mesaj definit de administrator."
+
+[diagnostics.imap.UNAVAILABLE]
+hint = "Cutie/server temporar indisponibile."
+
+[diagnostics.imap.PRIVACYREQUIRED]
+hint = "Serverul cere TLS înainte de LOGIN - folosiți STARTTLS sau SSL implicit."
+
+[diagnostics.imap.CLIENTBUG]
+hint = "Clientul a făcut ceva considerat greșit de server; de obicei STARTTLS lipsă sau stare greșită."
+
+[diagnostics.imap.LOGINDISABLED]
+hint = "Plain LOGIN este dezactivat pe acest server - folosiți STARTTLS/SSL sau XOAUTH2."
+
+[diagnostics.pop.authentication_failed]
+hint = "Login POP3 respins - credențiale greșite sau POP dezactivat pentru această cutie."
+
+[diagnostics.pop.logon_failure]
+hint = "Login POP3 respins."
+
+[diagnostics.pop.not_implemented]
+hint = "Serverul nu suportă comanda emisă."
+
+[diagnostics.pop.disabled]
+hint = "Accesul POP3 este dezactivat pentru acest cont / tenant."
+
+[diagnostics.bounce.gmail_send_as_en]
+needle = "Send mail as"
+hint = "Login upstream 'Send mail as' al Gmail a eșuat.  Setări > Vedeți toate setările > Conturi și import > Trimitere ca > Editare info > reintroduceți parola SMTP (sau un app-password dacă contul sursă are 2FA)."
+
+[diagnostics.bounce.gmail_send_as_nl]
+needle = "Mail sturen als"
+hint = "Login upstream 'Mail sturen als' (Send mail as) al Gmail a eșuat.  Setări > Vedeți toate setările > Conturi și import > Trimitere ca > Editare info > reintroduceți parola SMTP (sau un app-password dacă contul sursă are 2FA)."
+
+[cli.prompt]
+username = "Nume utilizator / e-mail: "
+password = "Parolă: "

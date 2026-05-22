@@ -1,0 +1,275 @@
+# smtp-test-tool locale: Bahasa Indonesia (id)
+# status: machine-translated, native review welcome.
+
+[app]
+name = "SMTP Test Tool"
+
+[locale]
+native_name = "Bahasa Indonesia"
+english_name = "Indonesian"
+status_note = "Terjemahan mesin - tinjauan penutur asli diterima dengan baik."
+
+[ui.window]
+title = "SMTP Test Tool"
+
+[ui.topbar]
+profile_label = "Profil:"
+save_config = "Simpan konfigurasi"
+save_config_tooltip = "Menulis profil aktif kembali ke file konfigurasi di samping file eksekutabel."
+provider_preset = "Preset penyedia..."
+provider_preset_tooltip = "Menerapkan salah satu preset penyedia yang dikurasi ke kolom host / port / keamanan di bawah."
+config_path_none = "tidak ada file konfigurasi"
+
+[ui.tab]
+servers = "Server"
+send_mail = "Kirim email"
+tls_auth = "TLS / Auth"
+advanced = "Lanjutan"
+diagnose = "Analisis bounce"
+
+[ui.servers]
+username = "Nama pengguna:"
+password = "Kata sandi:"
+show = "Tampilkan"
+oauth_token = "Token OAuth:"
+oauth_hint = "(XOAUTH2, opsional)"
+save_to_keychain = "Simpan kata sandi ke keychain"
+save_to_keychain_tooltip = "Menyimpan kata sandi di keychain sistem operasi (Windows Credential Manager / macOS Keychain / Linux Secret Service).  Tidak pernah ditulis ke file konfigurasi."
+forget_keychain = "Lupakan entri keychain"
+forget_keychain_tooltip = "Menghapus entri smtp-test-tool untuk pengguna ini dari keychain OS.  Kolom kata sandi di atas juga dikosongkan."
+loaded_from_keychain = "(dimuat dari keychain)"
+
+[ui.proto]
+test_smtp = "Tes SMTP"
+test_imap = "Tes IMAP"
+test_pop3 = "Tes POP3"
+host = "Host:"
+port = "Port:"
+security = "Keamanan:"
+security_none = "tidak ada"
+security_starttls = "starttls"
+security_ssl = "ssl"
+
+[ui.send]
+toggle = "Benar-benar kirim email uji (jika tidak hanya AUTH yang diuji)"
+mail_from = "MAIL FROM (amplop):"
+from_header = "From: (header):"
+to = "Kepada (dipisahkan koma):"
+cc = "Cc (dipisahkan koma):"
+bcc = "Bcc (dipisahkan koma):"
+reply_to = "Balas ke:"
+subject = "Subjek:"
+body = "Isi:"
+
+[ui.tls]
+auth_mech = "Mekanisme SMTP AUTH:"
+insecure = "Nonaktifkan verifikasi sertifikat (TIDAK AMAN - hanya untuk uji)"
+ca_bundle = "Bundel CA (PEM):"
+
+[ui.advanced]
+timeout = "Batas waktu (s):"
+ehlo = "Nama EHLO/HELO:"
+imap_folder = "Folder IMAP:"
+log_level = "Tingkat log:"
+theme = "Tema:"
+language = "Bahasa:"
+language_unsupported = "Locale OS Anda ({code}) belum diterjemahkan.  Teks ditampilkan dalam bahasa Inggris; kontribusi diterima."
+theme_follow_os = "Ikuti OS ({hint})"
+theme_dark = "Gelap"
+theme_light = "Terang"
+
+[ui.actions]
+run_test = "Jalankan tes"
+running = "Sedang berjalan..."
+clear_log = "Bersihkan log"
+
+[ui.status]
+smtp_idle = "SMTP: -"
+imap_idle = "IMAP: -"
+pop3_idle = "POP3: -"
+smtp_pass = "SMTP: LULUS"
+imap_pass = "IMAP: LULUS"
+pop3_pass = "POP3: LULUS"
+smtp_fail = "SMTP: GAGAL"
+imap_fail = "IMAP: GAGAL"
+pop3_fail = "POP3: GAGAL"
+smtp_skip = "SMTP: dilewati"
+imap_skip = "IMAP: dilewati"
+pop3_skip = "POP3: dilewati"
+
+[ui.diagnose]
+intro = "Tempelkan di bawah isi pesan kegagalan pengiriman untuk mengekstrak petunjuk yang dapat ditindaklanjuti oleh IT.  Mengenali kode status SMTP enhanced (5.7.139, 5.7.60), frasa Microsoft 365 (\"basic authentication is disabled\") dan bounce sisi webmail seperti \"Send mail as / Mail sturen als\" dari Gmail.  Tidak ada yang dikirim melalui jaringan dan teks tidak disimpan ke disk."
+input_placeholder = "Tempelkan isi bounce di sini..."
+analyse = "Analisis"
+clear = "Bersihkan"
+hints_heading = "Petunjuk"
+no_hints_yet = "(belum ada petunjuk - tempelkan bounce di atas dan klik Analisis)"
+
+[ui.log]
+heading = "Log"
+
+[diagnostics.scaffold]
+esc_prefix = "ESC {code}: {what}"
+action_prefix = "  -> Tindakan: {fix}"
+hint_prefix = "  -> {hint}"
+
+[diagnostics.smtp.esc.5_7_0]
+what = "Autentikasi diperlukan atau mekanisme AUTH yang dipilih tidak diizinkan."
+fix  = "Aktifkan SMTP AUTH untuk kotak surat; verifikasi bahwa LOGIN / PLAIN / XOAUTH2 diizinkan."
+
+[diagnostics.smtp.esc.5_7_1]
+what = "Akses relay ditolak - server menolak meneruskan pesan ini."
+fix  = "Baik pengirim tidak terautentikasi, penerima eksternal dan relay dinonaktifkan, atau transport rule memblokir pesan."
+
+[diagnostics.smtp.esc.5_7_3]
+what = "Autentikasi gagal."
+fix  = "Kata sandi salah, MFA aktif tanpa app-password, atau Basic/Legacy auth dinonaktifkan di tenant (O365: 'SMTP AUTH disabled')."
+
+[diagnostics.smtp.esc.5_7_8]
+what = "Kredensial autentikasi tidak valid."
+fix  = "Nama pengguna/kata sandi ditolak oleh lapisan SASL."
+
+[diagnostics.smtp.esc.5_7_57]
+what = "Klien tidak terautentikasi untuk mengirim email anonim selama MAIL FROM."
+fix  = "Paksa STARTTLS + AUTH sebelum MAIL FROM.  Di O365 ini adalah kesalahan tipikal saat klien terhubung tanpa AUTH."
+
+[diagnostics.smtp.esc.5_7_60]
+what = "SendAsDenied - pengguna terautentikasi tidak diizinkan mengirim SEBAGAI alamat From ini."
+fix  = "Berikan kotak surat hak 'Send As' (atau 'Send on Behalf') untuk akun terautentikasi, atau ubah header From agar cocok dengan login."
+
+[diagnostics.smtp.esc.5_7_64]
+what = "TenantAttribution; Relay Access Denied."
+fix  = "Submission SMTP terautentikasi membutuhkan kotak surat berlisensi di O365."
+
+[diagnostics.smtp.esc.5_7_124]
+what = "Pengguna tidak berwenang mengirim email."
+fix  = "Kotak surat dinonaktifkan, diblokir Conditional Access, atau lisensi hilang."
+
+[diagnostics.smtp.esc.5_7_135]
+what = "Autentikasi gagal, kredensial pengguna telah kedaluwarsa."
+fix  = "Setel ulang kata sandi / segarkan token OAuth."
+
+[diagnostics.smtp.esc.5_7_139]
+what = "Autentikasi gagal; permintaan tidak memenuhi kriteria."
+fix  = "Kebijakan Conditional Access menolak login (lokasi, perangkat, MFA)."
+
+[diagnostics.smtp.esc.5_7_500]
+what = "Akses ditolak, domain pengirim dinonaktifkan."
+fix  = "Domain pengirim diblokir untuk email keluar di tenant ini."
+
+[diagnostics.smtp.esc.5_7_501]
+what = "Akses ditolak, pengirim dilarang."
+fix  = "Alamat pengirim ada di blocklist tenant."
+
+[diagnostics.smtp.esc.5_7_508]
+what = "Akses ditolak, ambang kecepatan atau lalu lintas terlampaui."
+fix  = "Throttled; tunggu dan coba lagi, atau minta admin menaikkan batas."
+
+[diagnostics.smtp.esc.5_7_511]
+what = "Akses ditolak, pengirim dilarang."
+fix  = "Pengirim ditandai sebagai sumber spam."
+
+[diagnostics.smtp.esc.5_7_606]
+what = "Akses ditolak, IP pengirim dilarang."
+fix  = "IP pengirim ada di blocklist Microsoft."
+
+[diagnostics.smtp.esc.5_7_708]
+what = "Layanan ditolak.  IP sumber memiliki reputasi buruk."
+fix  = "Kirim dari IP lain atau minta delisting."
+
+[diagnostics.smtp.esc.5_7_750]
+what = "Klien diblokir untuk mengirim dari domain yang tidak terdaftar."
+fix  = "Verifikasi domain pengirim di tenant atau gunakan domain yang diterima."
+
+[diagnostics.smtp.esc.5_1_0]
+what = "Alamat pengirim ditolak."
+fix  = "From/MAIL FROM tidak diterima; biasanya format atau kebijakan domain."
+
+[diagnostics.smtp.esc.5_1_1]
+what = "Kotak surat tujuan salah - penerima tidak ada."
+fix  = "Periksa alamat penerima."
+
+[diagnostics.smtp.esc.5_1_7]
+what = "Alamat pengirim tidak valid (format salah)."
+fix  = "Perbaiki sintaks MAIL FROM."
+
+[diagnostics.smtp.esc.5_1_8]
+what = "Domain pengirim tidak diizinkan."
+fix  = "Domain tidak diterima oleh server."
+
+[diagnostics.smtp.esc.5_1_10]
+what = "Alamat penerima ditolak - pengguna tidak dikenal."
+fix  = "Kesalahan ketik atau penerima tidak ada."
+
+[diagnostics.smtp.esc.5_4_1]
+what = "Alamat penerima ditolak: akses ditolak."
+fix  = "Kotak surat penerima menolak pesan dari pengirim / domain ini."
+
+[diagnostics.smtp.esc.5_2_1]
+what = "Kotak surat dinonaktifkan, tidak menerima pesan."
+fix  = "Kotak surat penerima ditangguhkan."
+
+[diagnostics.smtp.esc.5_2_2]
+what = "Kotak surat penuh."
+fix  = "Kuota penerima terlampaui."
+
+[diagnostics.smtp.esc.5_3_4]
+what = "Pesan terlalu besar untuk sistem."
+fix  = "Kurangi ukuran pesan."
+
+[diagnostics.smtp.esc.4_7_0]
+what = "Kegagalan autentikasi sementara / throttling."
+fix  = "Coba lagi nanti; juga bisa tarpit untuk login salah berulang."
+
+[diagnostics.smtp.esc.4_4_2]
+what = "Koneksi terputus."
+fix  = "Gangguan jaringan atau restart server; coba lagi."
+
+[diagnostics.smtp.esc.4_3_2]
+what = "Sistem tidak menerima pesan jaringan."
+fix  = "Pemeliharaan server."
+
+[diagnostics.imap.AUTHENTICATIONFAILED]
+hint = "Login IMAP ditolak - kata sandi salah, MFA tanpa app-password, atau Basic Auth dinonaktifkan."
+
+[diagnostics.imap."LOGIN_failed"]
+hint = "Login IMAP ditolak server."
+
+[diagnostics.imap.ALERT]
+hint = "Server mengembalikan respons ALERT - baca; pesan yang ditentukan admin."
+
+[diagnostics.imap.UNAVAILABLE]
+hint = "Kotak surat/server sementara tidak tersedia."
+
+[diagnostics.imap.PRIVACYREQUIRED]
+hint = "Server membutuhkan TLS sebelum LOGIN - gunakan STARTTLS atau SSL implisit."
+
+[diagnostics.imap.CLIENTBUG]
+hint = "Klien melakukan sesuatu yang dianggap salah oleh server; biasanya STARTTLS hilang atau status salah."
+
+[diagnostics.imap.LOGINDISABLED]
+hint = "Plain LOGIN dinonaktifkan di server ini - gunakan STARTTLS/SSL atau XOAUTH2."
+
+[diagnostics.pop.authentication_failed]
+hint = "Login POP3 ditolak - kredensial salah atau POP dinonaktifkan untuk kotak surat ini."
+
+[diagnostics.pop.logon_failure]
+hint = "Login POP3 ditolak."
+
+[diagnostics.pop.not_implemented]
+hint = "Server tidak mendukung perintah yang dikeluarkan."
+
+[diagnostics.pop.disabled]
+hint = "Akses POP3 dinonaktifkan untuk akun / tenant ini."
+
+[diagnostics.bounce.gmail_send_as_en]
+needle = "Send mail as"
+hint = "Login upstream 'Send mail as' Gmail gagal.  Pengaturan > Lihat semua pengaturan > Akun dan impor > Kirim email sebagai > Edit info > masukkan kembali kata sandi SMTP (atau app-password jika akun sumber memiliki 2FA)."
+
+[diagnostics.bounce.gmail_send_as_nl]
+needle = "Mail sturen als"
+hint = "Login upstream 'Mail sturen als' (Send mail as) Gmail gagal.  Pengaturan > Lihat semua pengaturan > Akun dan impor > Kirim email sebagai > Edit info > masukkan kembali kata sandi SMTP (atau app-password jika akun sumber memiliki 2FA)."
+
+[cli.prompt]
+username = "Nama pengguna / email: "
+password = "Kata sandi: "

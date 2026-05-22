@@ -1,0 +1,275 @@
+# smtp-test-tool locale: Tiếng Việt (vi)
+# status: machine-translated, native review welcome.
+
+[app]
+name = "SMTP Test Tool"
+
+[locale]
+native_name = "Tiếng Việt"
+english_name = "Vietnamese"
+status_note = "Dịch máy - bản đánh giá của người bản ngữ được hoan nghênh."
+
+[ui.window]
+title = "SMTP Test Tool"
+
+[ui.topbar]
+profile_label = "Hồ sơ:"
+save_config = "Lưu cấu hình"
+save_config_tooltip = "Ghi hồ sơ đang hoạt động trở lại tệp cấu hình bên cạnh tệp thực thi."
+provider_preset = "Cài đặt sẵn nhà cung cấp..."
+provider_preset_tooltip = "Áp dụng một trong những cài đặt sẵn nhà cung cấp được chọn lọc vào các trường máy chủ / cổng / bảo mật bên dưới."
+config_path_none = "không có tệp cấu hình"
+
+[ui.tab]
+servers = "Máy chủ"
+send_mail = "Gửi thư"
+tls_auth = "TLS / Auth"
+advanced = "Nâng cao"
+diagnose = "Phân tích từ chối"
+
+[ui.servers]
+username = "Tên người dùng:"
+password = "Mật khẩu:"
+show = "Hiển thị"
+oauth_token = "Token OAuth:"
+oauth_hint = "(XOAUTH2, tùy chọn)"
+save_to_keychain = "Lưu mật khẩu vào keychain"
+save_to_keychain_tooltip = "Lưu mật khẩu vào keychain hệ điều hành (Windows Credential Manager / macOS Keychain / Linux Secret Service).  Không bao giờ ghi vào tệp cấu hình."
+forget_keychain = "Quên mục keychain"
+forget_keychain_tooltip = "Xóa mục smtp-test-tool cho người dùng này khỏi keychain OS.  Trường mật khẩu phía trên cũng được làm trống."
+loaded_from_keychain = "(đã tải từ keychain)"
+
+[ui.proto]
+test_smtp = "Kiểm tra SMTP"
+test_imap = "Kiểm tra IMAP"
+test_pop3 = "Kiểm tra POP3"
+host = "Máy chủ:"
+port = "Cổng:"
+security = "Bảo mật:"
+security_none = "không"
+security_starttls = "starttls"
+security_ssl = "ssl"
+
+[ui.send]
+toggle = "Thực sự gửi thư kiểm tra (nếu không chỉ kiểm tra AUTH)"
+mail_from = "MAIL FROM (phong bì):"
+from_header = "From: (tiêu đề):"
+to = "Đến (phân tách bằng dấu phẩy):"
+cc = "Cc (phân tách bằng dấu phẩy):"
+bcc = "Bcc (phân tách bằng dấu phẩy):"
+reply_to = "Trả lời tới:"
+subject = "Chủ đề:"
+body = "Nội dung:"
+
+[ui.tls]
+auth_mech = "Cơ chế SMTP AUTH:"
+insecure = "Tắt xác minh chứng chỉ (KHÔNG AN TOÀN - chỉ để kiểm tra)"
+ca_bundle = "Gói CA (PEM):"
+
+[ui.advanced]
+timeout = "Thời gian chờ (s):"
+ehlo = "Tên EHLO/HELO:"
+imap_folder = "Thư mục IMAP:"
+log_level = "Mức log:"
+theme = "Chủ đề:"
+language = "Ngôn ngữ:"
+language_unsupported = "Locale OS của bạn ({code}) chưa được dịch.  Văn bản hiển thị bằng tiếng Anh; đóng góp được hoan nghênh."
+theme_follow_os = "Theo OS ({hint})"
+theme_dark = "Tối"
+theme_light = "Sáng"
+
+[ui.actions]
+run_test = "Chạy kiểm tra"
+running = "Đang chạy..."
+clear_log = "Xóa log"
+
+[ui.status]
+smtp_idle = "SMTP: -"
+imap_idle = "IMAP: -"
+pop3_idle = "POP3: -"
+smtp_pass = "SMTP: ĐẠT"
+imap_pass = "IMAP: ĐẠT"
+pop3_pass = "POP3: ĐẠT"
+smtp_fail = "SMTP: THẤT BẠI"
+imap_fail = "IMAP: THẤT BẠI"
+pop3_fail = "POP3: THẤT BẠI"
+smtp_skip = "SMTP: bỏ qua"
+imap_skip = "IMAP: bỏ qua"
+pop3_skip = "POP3: bỏ qua"
+
+[ui.diagnose]
+intro = "Dán bên dưới nội dung của thông báo lỗi giao hàng để trích xuất gợi ý có thể thực hiện cho IT.  Nhận dạng các mã SMTP enhanced status (5.7.139, 5.7.60), cụm từ Microsoft 365 (\"basic authentication is disabled\") và các từ chối phía webmail như \"Send mail as / Mail sturen als\" của Gmail.  Không có gì được gửi qua mạng và văn bản không được lưu vào đĩa."
+input_placeholder = "Dán nội dung từ chối tại đây..."
+analyse = "Phân tích"
+clear = "Xóa"
+hints_heading = "Gợi ý"
+no_hints_yet = "(chưa có gợi ý - dán từ chối ở trên và nhấp Phân tích)"
+
+[ui.log]
+heading = "Log"
+
+[diagnostics.scaffold]
+esc_prefix = "ESC {code}: {what}"
+action_prefix = "  -> Hành động: {fix}"
+hint_prefix = "  -> {hint}"
+
+[diagnostics.smtp.esc.5_7_0]
+what = "Yêu cầu xác thực hoặc cơ chế AUTH được chọn không được phép."
+fix  = "Kích hoạt SMTP AUTH cho hộp thư; xác minh rằng LOGIN / PLAIN / XOAUTH2 được phép."
+
+[diagnostics.smtp.esc.5_7_1]
+what = "Truy cập relay bị từ chối - máy chủ từ chối chuyển tiếp tin nhắn này."
+fix  = "Hoặc người gửi không được xác thực, người nhận là bên ngoài và relay bị tắt, hoặc transport rule chặn tin nhắn."
+
+[diagnostics.smtp.esc.5_7_3]
+what = "Xác thực không thành công."
+fix  = "Sai mật khẩu, MFA bật mà không có app-password, hoặc Basic/Legacy auth bị tắt trên tenant (O365: 'SMTP AUTH disabled')."
+
+[diagnostics.smtp.esc.5_7_8]
+what = "Thông tin xác thực không hợp lệ."
+fix  = "Tên người dùng/mật khẩu bị từ chối bởi lớp SASL."
+
+[diagnostics.smtp.esc.5_7_57]
+what = "Khách không được xác thực để gửi thư ẩn danh trong MAIL FROM."
+fix  = "Buộc STARTTLS + AUTH trước MAIL FROM.  Trong O365 đây là lỗi điển hình khi khách kết nối mà không có AUTH."
+
+[diagnostics.smtp.esc.5_7_60]
+what = "SendAsDenied - người dùng đã xác thực không được gửi NHƯ địa chỉ From này."
+fix  = "Cấp cho hộp thư quyền 'Send As' (hoặc 'Send on Behalf') cho tài khoản đã xác thực hoặc thay đổi tiêu đề From cho khớp với login."
+
+[diagnostics.smtp.esc.5_7_64]
+what = "TenantAttribution; Relay Access Denied."
+fix  = "Gửi SMTP đã xác thực yêu cầu hộp thư được cấp phép trong O365."
+
+[diagnostics.smtp.esc.5_7_124]
+what = "Người dùng không được ủy quyền để gửi thư."
+fix  = "Hộp thư bị tắt, bị chặn bởi Conditional Access, hoặc thiếu giấy phép."
+
+[diagnostics.smtp.esc.5_7_135]
+what = "Xác thực không thành công, thông tin người dùng đã hết hạn."
+fix  = "Đặt lại mật khẩu / làm mới OAuth token."
+
+[diagnostics.smtp.esc.5_7_139]
+what = "Xác thực không thành công; yêu cầu không đáp ứng tiêu chí."
+fix  = "Một chính sách Conditional Access từ chối đăng nhập (vị trí, thiết bị, MFA)."
+
+[diagnostics.smtp.esc.5_7_500]
+what = "Truy cập bị từ chối, miền gửi bị tắt."
+fix  = "Miền của người gửi bị chặn cho thư đi trên tenant này."
+
+[diagnostics.smtp.esc.5_7_501]
+what = "Truy cập bị từ chối, người gửi bị cấm."
+fix  = "Địa chỉ người gửi trong blocklist tenant."
+
+[diagnostics.smtp.esc.5_7_508]
+what = "Truy cập bị từ chối, vượt ngưỡng tốc độ hoặc lưu lượng."
+fix  = "Throttled; đợi và thử lại, hoặc yêu cầu admin tăng giới hạn."
+
+[diagnostics.smtp.esc.5_7_511]
+what = "Truy cập bị từ chối, người gửi bị cấm."
+fix  = "Người gửi được đánh dấu là nguồn spam."
+
+[diagnostics.smtp.esc.5_7_606]
+what = "Truy cập bị từ chối, IP gửi bị cấm."
+fix  = "IP gửi trong blocklist Microsoft."
+
+[diagnostics.smtp.esc.5_7_708]
+what = "Dịch vụ bị từ chối.  IP nguồn có danh tiếng kém."
+fix  = "Gửi từ IP khác hoặc yêu cầu delisting."
+
+[diagnostics.smtp.esc.5_7_750]
+what = "Khách bị chặn gửi từ các miền chưa đăng ký."
+fix  = "Xác minh miền người gửi trong tenant hoặc sử dụng miền được chấp nhận."
+
+[diagnostics.smtp.esc.5_1_0]
+what = "Địa chỉ người gửi bị từ chối."
+fix  = "From/MAIL FROM không được chấp nhận; thường là định dạng hoặc chính sách miền."
+
+[diagnostics.smtp.esc.5_1_1]
+what = "Hộp thư đích sai - người nhận không tồn tại."
+fix  = "Kiểm tra địa chỉ người nhận."
+
+[diagnostics.smtp.esc.5_1_7]
+what = "Địa chỉ người gửi không hợp lệ (định dạng sai)."
+fix  = "Sửa cú pháp MAIL FROM."
+
+[diagnostics.smtp.esc.5_1_8]
+what = "Miền người gửi không được phép."
+fix  = "Miền không được máy chủ chấp nhận."
+
+[diagnostics.smtp.esc.5_1_10]
+what = "Địa chỉ người nhận bị từ chối - người dùng không biết."
+fix  = "Lỗi đánh máy hoặc người nhận không tồn tại."
+
+[diagnostics.smtp.esc.5_4_1]
+what = "Địa chỉ người nhận bị từ chối: truy cập bị từ chối."
+fix  = "Hộp thư người nhận từ chối tin nhắn từ người gửi / miền này."
+
+[diagnostics.smtp.esc.5_2_1]
+what = "Hộp thư bị tắt, không chấp nhận tin nhắn."
+fix  = "Hộp thư người nhận bị đình chỉ."
+
+[diagnostics.smtp.esc.5_2_2]
+what = "Hộp thư đầy."
+fix  = "Hạn ngạch người nhận đã vượt quá."
+
+[diagnostics.smtp.esc.5_3_4]
+what = "Tin nhắn quá lớn cho hệ thống."
+fix  = "Giảm kích thước tin nhắn."
+
+[diagnostics.smtp.esc.4_7_0]
+what = "Lỗi xác thực tạm thời / throttling."
+fix  = "Thử lại sau; cũng có thể là tarpit cho đăng nhập sai lặp lại."
+
+[diagnostics.smtp.esc.4_4_2]
+what = "Kết nối bị ngắt."
+fix  = "Trục trặc mạng hoặc khởi động lại máy chủ; thử lại."
+
+[diagnostics.smtp.esc.4_3_2]
+what = "Hệ thống không chấp nhận tin nhắn mạng."
+fix  = "Bảo trì máy chủ."
+
+[diagnostics.imap.AUTHENTICATIONFAILED]
+hint = "Đăng nhập IMAP bị từ chối - sai mật khẩu, MFA không có app-password, hoặc Basic Auth bị tắt."
+
+[diagnostics.imap."LOGIN_failed"]
+hint = "Đăng nhập IMAP bị máy chủ từ chối."
+
+[diagnostics.imap.ALERT]
+hint = "Máy chủ trả về phản hồi ALERT - đọc nó; tin nhắn do quản trị viên xác định."
+
+[diagnostics.imap.UNAVAILABLE]
+hint = "Hộp thư/máy chủ tạm thời không khả dụng."
+
+[diagnostics.imap.PRIVACYREQUIRED]
+hint = "Máy chủ yêu cầu TLS trước LOGIN - sử dụng STARTTLS hoặc SSL implicit."
+
+[diagnostics.imap.CLIENTBUG]
+hint = "Khách làm điều gì đó máy chủ cho là sai; thường thiếu STARTTLS hoặc trạng thái sai."
+
+[diagnostics.imap.LOGINDISABLED]
+hint = "Plain LOGIN bị tắt trên máy chủ này - sử dụng STARTTLS/SSL hoặc XOAUTH2."
+
+[diagnostics.pop.authentication_failed]
+hint = "Đăng nhập POP3 bị từ chối - thông tin sai hoặc POP bị tắt cho hộp thư này."
+
+[diagnostics.pop.logon_failure]
+hint = "Đăng nhập POP3 bị từ chối."
+
+[diagnostics.pop.not_implemented]
+hint = "Máy chủ không hỗ trợ lệnh được phát hành."
+
+[diagnostics.pop.disabled]
+hint = "Truy cập POP3 bị tắt cho tài khoản / tenant này."
+
+[diagnostics.bounce.gmail_send_as_en]
+needle = "Send mail as"
+hint = "Đăng nhập upstream 'Send mail as' của Gmail thất bại.  Cài đặt > Xem tất cả cài đặt > Tài khoản và nhập > Gửi thư như > Chỉnh sửa thông tin > nhập lại mật khẩu SMTP (hoặc app-password nếu tài khoản nguồn có 2FA)."
+
+[diagnostics.bounce.gmail_send_as_nl]
+needle = "Mail sturen als"
+hint = "Đăng nhập upstream 'Mail sturen als' (Send mail as) của Gmail thất bại.  Cài đặt > Xem tất cả cài đặt > Tài khoản và nhập > Gửi thư như > Chỉnh sửa thông tin > nhập lại mật khẩu SMTP (hoặc app-password nếu tài khoản nguồn có 2FA)."
+
+[cli.prompt]
+username = "Tên người dùng / email: "
+password = "Mật khẩu: "
