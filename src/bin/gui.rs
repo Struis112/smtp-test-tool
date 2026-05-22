@@ -10,7 +10,9 @@
 use eframe::egui;
 use smtp_test_tool::config::{default_save_path, discover_config_path, Config};
 use smtp_test_tool::diagnostics::smtp_hints_for;
+use smtp_test_tool::i18n::{self, t, t_with};
 use smtp_test_tool::keystore::{default_keystore, Keystore};
+use smtp_test_tool::locale as os_locale;
 use smtp_test_tool::providers::{self, Provider};
 use smtp_test_tool::runner::{TestOutcome, TestResults};
 use smtp_test_tool::theme::{detect as detect_appearance, Appearance, ThemeChoice};
@@ -157,6 +159,11 @@ struct App {
     /// What the OS reported at startup; cached so 'Follow OS' does not
     /// re-shell-out to `defaults` / `gsettings` every frame.
     os_appearance: Appearance,
+    /// OS-reported language code (e.g. `Some("nl")`) at startup;
+    /// cached because sys-locale touches the registry / a subprocess
+    /// on first call.  Drives the Language combobox on the Advanced
+    /// tab: the picker offers en + this (if shipped + not en) only.
+    os_locale_code: Option<String>,
     /// Last appearance we actually applied via `Context::set_visuals`;
     /// lets us re-apply only on real change.
     applied_appearance: Appearance,
@@ -226,6 +233,20 @@ impl App {
             }
         }
 
+        // ---- locale: explicit profile.locale overrides OS detection;
+        // unsupported codes fall back to base inside set_locale().  Must
+        // happen BEFORE any UI render so the first paint already shows
+        // translated strings.
+        let os_locale_code = os_locale::detect();
+        let active_locale = match profile.locale.as_deref() {
+            Some(explicit) if i18n::is_supported(explicit) => explicit.to_string(),
+            _ => match &os_locale_code {
+                Some(code) if i18n::is_supported(code) => code.clone(),
+                _ => i18n::BASE.to_string(),
+            },
+        };
+        i18n::set_locale(&active_locale);
+
         // Detect OS appearance once (cached), then resolve through the
         // user's stored ThemeChoice (Auto / Dark / Light).
         let os_appearance = detect_appearance();
@@ -258,6 +279,7 @@ impl App {
             diagnose_input: String::new(),
             diagnose_hints: Vec::new(),
             os_appearance,
+            os_locale_code,
             applied_appearance: initial,
             keystore,
             password_from_keychain,
@@ -381,7 +403,7 @@ impl eframe::App for App {
         // ----- top bar ------------------------------------------------
         egui::Panel::top("top").show_inside(root_ui, |ui| {
             ui.horizontal(|ui| {
-                ui.label("Profile:");
+                ui.label(t("ui.topbar.profile_label"));
                 let names = self.cfg.profile_names();
                 egui::ComboBox::from_id_salt("profile")
                     .selected_text(&self.profile_name)
@@ -398,7 +420,11 @@ impl eframe::App for App {
                             }
                         }
                     });
-                if ui.button("Save Config").clicked() {
+                if ui
+                    .button(t("ui.topbar.save_config"))
+                    .on_hover_text(t("ui.topbar.save_config_tooltip"))
+                    .clicked()
+                {
                     if let Err(e) = self.save_config() {
                         tracing::error!("save failed: {e:#}");
                     } else {
@@ -420,7 +446,7 @@ impl eframe::App for App {
                 // "..." rather than a unicode arrow because the default
                 // egui font ships without U+25BE (small down-pointing
                 // triangle) and falls back to a tofu glyph.
-                ui.menu_button("Provider preset...", |ui| {
+                ui.menu_button(t("ui.topbar.provider_preset"), |ui| {
                     for p in providers::PROVIDERS {
                         let mut label = p.name.to_string();
                         if p.pop.is_none() {
@@ -443,7 +469,7 @@ impl eframe::App for App {
                         self.cfg_path
                             .as_ref()
                             .map(|p| format!("{}", p.display()))
-                            .unwrap_or_else(|| "no config file".into()),
+                            .unwrap_or_else(|| t("ui.topbar.config_path_none")),
                     );
                 });
             });
@@ -454,7 +480,11 @@ impl eframe::App for App {
             ui.horizontal(|ui| {
                 let run = ui.add_enabled(
                     !self.busy,
-                    egui::Button::new(if self.busy { "Running..." } else { "Run Test" }),
+                    egui::Button::new(if self.busy {
+                        t("ui.actions.running")
+                    } else {
+                        t("ui.actions.run_test")
+                    }),
                 );
                 if run.clicked() {
                     self.run_tests_async();
@@ -464,7 +494,7 @@ impl eframe::App for App {
                 outcome_chip(ui, "IMAP", self.last_results.imap);
                 outcome_chip(ui, "POP3", self.last_results.pop3);
                 ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                    if ui.button("Clear Log").clicked() {
+                    if ui.button(t("ui.actions.clear_log")).clicked() {
                         self.log_buf.clear();
                     }
                 });
@@ -480,7 +510,7 @@ impl eframe::App for App {
             .default_size(260.0)
             .min_size(120.0)
             .show_inside(root_ui, |ui| {
-                ui.label(egui::RichText::new("Log").strong());
+                ui.label(egui::RichText::new(t("ui.log.heading")).strong());
                 egui::ScrollArea::vertical()
                     .stick_to_bottom(true)
                     .auto_shrink([false, false])
@@ -499,11 +529,11 @@ impl eframe::App for App {
         // CentralPanel must be added AFTER all other panels per egui 0.34.
         egui::CentralPanel::default().show_inside(root_ui, |ui| {
             ui.horizontal(|ui| {
-                ui.selectable_value(&mut self.tab, Tab::Servers, "Servers");
-                ui.selectable_value(&mut self.tab, Tab::Send, "Send Mail");
-                ui.selectable_value(&mut self.tab, Tab::Tls, "TLS / Auth");
-                ui.selectable_value(&mut self.tab, Tab::Advanced, "Advanced");
-                ui.selectable_value(&mut self.tab, Tab::Diagnose, "Diagnose bounce");
+                ui.selectable_value(&mut self.tab, Tab::Servers, t("ui.tab.servers"));
+                ui.selectable_value(&mut self.tab, Tab::Send, t("ui.tab.send_mail"));
+                ui.selectable_value(&mut self.tab, Tab::Tls, t("ui.tab.tls_auth"));
+                ui.selectable_value(&mut self.tab, Tab::Advanced, t("ui.tab.advanced"));
+                ui.selectable_value(&mut self.tab, Tab::Diagnose, t("ui.tab.diagnose"));
             });
             ui.separator();
 
@@ -543,24 +573,33 @@ fn target_label(a: Appearance) -> &'static str {
 /// what Auto currently maps to.
 fn theme_label(choice: ThemeChoice, os: Appearance) -> String {
     match choice {
-        ThemeChoice::Auto => format!("Follow OS ({})", target_label(os)),
-        ThemeChoice::Dark => "Dark".to_string(),
-        ThemeChoice::Light => "Light".to_string(),
+        ThemeChoice::Auto => t_with("ui.advanced.theme_follow_os", &[("hint", target_label(os))]),
+        ThemeChoice::Dark => t("ui.advanced.theme_dark"),
+        ThemeChoice::Light => t("ui.advanced.theme_light"),
     }
 }
 
 fn outcome_chip(ui: &mut egui::Ui, name: &str, o: Option<TestOutcome>) {
+    // `name` is the protocol token used both as a stable display label
+    // and as the suffix in localisation keys ('smtp', 'imap', 'pop3').
+    let key_suffix = name.to_ascii_lowercase();
     let (txt, col) = match o {
         Some(TestOutcome::Pass) => (
-            format!("{name}: PASS"),
+            t(&format!("ui.status.{key_suffix}_pass")),
             egui::Color32::from_rgb(0x0e, 0x7c, 0x0e),
         ),
         Some(TestOutcome::Fail) => (
-            format!("{name}: FAIL"),
+            t(&format!("ui.status.{key_suffix}_fail")),
             egui::Color32::from_rgb(0xa3, 0x00, 0x00),
         ),
-        Some(TestOutcome::Skipped) => (format!("{name}: skip"), egui::Color32::GRAY),
-        None => (format!("{name}: -"), egui::Color32::GRAY),
+        Some(TestOutcome::Skipped) => (
+            t(&format!("ui.status.{key_suffix}_skip")),
+            egui::Color32::GRAY,
+        ),
+        None => (
+            t(&format!("ui.status.{key_suffix}_idle")),
+            egui::Color32::GRAY,
+        ),
     };
     ui.label(egui::RichText::new(txt).color(col).monospace());
 }
@@ -597,7 +636,7 @@ fn tab_servers(ui: &mut egui::Ui, a: &mut App) {
     const HINT_W: f32 = 160.0; // approx "(XOAUTH2, optional)"
 
     ui.horizontal(|ui| {
-        ui.add_sized([LABEL_W, 0.0], egui::Label::new("Username:"));
+        ui.add_sized([LABEL_W, 0.0], egui::Label::new(t("ui.servers.username")));
         let mut u = a.profile.user.clone().unwrap_or_default();
         let resp = ui.add_sized(
             [ui.available_width(), 0.0],
@@ -608,7 +647,7 @@ fn tab_servers(ui: &mut egui::Ui, a: &mut App) {
         }
     });
     ui.horizontal(|ui| {
-        ui.add_sized([LABEL_W, 0.0], egui::Label::new("Password:"));
+        ui.add_sized([LABEL_W, 0.0], egui::Label::new(t("ui.servers.password")));
         let mut pwd = a.profile.password.clone().unwrap_or_default();
         let entry_w = (ui.available_width() - SHOW_W).max(80.0);
         let resp = ui.add_sized(
@@ -618,22 +657,25 @@ fn tab_servers(ui: &mut egui::Ui, a: &mut App) {
         if resp.changed() {
             a.profile.password = Some(pwd).filter(|s| !s.is_empty());
         }
-        ui.checkbox(&mut a.show_pwd, "Show");
+        ui.checkbox(&mut a.show_pwd, t("ui.servers.show"));
     });
     ui.horizontal(|ui| {
-        ui.add_sized([LABEL_W, 0.0], egui::Label::new("OAuth token:"));
-        let mut t = a.profile.oauth_token.clone().unwrap_or_default();
+        ui.add_sized(
+            [LABEL_W, 0.0],
+            egui::Label::new(t("ui.servers.oauth_token")),
+        );
+        let mut token = a.profile.oauth_token.clone().unwrap_or_default();
         let entry_w = (ui.available_width() - HINT_W).max(80.0);
         let resp = ui.add_sized(
             [entry_w, 0.0],
-            egui::TextEdit::singleline(&mut t).password(true),
+            egui::TextEdit::singleline(&mut token).password(true),
         );
         if resp.changed() {
-            a.profile.oauth_token = Some(t).filter(|s| !s.is_empty());
+            a.profile.oauth_token = Some(token).filter(|s| !s.is_empty());
         }
         ui.add_sized(
             [HINT_W, 0.0],
-            egui::Label::new(egui::RichText::new("(XOAUTH2, optional)").weak()),
+            egui::Label::new(egui::RichText::new(t("ui.servers.oauth_hint")).weak()),
         );
     });
 
@@ -659,13 +701,9 @@ fn tab_servers(ui: &mut egui::Ui, a: &mut App) {
         if ui
             .add_enabled(
                 user_set && pwd_set,
-                egui::Button::new("Save password to keychain"),
+                egui::Button::new(t("ui.servers.save_to_keychain")),
             )
-            .on_hover_text(
-                "Stores the password in your OS keychain (Windows Credential \
-                 Manager / macOS Keychain / Linux Secret Service).  Never \
-                 written to the config file.",
-            )
+            .on_hover_text(t("ui.servers.save_to_keychain_tooltip"))
             .clicked()
         {
             if let (Some(u), Some(p)) = (&a.profile.user, &a.profile.password) {
@@ -679,11 +717,8 @@ fn tab_servers(ui: &mut egui::Ui, a: &mut App) {
             }
         }
         if ui
-            .add_enabled(user_set, egui::Button::new("Forget keychain entry"))
-            .on_hover_text(
-                "Deletes the smtp-test-tool entry for this user from the OS keychain. \
-                 The password field above is also cleared.",
-            )
+            .add_enabled(user_set, egui::Button::new(t("ui.servers.forget_keychain")))
+            .on_hover_text(t("ui.servers.forget_keychain_tooltip"))
             .clicked()
         {
             if let Some(u) = &a.profile.user.clone() {
@@ -698,7 +733,7 @@ fn tab_servers(ui: &mut egui::Ui, a: &mut App) {
             }
         }
         if a.password_from_keychain {
-            ui.label(egui::RichText::new("(loaded from keychain)").weak());
+            ui.label(egui::RichText::new(t("ui.servers.loaded_from_keychain")).weak());
         }
     });
 
@@ -738,12 +773,15 @@ fn proto_block(
     sec: &mut Security,
 ) {
     ui.horizontal(|ui| {
-        ui.checkbox(enabled, format!("Test {name}"));
-        ui.label("Host:");
+        // Key lookup per protocol so each row gets the localised
+        // 'Test SMTP' / 'Test IMAP' / 'Test POP3' label.
+        let proto_key = name.to_ascii_lowercase();
+        ui.checkbox(enabled, t(&format!("ui.proto.test_{proto_key}")));
+        ui.label(t("ui.proto.host"));
         ui.text_edit_singleline(host);
-        ui.label("Port:");
+        ui.label(t("ui.proto.port"));
         ui.add(egui::DragValue::new(port).range(1..=65535));
-        ui.label("Security:");
+        ui.label(t("ui.proto.security"));
         egui::ComboBox::from_id_salt(format!("{name}-sec"))
             .selected_text(sec.as_str())
             .show_ui(ui, |ui| {
@@ -755,29 +793,26 @@ fn proto_block(
 }
 
 fn tab_send(ui: &mut egui::Ui, a: &mut App) {
-    ui.checkbox(
-        &mut a.profile.send_test,
-        "Actually send a test email (otherwise only AUTH is tested)",
-    );
+    ui.checkbox(&mut a.profile.send_test, t("ui.send.toggle"));
     ui.separator();
     egui::Grid::new("msg").num_columns(2).show(ui, |ui| {
-        opt_line(ui, "MAIL FROM (envelope):", &mut a.profile.mail_from);
-        opt_line(ui, "From: (header)       :", &mut a.profile.from_addr);
-        ui.label("To  (comma sep):");
+        opt_line(ui, &t("ui.send.mail_from"), &mut a.profile.mail_from);
+        opt_line(ui, &t("ui.send.from_header"), &mut a.profile.from_addr);
+        ui.label(t("ui.send.to"));
         ui.text_edit_singleline(&mut a.to_csv);
         ui.end_row();
-        ui.label("Cc  (comma sep):");
+        ui.label(t("ui.send.cc"));
         ui.text_edit_singleline(&mut a.cc_csv);
         ui.end_row();
-        ui.label("Bcc (comma sep):");
+        ui.label(t("ui.send.bcc"));
         ui.text_edit_singleline(&mut a.bcc_csv);
         ui.end_row();
-        opt_line(ui, "Reply-To:", &mut a.profile.reply_to);
-        ui.label("Subject:");
+        opt_line(ui, &t("ui.send.reply_to"), &mut a.profile.reply_to);
+        ui.label(t("ui.send.subject"));
         ui.text_edit_singleline(&mut a.profile.subject);
         ui.end_row();
     });
-    ui.label("Body:");
+    ui.label(t("ui.send.body"));
     ui.add(
         egui::TextEdit::multiline(&mut a.profile.body)
             .desired_rows(6)
@@ -795,12 +830,9 @@ fn opt_line(ui: &mut egui::Ui, label: &str, v: &mut Option<String>) {
 }
 
 fn tab_tls(ui: &mut egui::Ui, a: &mut App) {
-    ui.checkbox(
-        &mut a.profile.insecure_tls,
-        "Disable certificate verification (INSECURE - testing only)",
-    );
+    ui.checkbox(&mut a.profile.insecure_tls, t("ui.tls.insecure"));
     ui.horizontal(|ui| {
-        ui.label("CA bundle (PEM):");
+        ui.label(t("ui.tls.ca_bundle"));
         let mut buf = a
             .profile
             .ca_file
@@ -819,22 +851,22 @@ fn tab_tls(ui: &mut egui::Ui, a: &mut App) {
 
 fn tab_advanced(ui: &mut egui::Ui, a: &mut App) {
     egui::Grid::new("adv").num_columns(2).show(ui, |ui| {
-        ui.label("Timeout (s):");
+        ui.label(t("ui.advanced.timeout"));
         ui.add(egui::DragValue::new(&mut a.profile.timeout_secs).range(1..=600));
         ui.end_row();
 
-        ui.label("EHLO/HELO name:");
+        ui.label(t("ui.advanced.ehlo"));
         let mut e = a.profile.ehlo_name.clone().unwrap_or_default();
         if ui.text_edit_singleline(&mut e).changed() {
             a.profile.ehlo_name = if e.is_empty() { None } else { Some(e) };
         }
         ui.end_row();
 
-        ui.label("IMAP folder:");
+        ui.label(t("ui.advanced.imap_folder"));
         ui.text_edit_singleline(&mut a.profile.imap_folder);
         ui.end_row();
 
-        ui.label("Log level:");
+        ui.label(t("ui.advanced.log_level"));
         egui::ComboBox::from_id_salt("loglvl")
             .selected_text(&a.profile.log_level)
             .show_ui(ui, |ui| {
@@ -844,7 +876,7 @@ fn tab_advanced(ui: &mut egui::Ui, a: &mut App) {
             });
         ui.end_row();
 
-        ui.label("Theme:");
+        ui.label(t("ui.advanced.theme"));
         let mut current = ThemeChoice::from_config_str(&a.profile.theme);
         let previous = current;
         egui::ComboBox::from_id_salt("themechoice")
@@ -855,11 +887,65 @@ fn tab_advanced(ui: &mut egui::Ui, a: &mut App) {
                     ThemeChoice::Auto,
                     theme_label(ThemeChoice::Auto, a.os_appearance),
                 );
-                ui.selectable_value(&mut current, ThemeChoice::Dark, "Dark");
-                ui.selectable_value(&mut current, ThemeChoice::Light, "Light");
+                ui.selectable_value(&mut current, ThemeChoice::Dark, t("ui.advanced.theme_dark"));
+                ui.selectable_value(
+                    &mut current,
+                    ThemeChoice::Light,
+                    t("ui.advanced.theme_light"),
+                );
             });
         if current != previous {
             a.profile.theme = current.as_str().to_string();
+        }
+        ui.end_row();
+
+        // Language selector.  Per design: only the user's OS locale
+        // (if we ship a translation for it) + English.  This keeps the
+        // combo box short and obvious even when the binary ships 25
+        // locales.  Picking a value writes profile.locale and applies
+        // immediately via i18n::set_locale.
+        ui.label(t("ui.advanced.language"));
+        let current_code = i18n::current_locale();
+        let os_code = a.os_locale_code.as_deref();
+        let os_supported = os_code
+            .map(|c| i18n::is_supported(c) && c != i18n::BASE)
+            .unwrap_or(false);
+        let display_label = |code: &str| -> String {
+            // "Nederlands (nl)" / "English (en)"
+            format!("{} ({code})", i18n::native_name(code))
+        };
+        egui::ComboBox::from_id_salt("langchoice")
+            .selected_text(display_label(&current_code))
+            .show_ui(ui, |ui| {
+                if os_supported {
+                    if let Some(c) = os_code {
+                        let selected = current_code == c;
+                        if ui.selectable_label(selected, display_label(c)).clicked() && !selected {
+                            i18n::set_locale(c);
+                            a.profile.locale = Some(c.to_string());
+                        }
+                    }
+                }
+                let en_selected = current_code == i18n::BASE;
+                if ui
+                    .selectable_label(en_selected, display_label(i18n::BASE))
+                    .clicked()
+                    && !en_selected
+                {
+                    i18n::set_locale(i18n::BASE);
+                    a.profile.locale = Some(i18n::BASE.to_string());
+                }
+            });
+        if !os_supported {
+            if let Some(code) = os_code {
+                ui.label(
+                    egui::RichText::new(t_with(
+                        "ui.advanced.language_unsupported",
+                        &[("code", code)],
+                    ))
+                    .weak(),
+                );
+            }
         }
         ui.end_row();
     });
@@ -870,13 +956,7 @@ fn tab_advanced(ui: &mut egui::Ui, a: &mut App) {
 /// bounce in their main mail client can find out what to ask IT for
 /// without re-running the protocol against the server.
 fn tab_diagnose(ui: &mut egui::Ui, a: &mut App) {
-    ui.label(
-        "Paste a delivery-failure body below to extract IT-actionable hints. \
-         Detects SMTP enhanced status codes (e.g. 5.7.139, 5.7.60), Microsoft \
-         365 phrases (\"basic authentication is disabled\"), and webmail-side \
-         bounces such as Gmail's \"Send mail as / Mail sturen als\" failure. \
-         Nothing is sent over the network and the text is not stored on disk.",
-    );
+    ui.label(t("ui.diagnose.intro"));
     ui.add_space(6.0);
 
     let avail_h = ui.available_height();
@@ -887,14 +967,14 @@ fn tab_diagnose(ui: &mut egui::Ui, a: &mut App) {
     ui.add_sized(
         [ui.available_width(), input_h],
         egui::TextEdit::multiline(&mut a.diagnose_input)
-            .hint_text("Paste the bounce body here...")
+            .hint_text(t("ui.diagnose.input_placeholder"))
             .desired_rows(8),
     );
 
     ui.horizontal(|ui| {
         let has_input = !a.diagnose_input.trim().is_empty();
         if ui
-            .add_enabled(has_input, egui::Button::new("Analyse"))
+            .add_enabled(has_input, egui::Button::new(t("ui.diagnose.analyse")))
             .clicked()
         {
             a.diagnose_hints = smtp_hints_for(&a.diagnose_input);
@@ -907,7 +987,7 @@ fn tab_diagnose(ui: &mut egui::Ui, a: &mut App) {
                 );
             }
         }
-        if ui.button("Clear").clicked() {
+        if ui.button(t("ui.diagnose.clear")).clicked() {
             a.diagnose_input.clear();
             a.diagnose_hints.clear();
         }
@@ -915,11 +995,9 @@ fn tab_diagnose(ui: &mut egui::Ui, a: &mut App) {
 
     ui.add_space(8.0);
     ui.separator();
-    ui.label(egui::RichText::new("Hints").strong());
+    ui.label(egui::RichText::new(t("ui.diagnose.hints_heading")).strong());
     if a.diagnose_hints.is_empty() {
-        ui.label(
-            egui::RichText::new("(no hints yet - paste a bounce above and click Analyse)").weak(),
-        );
+        ui.label(egui::RichText::new(t("ui.diagnose.no_hints_yet")).weak());
     } else {
         egui::ScrollArea::vertical()
             .auto_shrink([false, true])

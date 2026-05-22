@@ -65,5 +65,6 @@ pub fn outlook_defaults() -> Profile {
         log_level: "info".into(),
         wire_trace: false,
         theme: "auto".into(),
+        locale: None, // None => detect on each launch
     }
 }

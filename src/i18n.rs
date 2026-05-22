@@ -125,6 +125,21 @@ pub fn is_supported(code: &str) -> bool {
     TABLES.contains_key(normalise(code).as_str())
 }
 
+/// Return the human-readable name of `code` as written in `code`'s OWN
+/// language (e.g. `native_name("nl")` -> `"Nederlands"`).  Reads the
+/// `locale.native_name` key from the requested locale's table
+/// regardless of the currently-active locale; useful for building a
+/// language selector that shows every option in its own script.
+/// Falls back to the bare code when no translation ships.
+pub fn native_name(code: &str) -> String {
+    let n = normalise(code);
+    TABLES
+        .get(n.as_str())
+        .and_then(|m| m.get("locale.native_name"))
+        .cloned()
+        .unwrap_or_else(|| code.to_string())
+}
+
 /// Look up `key` in the active locale.  Falls back to [`BASE`], then
 /// to the literal `key` string, so the GUI never displays a bare empty
 /// string for an unknown key (a missing translation surfaces visibly

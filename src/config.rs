@@ -117,6 +117,14 @@ pub struct Profile {
     pub wire_trace: bool,
     #[serde(default = "default_theme")]
     pub theme: String,
+
+    /// User-selected interface language as a BCP-47 short code
+    /// (`"en"`, `"nl"`, ...).  `None` means "follow the OS appearance
+    /// each launch".  An explicit value survives upgrades that broaden
+    /// or narrow the shipped-translation set; an unsupported code
+    /// silently falls back to the base locale via `i18n::set_locale`.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub locale: Option<String>,
 }
 
 fn yes() -> bool {
