@@ -3,7 +3,9 @@
 use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
 use smtp_test_tool::config::{default_save_path, discover_config_path, Config};
+use smtp_test_tool::i18n::{self, t};
 use smtp_test_tool::keystore::default_keystore;
+use smtp_test_tool::locale as os_locale;
 use smtp_test_tool::providers::{self, Provider};
 use smtp_test_tool::{outlook_defaults, run_tests, Profile};
 use std::io::{self, Write};
@@ -69,6 +71,16 @@ struct Cli {
     /// Override log level (trace, debug, info, warn, error).
     #[arg(long)]
     log_level: Option<String>,
+
+    /// Force a specific interface language (e.g. en, nl, de).  By
+    /// default the active profile's `locale` field is honoured if set;
+    /// otherwise the OS locale is auto-detected.  Unsupported codes
+    /// silently fall back to 'en' so the tool always has SOMETHING to
+    /// say.  Run `smtp-test-tool --help` after a future expansion to
+    /// see the current shipped set, or check the locales/ folder in
+    /// the repo.
+    #[arg(long, value_name = "CODE")]
+    locale: Option<String>,
 
     /// Sub-commands.  Default action is 'test' against the loaded profile.
     #[command(subcommand)]
@@ -149,6 +161,27 @@ fn run() -> Result<bool> {
     };
 
     let profile_name = cli.profile.clone().unwrap_or_else(|| cfg.active.clone());
+
+    // Locale resolution mirrors the GUI: explicit --locale wins, then
+    // Profile.locale, then OS detection, then base 'en'.  Applied
+    // before any subcommand runs so 'providers' / 'keychain status'
+    // etc. show localised strings too (currently they print English
+    // sentinels; future expansion can route through t() the same way
+    // the diagnostic translator already does).
+    let active_locale: String = {
+        let candidate = cli
+            .locale
+            .clone()
+            .or_else(|| cfg.profile(&profile_name).and_then(|p| p.locale.clone()));
+        match candidate {
+            Some(c) if i18n::is_supported(&c) => c,
+            _ => match os_locale::detect() {
+                Some(c) if i18n::is_supported(&c) => c,
+                _ => i18n::BASE.to_string(),
+            },
+        }
+    };
+    i18n::set_locale(&active_locale);
 
     match cli.cmd.unwrap_or(Cmd::Test) {
         Cmd::Profiles => {
@@ -248,7 +281,7 @@ fn run() -> Result<bool> {
     }
 
     if profile.user.is_none() {
-        profile.user = Some(prompt("Username / email: ")?);
+        profile.user = Some(prompt(&t("cli.prompt.username"))?);
     }
 
     // Keychain auto-load happens AFTER --password / --oauth-token have
@@ -274,7 +307,7 @@ fn run() -> Result<bool> {
     }
 
     if profile.password.is_none() && profile.oauth_token.is_none() {
-        profile.password = Some(prompt_password("Password: ")?);
+        profile.password = Some(prompt_password(&t("cli.prompt.password"))?);
     }
 
     let results = run_tests(&profile);
