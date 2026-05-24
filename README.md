@@ -36,12 +36,13 @@ language picker limited to **your OS locale + English** — deliberately
 two options at most, so the UI does not grow with the translation
 set.
 
-Shipped in v0.1.3 — **25 languages**:
+Shipped in v0.1.4 — **29 languages** (4 new non-Latin scripts):
 
 | Code | Native name | Status |
 |------|-------------|--------|
 | `en` | English | base, hand-maintained |
 | `nl` | Nederlands | native quality |
+| `ar` | العربية | machine-translated, native review welcome (CJK/RTL: needs system font) |
 | `bg` | Български | machine-translated, native review welcome |
 | `cs` | Čeština | machine-translated, native review welcome |
 | `da` | Dansk | machine-translated, native review welcome |
@@ -54,6 +55,8 @@ Shipped in v0.1.3 — **25 languages**:
 | `hu` | Magyar | machine-translated, native review welcome |
 | `id` | Bahasa Indonesia | machine-translated, native review welcome |
 | `it` | Italiano | machine-translated, native review welcome |
+| `ja` | 日本語 | machine-translated, native review welcome (needs system CJK font) |
+| `ko` | 한국어 | machine-translated, native review welcome (needs system CJK font) |
 | `no` | Norsk | machine-translated, native review welcome |
 | `pl` | Polski | machine-translated, native review welcome |
 | `pt` | Português | machine-translated, native review welcome |
@@ -65,10 +68,20 @@ Shipped in v0.1.3 — **25 languages**:
 | `tr` | Türkçe | machine-translated, native review welcome |
 | `uk` | Українська | machine-translated, native review welcome |
 | `vi` | Tiếng Việt | machine-translated, native review welcome |
+| `zh` | 简体中文 | machine-translated, native review welcome (needs system CJK font) |
 
-All shipped locales render correctly with eframe's bundled fonts
-(Latin / Cyrillic / Greek scripts).  CJK, Indic, Arabic, and Thai
-locales need extra font bundling and will land in a future release.
+Latin / Cyrillic / Greek locales render with eframe's bundled
+`Inter`/`Hack` fonts.  The four non-Latin locales (`zh`, `ja`, `ko`,
+`ar`) need a system-installed font that covers their script — modern
+Windows / macOS / Linux desktops ship one out of the box (`Microsoft
+YaHei`, `Yu Gothic UI`, `Malgun Gothic`, `Segoe UI Arabic`, the Noto
+family on Linux).  At startup the GUI consults `fontdb` to find one
+and appends it to egui's fallback chain; nothing is bundled into the
+binary.  If your distro lacks the relevant Noto package, glyphs will
+render as tofu — install `fonts-noto-cjk` / `fonts-noto-arabic` to
+fix.  Indic and Thai locales will land in a future release once their
+translations are commissioned.
+
 See [`CONTRIBUTING.md` § Translations](CONTRIBUTING.md#translations)
 for the native-review recipe — PRs welcome.
 

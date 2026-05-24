@@ -7,6 +7,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.4] - 2026-05-24
+
+### Added
+- **CJK + Arabic locale rendering** via OS font discovery.  New
+  `src/fonts.rs` consults `fontdb 0.23` (an `std`/`memmap`/`fontconfig`
+  build of the same library `resvg` uses) for system-installed font
+  families that cover the active locale's script - `Microsoft YaHei`,
+  `Yu Gothic UI`, `Malgun Gothic`, `Segoe UI Arabic`, `Noto Sans CJK *`,
+  `Source Han Sans *`, etc.  Discovered fonts are appended to egui's
+  Proportional **and** Monospace fallback chains, so Latin glyphs in
+  mixed strings still render with egui's bundled `Inter`/`Hack` and
+  only fall through to the system font for codepoints `Inter` cannot
+  draw.  Latin/Cyrillic/Greek locales bypass the discovery entirely
+  and pay zero startup cost.
+- **4 new locales**: `zh` (Simplified Chinese), `ja` (Japanese), `ko`
+  (Korean), `ar` (Arabic) - bringing the total to **29 shipped
+  languages**.  All four are machine-translated with a
+  `locale.status_note` flag in their own language welcoming native
+  review.  Arabic is rendered with egui 0.34's existing bidi support;
+  layout polish is best-effort until a future eframe gains a full
+  ICU-driven LTR/RTL engine.
+- `tools/README.md` now documents the **interactive-desktop-session
+  requirement** for `tools/screenshot.ps1` and adds a post-capture
+  size sanity check, since `PrintWindow` returns empty surfaces under
+  service / WinRM / headless SSH contexts on Windows.
+
+### Changed
+- `Cargo.toml` adds `fontdb 0.23` as an optional dependency tied to
+  the `gui` feature.  CLI-only builds (`cargo build --no-default-features
+  --features keychain`) are unaffected.
+
+### Notes
+- Native review remains welcome for every machine-translated locale.
+  PRs touching one locale file at a time are easiest to merge.
+
 ## [0.1.3] - 2026-05-22
 
 ### Added
