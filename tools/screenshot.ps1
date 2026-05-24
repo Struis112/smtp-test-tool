@@ -18,7 +18,11 @@
 param(
     [Parameter(Mandatory = $true)] [ValidateSet('dark', 'light')] [string] $Theme,
     [Parameter(Mandatory = $true)] [string] $OutPng,
-    [int] $WarmupSeconds = 6
+    [int] $WarmupSeconds = 6,
+    # Locale code to force in the staged profile (en, nl, de, zh, ja, ko, ar, ...).
+    # When set, the GUI runs OS font discovery for non-Latin scripts; bump
+    # -WarmupSeconds to ~12 because load_system_fonts() is not free.
+    [string] $Locale = ''
 )
 
 $ErrorActionPreference = 'Stop'
@@ -90,6 +94,10 @@ pop_enabled = false
 theme = "$Theme"
 "@ | Set-Content -Path $cfgPath -Encoding utf8
 
+if ($Locale -ne '') {
+    Add-Content -Path $cfgPath -Value "locale = `"$Locale`"" -Encoding utf8
+}
+
 # Wipe eframe's persistence so the window starts at our default size
 # rather than whatever the user last dragged it to.
 $ePersist = Join-Path $env:APPDATA 'SMTP Test Tool'
@@ -152,17 +160,31 @@ try {
     }
 
     if (-not $ok -or $allSame) {
-        Write-Host "PrintWindow returned an empty surface; falling back to BitBlt-from-screen."
+        Write-Host "PrintWindow returned an empty surface; falling back to full-screen capture + crop."
         $bmp.Dispose()
 
-        # The window is pinned at (50, 50) and in foreground; nothing in
-        # the user's desktop should be above it.  Use System.Drawing's
-        # CopyFromScreen, which BitBlts from the visible DWM-composited
-        # desktop - and DOES see the OpenGL surface.
+        # Empirically (May 2026), narrow-rect CopyFromScreen also returns
+        # blank for the eframe GL-backed window on Windows 11 + glow.
+        # Capturing the WHOLE virtual screen and then cropping in software
+        # is the reliable workaround - the DWM composites the GL surface
+        # into the desktop bitmap which is read back fine in one go.
+        $virt   = [System.Windows.Forms.SystemInformation]::VirtualScreen
+        $screen = New-Object System.Drawing.Bitmap $virt.Width, $virt.Height
+        $gs     = [System.Drawing.Graphics]::FromImage($screen)
+        $gs.CopyFromScreen($virt.X, $virt.Y, 0, 0, $screen.Size)
+        $gs.Dispose()
+
+        # Crop to the window's screen-space rect (subtracting virtual
+        # origin in case the user has a multi-monitor setup that puts
+        # the primary monitor at a non-(0,0) origin).
+        $srcRect = New-Object System.Drawing.Rectangle (
+            ($r.Left - $virt.X), ($r.Top - $virt.Y), $w, $ht)
         $bmp = New-Object System.Drawing.Bitmap $w, $ht
         $g   = [System.Drawing.Graphics]::FromImage($bmp)
-        $g.CopyFromScreen($r.Left, $r.Top, 0, 0, $bmp.Size)
+        $g.DrawImage($screen, (New-Object System.Drawing.Rectangle 0, 0, $w, $ht),
+                     $srcRect, [System.Drawing.GraphicsUnit]::Pixel)
         $g.Dispose()
+        $screen.Dispose()
     }
 
     $outDir = Split-Path -Parent $OutPng

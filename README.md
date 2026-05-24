@@ -26,6 +26,13 @@ contrast on the elements where colour carries information.
 |------|-------|
 | ![Dark theme](docs/screenshots/gui-dark.png) | ![Light theme](docs/screenshots/gui-light.png) |
 
+Non-Latin locales pick up an OS-installed font automatically (see
+[Languages](#languages) for the discovery story).  Example renders:
+
+| Chinese (`zh`) | Japanese (`ja`) | Arabic (`ar`) |
+|---|---|---|
+| ![zh](docs/screenshots/gui-zh.png) | ![ja](docs/screenshots/gui-ja.png) | ![ar](docs/screenshots/gui-ar.png) |
+
 ## Languages
 
 The GUI, the CLI prompts, and every diagnostic hint can be displayed
