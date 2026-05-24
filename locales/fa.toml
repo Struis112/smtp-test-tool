@@ -1,0 +1,277 @@
+# smtp-test-tool locale: فارسی (fa)
+# status: machine-translated, native review welcome.
+# Note: Persian uses the Arabic script; egui 0.34's bidi support is
+# partial - glyph shape correct, paragraph layout best-effort.
+
+[app]
+name = "SMTP Test Tool"
+
+[locale]
+native_name = "فارسی"
+english_name = "Persian"
+status_note = "ترجمه ماشینی - بازبینی توسط گویشور بومی استقبال می‌شود."
+
+[ui.window]
+title = "ابزار آزمایش SMTP"
+
+[ui.topbar]
+profile_label = "نمایه:"
+save_config = "ذخیره پیکربندی"
+save_config_tooltip = "نمایه فعال را به فایل پیکربندی کنار فایل اجرایی بازنویسی می‌کند."
+provider_preset = "پیش‌تنظیم ارائه‌دهنده..."
+provider_preset_tooltip = "یکی از پیش‌تنظیم‌های ارائه‌دهنده برگزیده را به فیلدهای میزبان / پورت / امنیت زیر اعمال می‌کند."
+config_path_none = "بدون فایل پیکربندی"
+
+[ui.tab]
+servers = "سرورها"
+send_mail = "ارسال ایمیل"
+tls_auth = "TLS / Auth"
+advanced = "پیشرفته"
+diagnose = "تحلیل برگشت"
+
+[ui.servers]
+username = "نام کاربری:"
+password = "گذرواژه:"
+show = "نمایش"
+oauth_token = "توکن OAuth:"
+oauth_hint = "(XOAUTH2، اختیاری)"
+save_to_keychain = "ذخیره گذرواژه در زنجیر کلید"
+save_to_keychain_tooltip = "گذرواژه را در زنجیر کلید سیستم عامل (Windows Credential Manager / macOS Keychain / Linux Secret Service) ذخیره می‌کند. هرگز در فایل پیکربندی نوشته نمی‌شود."
+forget_keychain = "فراموشی ورودی زنجیر کلید"
+forget_keychain_tooltip = "ورودی smtp-test-tool این کاربر را از زنجیر کلید سیستم عامل حذف می‌کند. فیلد گذرواژه بالا نیز پاک می‌شود."
+loaded_from_keychain = "(از زنجیر کلید بارگیری شد)"
+
+[ui.proto]
+test_smtp = "آزمایش SMTP"
+test_imap = "آزمایش IMAP"
+test_pop3 = "آزمایش POP3"
+host = "میزبان:"
+port = "پورت:"
+security = "امنیت:"
+security_none = "هیچ‌کدام"
+security_starttls = "starttls"
+security_ssl = "ssl"
+
+[ui.send]
+toggle = "ارسال واقعی ایمیل آزمایشی (در غیر این صورت فقط AUTH را آزمایش کنید)"
+mail_from = "MAIL FROM (پاکت):"
+from_header = "From: (سرآیند):"
+to = "به (با کاما جدا شده):"
+cc = "Cc (با کاما جدا شده):"
+bcc = "Bcc (با کاما جدا شده):"
+reply_to = "پاسخ به:"
+subject = "موضوع:"
+body = "محتوا:"
+
+[ui.tls]
+auth_mech = "مکانیزم SMTP AUTH:"
+insecure = "غیرفعال کردن بررسی گواهی (ناامن - فقط آزمایش)"
+ca_bundle = "بسته CA (PEM):"
+
+[ui.advanced]
+timeout = "زمان انتظار (ثانیه):"
+ehlo = "نام EHLO/HELO:"
+imap_folder = "پوشه IMAP:"
+log_level = "سطح ثبت:"
+theme = "پوسته:"
+language = "زبان:"
+language_unsupported = "محلی سیستم عامل شما ({code}) هنوز ترجمه نشده است. متن به انگلیسی نمایش داده می‌شود؛ مشارکت‌ها استقبال می‌شوند."
+theme_follow_os = "پیروی از سیستم عامل ({hint})"
+theme_dark = "تیره"
+theme_light = "روشن"
+
+[ui.actions]
+run_test = "اجرای آزمایش"
+running = "در حال اجرا..."
+clear_log = "پاک کردن ثبت"
+
+[ui.status]
+smtp_idle = "SMTP: -"
+imap_idle = "IMAP: -"
+pop3_idle = "POP3: -"
+smtp_pass = "SMTP: قبول"
+imap_pass = "IMAP: قبول"
+pop3_pass = "POP3: قبول"
+smtp_fail = "SMTP: ناموفق"
+imap_fail = "IMAP: ناموفق"
+pop3_fail = "POP3: ناموفق"
+smtp_skip = "SMTP: رد شد"
+imap_skip = "IMAP: رد شد"
+pop3_skip = "POP3: رد شد"
+
+[ui.diagnose]
+intro = "متن پیام شکست تحویل را برای استخراج راهنمایی‌های قابل اجرا برای IT در زیر بچسبانید. SMTP enhanced status codes (5.7.139، 5.7.60)، عبارات Microsoft 365 (\"basic authentication is disabled\") و برگشت‌های سمت وب‌میل مانند \"Send mail as / Mail sturen als\" Gmail را تشخیص می‌دهد. چیزی از طریق شبکه ارسال نمی‌شود و متن روی دیسک ذخیره نمی‌شود."
+input_placeholder = "متن برگشت را اینجا بچسبانید..."
+analyse = "تحلیل"
+clear = "پاک کردن"
+hints_heading = "راهنمایی‌ها"
+no_hints_yet = "(هنوز راهنمایی نیست - یک برگشت در بالا بچسبانید و روی تحلیل کلیک کنید)"
+
+[ui.log]
+heading = "ثبت"
+
+[diagnostics.scaffold]
+esc_prefix = "ESC {code}: {what}"
+action_prefix = "  -> اقدام: {fix}"
+hint_prefix = "  -> {hint}"
+
+[diagnostics.smtp.esc.5_7_0]
+what = "احراز هویت لازم است، یا مکانیزم AUTH انتخاب‌شده مجاز نیست."
+fix  = "SMTP AUTH را برای صندوق پستی فعال کنید؛ تأیید کنید که LOGIN / PLAIN / XOAUTH2 مجاز است."
+
+[diagnostics.smtp.esc.5_7_1]
+what = "دسترسی Relay رد شد - سرور از ارسال این پیام خودداری می‌کند."
+fix  = "یا فرستنده احراز هویت نشده، یا گیرنده خارجی است و relay غیرفعال است، یا یک transport rule پیام را مسدود می‌کند."
+
+[diagnostics.smtp.esc.5_7_3]
+what = "احراز هویت موفقیت‌آمیز نبود."
+fix  = "گذرواژه اشتباه، MFA بدون app-password، یا Basic/Legacy auth در tenant غیرفعال است (O365: 'SMTP AUTH disabled')."
+
+[diagnostics.smtp.esc.5_7_8]
+what = "اعتبارنامه‌های احراز هویت معتبر نیست."
+fix  = "نام کاربری/گذرواژه توسط لایه SASL رد شد."
+
+[diagnostics.smtp.esc.5_7_57]
+what = "مشتری در طول MAIL FROM برای ارسال ایمیل ناشناس احراز هویت نشده بود."
+fix  = "STARTTLS + AUTH را قبل از MAIL FROM اجباری کنید. در O365، این خطای معمول هنگامی است که مشتری بدون AUTH متصل می‌شود."
+
+[diagnostics.smtp.esc.5_7_60]
+what = "SendAsDenied - کاربر احراز هویت‌شده اجازه ارسال به عنوان این آدرس From را ندارد."
+fix  = "حق 'Send As' (یا 'Send on Behalf') صندوق پستی را به حساب احراز هویت‌شده اعطا کنید، یا سرآیند From را برای مطابقت با ورود تغییر دهید."
+
+[diagnostics.smtp.esc.5_7_64]
+what = "TenantAttribution; Relay Access Denied."
+fix  = "ارسال SMTP احراز هویت‌شده به صندوق پستی دارای مجوز در O365 نیاز دارد."
+
+[diagnostics.smtp.esc.5_7_124]
+what = "کاربر مجاز به ارسال ایمیل نیست."
+fix  = "صندوق پستی غیرفعال، توسط Conditional Access مسدود شده، یا مجوز موجود نیست."
+
+[diagnostics.smtp.esc.5_7_135]
+what = "احراز هویت موفقیت‌آمیز نبود، اعتبارنامه‌های کاربر منقضی شده‌اند."
+fix  = "گذرواژه را بازنشانی کنید / توکن OAuth را تازه کنید."
+
+[diagnostics.smtp.esc.5_7_139]
+what = "احراز هویت موفقیت‌آمیز نبود؛ درخواست معیارها را برآورده نکرد."
+fix  = "خط‌مشی Conditional Access ورود را رد کرد (مکان، دستگاه، MFA)."
+
+[diagnostics.smtp.esc.5_7_500]
+what = "دسترسی رد شد، دامنه ارسال غیرفعال است."
+fix  = "دامنه فرستنده برای ایمیل خروجی در این tenant مسدود شده است."
+
+[diagnostics.smtp.esc.5_7_501]
+what = "دسترسی رد شد، فرستنده ممنوع."
+fix  = "آدرس فرستنده در blocklist تنانت است."
+
+[diagnostics.smtp.esc.5_7_508]
+what = "دسترسی رد شد، آستانه نرخ یا ترافیک تجاوز کرد."
+fix  = "Throttled؛ صبر کنید و دوباره امتحان کنید، یا از مدیر بخواهید محدودیت را افزایش دهد."
+
+[diagnostics.smtp.esc.5_7_511]
+what = "دسترسی رد شد، فرستنده ممنوع."
+fix  = "فرستنده به عنوان منبع هرزنامه علامت‌گذاری شده است."
+
+[diagnostics.smtp.esc.5_7_606]
+what = "دسترسی رد شد، IP ارسال ممنوع."
+fix  = "IP ارسال در blocklist مایکروسافت است."
+
+[diagnostics.smtp.esc.5_7_708]
+what = "سرویس رد شد. IP منبع شهرت بدی دارد."
+fix  = "از IP دیگری ارسال کنید یا درخواست delisting کنید."
+
+[diagnostics.smtp.esc.5_7_750]
+what = "مشتری از ارسال از دامنه‌های ثبت‌نشده مسدود شد."
+fix  = "دامنه فرستنده را در tenant تأیید کنید یا از دامنه پذیرفته‌شده استفاده کنید."
+
+[diagnostics.smtp.esc.5_1_0]
+what = "آدرس فرستنده رد شد."
+fix  = "From/MAIL FROM پذیرفته نشد؛ معمولاً مشکل قالب یا خط‌مشی دامنه."
+
+[diagnostics.smtp.esc.5_1_1]
+what = "صندوق پستی مقصد اشتباه - گیرنده وجود ندارد."
+fix  = "آدرس گیرنده را بررسی کنید."
+
+[diagnostics.smtp.esc.5_1_7]
+what = "آدرس فرستنده نامعتبر (بدشکل)."
+fix  = "نحو MAIL FROM را تصحیح کنید."
+
+[diagnostics.smtp.esc.5_1_8]
+what = "دامنه فرستنده مجاز نیست."
+fix  = "سرور دامنه را نمی‌پذیرد."
+
+[diagnostics.smtp.esc.5_1_10]
+what = "آدرس گیرنده رد شد - کاربر ناشناخته."
+fix  = "اشتباه تایپی یا گیرنده‌ای که وجود ندارد."
+
+[diagnostics.smtp.esc.5_4_1]
+what = "آدرس گیرنده رد شد: دسترسی رد شد."
+fix  = "صندوق پستی گیرنده پیام‌های این فرستنده / دامنه را رد می‌کند."
+
+[diagnostics.smtp.esc.5_2_1]
+what = "صندوق پستی غیرفعال، پیام‌ها را نمی‌پذیرد."
+fix  = "صندوق پستی گیرنده معلق است."
+
+[diagnostics.smtp.esc.5_2_2]
+what = "صندوق پستی پر است."
+fix  = "سهمیه گیرنده تجاوز کرده است."
+
+[diagnostics.smtp.esc.5_3_4]
+what = "پیام برای سیستم خیلی بزرگ است."
+fix  = "اندازه پیام را کاهش دهید."
+
+[diagnostics.smtp.esc.4_7_0]
+what = "شکست موقت احراز هویت / throttling."
+fix  = "بعداً دوباره امتحان کنید؛ ممکن است tarpit برای ورودهای اشتباه مکرر باشد."
+
+[diagnostics.smtp.esc.4_4_2]
+what = "اتصال قطع شد."
+fix  = "اشکال شبکه یا راه‌اندازی مجدد سرور؛ دوباره امتحان کنید."
+
+[diagnostics.smtp.esc.4_3_2]
+what = "سیستم پیام‌های شبکه را نمی‌پذیرد."
+fix  = "تعمیر و نگهداری سرور."
+
+[diagnostics.imap.AUTHENTICATIONFAILED]
+hint = "ورود IMAP رد شد - گذرواژه اشتباه، MFA بدون app-password، یا Basic Auth غیرفعال."
+
+[diagnostics.imap."LOGIN_failed"]
+hint = "ورود IMAP توسط سرور رد شد."
+
+[diagnostics.imap.ALERT]
+hint = "سرور یک پاسخ ALERT برگرداند - بخوانید؛ پیام تعریف‌شده توسط مدیر."
+
+[diagnostics.imap.UNAVAILABLE]
+hint = "صندوق پستی/سرور موقتاً در دسترس نیست."
+
+[diagnostics.imap.PRIVACYREQUIRED]
+hint = "سرور قبل از LOGIN به TLS نیاز دارد - از STARTTLS یا SSL ضمنی استفاده کنید."
+
+[diagnostics.imap.CLIENTBUG]
+hint = "مشتری کاری انجام داد که سرور آن را اشتباه می‌داند؛ معمولاً STARTTLS گم‌شده یا حالت نادرست."
+
+[diagnostics.imap.LOGINDISABLED]
+hint = "Plain LOGIN در این سرور غیرفعال است - از STARTTLS/SSL یا XOAUTH2 استفاده کنید."
+
+[diagnostics.pop.authentication_failed]
+hint = "ورود POP3 رد شد - اعتبارنامه‌های اشتباه یا POP برای این صندوق پستی غیرفعال است."
+
+[diagnostics.pop.logon_failure]
+hint = "ورود POP3 رد شد."
+
+[diagnostics.pop.not_implemented]
+hint = "سرور از دستور صادرشده پشتیبانی نمی‌کند."
+
+[diagnostics.pop.disabled]
+hint = "دسترسی POP3 برای این حساب / tenant غیرفعال است."
+
+[diagnostics.bounce.gmail_send_as_en]
+needle = "Send mail as"
+hint = "ورود upstream 'Send mail as' Gmail ناموفق بود. تنظیمات > مشاهده همه تنظیمات > حساب‌ها و وارد کردن > ارسال ایمیل به عنوان > ویرایش اطلاعات > گذرواژه SMTP را دوباره وارد کنید (یا app-password اگر حساب منبع 2FA دارد)."
+
+[diagnostics.bounce.gmail_send_as_nl]
+needle = "Mail sturen als"
+hint = "ورود upstream 'Mail sturen als' (Send mail as) Gmail ناموفق بود. تنظیمات > مشاهده همه تنظیمات > حساب‌ها و وارد کردن > ارسال ایمیل به عنوان > ویرایش اطلاعات > گذرواژه SMTP را دوباره وارد کنید (یا app-password اگر حساب منبع 2FA دارد)."
+
+[cli.prompt]
+username = "نام کاربری / ایمیل: "
+password = "گذرواژه: "

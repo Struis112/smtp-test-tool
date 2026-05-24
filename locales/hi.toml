@@ -1,0 +1,275 @@
+# smtp-test-tool locale: हिन्दी (hi)
+# status: machine-translated, native review welcome.
+
+[app]
+name = "SMTP Test Tool"
+
+[locale]
+native_name = "हिन्दी"
+english_name = "Hindi"
+status_note = "मशीन-अनुवादित - मूल वक्ता समीक्षा का स्वागत है।"
+
+[ui.window]
+title = "SMTP परीक्षण उपकरण"
+
+[ui.topbar]
+profile_label = "प्रोफ़ाइल:"
+save_config = "कॉन्फ़िग सहेजें"
+save_config_tooltip = "सक्रिय प्रोफ़ाइल को निष्पादन योग्य के बगल में कॉन्फ़िग फ़ाइल में वापस लिखता है।"
+provider_preset = "प्रदाता प्रीसेट..."
+provider_preset_tooltip = "नीचे होस्ट / पोर्ट / सुरक्षा फ़ील्ड पर चयनित प्रदाता प्रीसेट में से एक लागू करता है।"
+config_path_none = "कोई कॉन्फ़िग फ़ाइल नहीं"
+
+[ui.tab]
+servers = "सर्वर"
+send_mail = "मेल भेजें"
+tls_auth = "TLS / Auth"
+advanced = "उन्नत"
+diagnose = "बाउंस का विश्लेषण करें"
+
+[ui.servers]
+username = "उपयोगकर्ता नाम:"
+password = "पासवर्ड:"
+show = "दिखाएँ"
+oauth_token = "OAuth टोकन:"
+oauth_hint = "(XOAUTH2, वैकल्पिक)"
+save_to_keychain = "पासवर्ड को कीचेन में सहेजें"
+save_to_keychain_tooltip = "पासवर्ड को OS के कीचेन (Windows Credential Manager / macOS Keychain / Linux Secret Service) में सहेजता है। कभी भी कॉन्फ़िग फ़ाइल में नहीं लिखा जाता।"
+forget_keychain = "कीचेन प्रविष्टि भूलें"
+forget_keychain_tooltip = "OS कीचेन से इस उपयोगकर्ता की smtp-test-tool प्रविष्टि हटाता है। ऊपर का पासवर्ड फ़ील्ड भी साफ़ हो जाता है।"
+loaded_from_keychain = "(कीचेन से लोड किया गया)"
+
+[ui.proto]
+test_smtp = "SMTP परीक्षण करें"
+test_imap = "IMAP परीक्षण करें"
+test_pop3 = "POP3 परीक्षण करें"
+host = "होस्ट:"
+port = "पोर्ट:"
+security = "सुरक्षा:"
+security_none = "कोई नहीं"
+security_starttls = "starttls"
+security_ssl = "ssl"
+
+[ui.send]
+toggle = "वास्तव में परीक्षण मेल भेजें (अन्यथा केवल AUTH का परीक्षण करें)"
+mail_from = "MAIL FROM (लिफ़ाफ़ा):"
+from_header = "From: (शीर्षलेख):"
+to = "प्रति (कॉमा-अलग):"
+cc = "Cc (कॉमा-अलग):"
+bcc = "Bcc (कॉमा-अलग):"
+reply_to = "उत्तर दें:"
+subject = "विषय:"
+body = "विषयवस्तु:"
+
+[ui.tls]
+auth_mech = "SMTP AUTH तंत्र:"
+insecure = "प्रमाणपत्र सत्यापन अक्षम करें (असुरक्षित - केवल परीक्षण)"
+ca_bundle = "CA बंडल (PEM):"
+
+[ui.advanced]
+timeout = "टाइमआउट (सेकंड):"
+ehlo = "EHLO/HELO नाम:"
+imap_folder = "IMAP फ़ोल्डर:"
+log_level = "लॉग स्तर:"
+theme = "थीम:"
+language = "भाषा:"
+language_unsupported = "आपका OS लोकेल ({code}) अभी तक अनुवादित नहीं है। पाठ अंग्रेज़ी में दिखता है; योगदान का स्वागत है।"
+theme_follow_os = "OS का अनुसरण करें ({hint})"
+theme_dark = "गहरा"
+theme_light = "हल्का"
+
+[ui.actions]
+run_test = "परीक्षण चलाएँ"
+running = "चल रहा है..."
+clear_log = "लॉग साफ़ करें"
+
+[ui.status]
+smtp_idle = "SMTP: -"
+imap_idle = "IMAP: -"
+pop3_idle = "POP3: -"
+smtp_pass = "SMTP: पास"
+imap_pass = "IMAP: पास"
+pop3_pass = "POP3: पास"
+smtp_fail = "SMTP: विफल"
+imap_fail = "IMAP: विफल"
+pop3_fail = "POP3: विफल"
+smtp_skip = "SMTP: छोड़ दिया"
+imap_skip = "IMAP: छोड़ दिया"
+pop3_skip = "POP3: छोड़ दिया"
+
+[ui.diagnose]
+intro = "IT-कार्यान्वयन योग्य संकेत निकालने के लिए डिलीवरी विफलता संदेश का मुख्य भाग नीचे चिपकाएँ। SMTP enhanced status codes (5.7.139, 5.7.60), Microsoft 365 वाक्यांश (\"basic authentication is disabled\") और Gmail के \"Send mail as / Mail sturen als\" जैसे वेबमेल-साइड बाउंस को पहचानता है। नेटवर्क पर कुछ नहीं भेजा जाता और पाठ डिस्क पर सहेजा नहीं जाता।"
+input_placeholder = "बाउंस मुख्य भाग यहाँ चिपकाएँ..."
+analyse = "विश्लेषण करें"
+clear = "साफ़ करें"
+hints_heading = "संकेत"
+no_hints_yet = "(अभी तक कोई संकेत नहीं - ऊपर एक बाउंस चिपकाएँ और विश्लेषण पर क्लिक करें)"
+
+[ui.log]
+heading = "लॉग"
+
+[diagnostics.scaffold]
+esc_prefix = "ESC {code}: {what}"
+action_prefix = "  -> क्रिया: {fix}"
+hint_prefix = "  -> {hint}"
+
+[diagnostics.smtp.esc.5_7_0]
+what = "प्रमाणीकरण आवश्यक है, या चयनित AUTH तंत्र की अनुमति नहीं है।"
+fix  = "मेलबॉक्स के लिए SMTP AUTH सक्षम करें; सत्यापित करें कि LOGIN / PLAIN / XOAUTH2 की अनुमति है।"
+
+[diagnostics.smtp.esc.5_7_1]
+what = "Relay पहुँच अस्वीकृत - सर्वर इस संदेश को अग्रेषित करने से इनकार करता है।"
+fix  = "या तो प्रेषक प्रमाणित नहीं है, या प्राप्तकर्ता बाहरी है और relay अक्षम है, या एक transport rule संदेश को अवरुद्ध कर रहा है।"
+
+[diagnostics.smtp.esc.5_7_3]
+what = "प्रमाणीकरण असफल।"
+fix  = "गलत पासवर्ड, बिना app-password के MFA, या tenant पर Basic/Legacy auth अक्षम है (O365: 'SMTP AUTH disabled')।"
+
+[diagnostics.smtp.esc.5_7_8]
+what = "प्रमाणीकरण क्रेडेंशियल मान्य नहीं हैं।"
+fix  = "उपयोगकर्ता नाम/पासवर्ड SASL परत द्वारा अस्वीकृत किए गए।"
+
+[diagnostics.smtp.esc.5_7_57]
+what = "क्लाइंट MAIL FROM के दौरान अनाम मेल भेजने के लिए प्रमाणित नहीं था।"
+fix  = "MAIL FROM से पहले STARTTLS + AUTH लागू करें। O365 में, यह विशिष्ट त्रुटि है जब क्लाइंट AUTH के बिना कनेक्ट होता है।"
+
+[diagnostics.smtp.esc.5_7_60]
+what = "SendAsDenied - प्रमाणित उपयोगकर्ता को इस From पते के रूप में भेजने की अनुमति नहीं है।"
+fix  = "मेलबॉक्स को प्रमाणित खाते के लिए 'Send As' (या 'Send on Behalf') अधिकार दें, या लॉगिन से मेल खाने के लिए From शीर्षलेख बदलें।"
+
+[diagnostics.smtp.esc.5_7_64]
+what = "TenantAttribution; Relay Access Denied।"
+fix  = "प्रमाणित SMTP प्रस्तुति के लिए O365 में लाइसेंस प्राप्त मेलबॉक्स आवश्यक है।"
+
+[diagnostics.smtp.esc.5_7_124]
+what = "उपयोगकर्ता को मेल भेजने का अधिकार नहीं है।"
+fix  = "अक्षम मेलबॉक्स, Conditional Access द्वारा अवरुद्ध, या लाइसेंस गायब है।"
+
+[diagnostics.smtp.esc.5_7_135]
+what = "प्रमाणीकरण असफल, उपयोगकर्ता क्रेडेंशियल समाप्त हो गए।"
+fix  = "पासवर्ड रीसेट करें / OAuth टोकन ताज़ा करें।"
+
+[diagnostics.smtp.esc.5_7_139]
+what = "प्रमाणीकरण असफल; अनुरोध मानदंड पूरा नहीं करता।"
+fix  = "Conditional Access नीति ने लॉगिन को अस्वीकार किया (स्थान, उपकरण, MFA)।"
+
+[diagnostics.smtp.esc.5_7_500]
+what = "पहुँच अस्वीकृत, भेजने वाला डोमेन अक्षम है।"
+fix  = "इस tenant पर प्रेषक के डोमेन के लिए बाहर जाने वाले मेल अवरुद्ध हैं।"
+
+[diagnostics.smtp.esc.5_7_501]
+what = "पहुँच अस्वीकृत, प्रतिबंधित प्रेषक।"
+fix  = "प्रेषक का पता tenant की blocklist में है।"
+
+[diagnostics.smtp.esc.5_7_508]
+what = "पहुँच अस्वीकृत, दर या ट्रैफ़िक सीमा पार हो गई।"
+fix  = "Throttled; प्रतीक्षा करें और पुनः प्रयास करें, या व्यवस्थापक से सीमा बढ़ाने का अनुरोध करें।"
+
+[diagnostics.smtp.esc.5_7_511]
+what = "पहुँच अस्वीकृत, प्रतिबंधित प्रेषक।"
+fix  = "प्रेषक स्पैम स्रोत के रूप में चिह्नित है।"
+
+[diagnostics.smtp.esc.5_7_606]
+what = "पहुँच अस्वीकृत, प्रतिबंधित भेजने वाला IP।"
+fix  = "भेजने वाला IP Microsoft की blocklist में है।"
+
+[diagnostics.smtp.esc.5_7_708]
+what = "सेवा अस्वीकृत। स्रोत IP की प्रतिष्ठा खराब है।"
+fix  = "किसी अन्य IP से भेजें या delisting का अनुरोध करें।"
+
+[diagnostics.smtp.esc.5_7_750]
+what = "क्लाइंट को अपंजीकृत डोमेन से भेजने से अवरुद्ध किया गया।"
+fix  = "tenant में प्रेषक डोमेन सत्यापित करें या स्वीकृत डोमेन का उपयोग करें।"
+
+[diagnostics.smtp.esc.5_1_0]
+what = "प्रेषक का पता अस्वीकृत।"
+fix  = "From/MAIL FROM स्वीकार नहीं किया गया; आमतौर पर प्रारूप या डोमेन नीति।"
+
+[diagnostics.smtp.esc.5_1_1]
+what = "गलत गंतव्य मेलबॉक्स - प्राप्तकर्ता मौजूद नहीं है।"
+fix  = "प्राप्तकर्ता का पता जाँचें।"
+
+[diagnostics.smtp.esc.5_1_7]
+what = "अमान्य प्रेषक पता (विकृत)।"
+fix  = "MAIL FROM वाक्यविन्यास ठीक करें।"
+
+[diagnostics.smtp.esc.5_1_8]
+what = "प्रेषक डोमेन की अनुमति नहीं है।"
+fix  = "सर्वर डोमेन स्वीकार नहीं करता।"
+
+[diagnostics.smtp.esc.5_1_10]
+what = "प्राप्तकर्ता का पता अस्वीकृत - उपयोगकर्ता अज्ञात।"
+fix  = "वर्तनी की त्रुटि या मौजूद नहीं प्राप्तकर्ता।"
+
+[diagnostics.smtp.esc.5_4_1]
+what = "प्राप्तकर्ता का पता अस्वीकृत: पहुँच अस्वीकृत।"
+fix  = "प्राप्तकर्ता का मेलबॉक्स इस प्रेषक / डोमेन से संदेश अस्वीकार करता है।"
+
+[diagnostics.smtp.esc.5_2_1]
+what = "मेलबॉक्स अक्षम, संदेश स्वीकार नहीं कर रहा।"
+fix  = "प्राप्तकर्ता का मेलबॉक्स निलंबित है।"
+
+[diagnostics.smtp.esc.5_2_2]
+what = "मेलबॉक्स भरा है।"
+fix  = "प्राप्तकर्ता का कोटा पार हो गया।"
+
+[diagnostics.smtp.esc.5_3_4]
+what = "संदेश सिस्टम के लिए बहुत बड़ा है।"
+fix  = "संदेश का आकार कम करें।"
+
+[diagnostics.smtp.esc.4_7_0]
+what = "अस्थायी प्रमाणीकरण विफलता / throttling।"
+fix  = "बाद में पुनः प्रयास करें; बार-बार गलत लॉगिन के लिए tarpit भी हो सकता है।"
+
+[diagnostics.smtp.esc.4_4_2]
+what = "कनेक्शन छोड़ दिया गया।"
+fix  = "नेटवर्क गड़बड़ या सर्वर पुनरारंभ; पुनः प्रयास करें।"
+
+[diagnostics.smtp.esc.4_3_2]
+what = "सिस्टम नेटवर्क संदेश स्वीकार नहीं कर रहा।"
+fix  = "सर्वर रखरखाव।"
+
+[diagnostics.imap.AUTHENTICATIONFAILED]
+hint = "IMAP लॉगिन अस्वीकृत - गलत पासवर्ड, बिना app-password के MFA, या Basic Auth अक्षम।"
+
+[diagnostics.imap."LOGIN_failed"]
+hint = "IMAP लॉगिन सर्वर द्वारा अस्वीकृत।"
+
+[diagnostics.imap.ALERT]
+hint = "सर्वर ने ALERT प्रतिक्रिया लौटाई - पढ़ें; व्यवस्थापक-परिभाषित संदेश।"
+
+[diagnostics.imap.UNAVAILABLE]
+hint = "मेलबॉक्स/सर्वर अस्थायी रूप से अनुपलब्ध।"
+
+[diagnostics.imap.PRIVACYREQUIRED]
+hint = "सर्वर को LOGIN से पहले TLS चाहिए - STARTTLS या निहित SSL का उपयोग करें।"
+
+[diagnostics.imap.CLIENTBUG]
+hint = "क्लाइंट ने कुछ किया जिसे सर्वर गलत मानता है; आमतौर पर लापता STARTTLS या गलत स्थिति।"
+
+[diagnostics.imap.LOGINDISABLED]
+hint = "इस सर्वर पर Plain LOGIN अक्षम है - STARTTLS/SSL या XOAUTH2 का उपयोग करें।"
+
+[diagnostics.pop.authentication_failed]
+hint = "POP3 लॉगिन अस्वीकृत - गलत क्रेडेंशियल या इस मेलबॉक्स के लिए POP अक्षम।"
+
+[diagnostics.pop.logon_failure]
+hint = "POP3 लॉगिन अस्वीकृत।"
+
+[diagnostics.pop.not_implemented]
+hint = "सर्वर जारी किए गए कमांड का समर्थन नहीं करता।"
+
+[diagnostics.pop.disabled]
+hint = "इस खाते / tenant के लिए POP3 पहुँच अक्षम है।"
+
+[diagnostics.bounce.gmail_send_as_en]
+needle = "Send mail as"
+hint = "Gmail का 'Send mail as' अपस्ट्रीम लॉगिन विफल हुआ। सेटिंग्स > सभी सेटिंग्स देखें > खाते और आयात > इस रूप में मेल भेजें > जानकारी संपादित करें > SMTP पासवर्ड फिर से दर्ज करें (या app-password यदि स्रोत खाते में 2FA है)।"
+
+[diagnostics.bounce.gmail_send_as_nl]
+needle = "Mail sturen als"
+hint = "Gmail का 'Mail sturen als' (Send mail as) अपस्ट्रीम लॉगिन विफल हुआ। सेटिंग्स > सभी सेटिंग्स देखें > खाते और आयात > इस रूप में मेल भेजें > जानकारी संपादित करें > SMTP पासवर्ड फिर से दर्ज करें (या app-password यदि स्रोत खाते में 2FA है)।"
+
+[cli.prompt]
+username = "उपयोगकर्ता नाम / ईमेल: "
+password = "पासवर्ड: "

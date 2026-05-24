@@ -73,8 +73,13 @@ const VI_TOML: &str = include_str!("../locales/vi.toml");
 // Non-Latin scripts - render correctly only when src/fonts.rs picks up an
 // OS-installed font for the script.  See CHANGELOG for the font story.
 const AR_TOML: &str = include_str!("../locales/ar.toml");
+const BN_TOML: &str = include_str!("../locales/bn.toml");
+const FA_TOML: &str = include_str!("../locales/fa.toml");
+const HE_TOML: &str = include_str!("../locales/he.toml");
+const HI_TOML: &str = include_str!("../locales/hi.toml");
 const JA_TOML: &str = include_str!("../locales/ja.toml");
 const KO_TOML: &str = include_str!("../locales/ko.toml");
+const TH_TOML: &str = include_str!("../locales/th.toml");
 const ZH_TOML: &str = include_str!("../locales/zh.toml");
 
 /// Codes of every shipped locale.  Order = alphabetical except `en` first
@@ -83,13 +88,17 @@ const LOCALES: &[(&str, &str)] = &[
     ("en", EN_TOML),
     ("ar", AR_TOML),
     ("bg", BG_TOML),
+    ("bn", BN_TOML),
     ("cs", CS_TOML),
     ("da", DA_TOML),
     ("de", DE_TOML),
     ("el", EL_TOML),
     ("es", ES_TOML),
+    ("fa", FA_TOML),
     ("fi", FI_TOML),
     ("fr", FR_TOML),
+    ("he", HE_TOML),
+    ("hi", HI_TOML),
     ("hr", HR_TOML),
     ("hu", HU_TOML),
     ("id", ID_TOML),
@@ -105,6 +114,7 @@ const LOCALES: &[(&str, &str)] = &[
     ("sk", SK_TOML),
     ("sr", SR_TOML),
     ("sv", SV_TOML),
+    ("th", TH_TOML),
     ("tr", TR_TOML),
     ("uk", UK_TOML),
     ("vi", VI_TOML),

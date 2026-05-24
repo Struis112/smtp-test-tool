@@ -1,0 +1,277 @@
+# smtp-test-tool locale: עברית (he)
+# status: machine-translated, native review welcome.
+# Note: egui 0.34 has partial bidi support; Hebrew text shape is
+# correct but layout may not perfectly match RTL conventions yet.
+
+[app]
+name = "SMTP Test Tool"
+
+[locale]
+native_name = "עברית"
+english_name = "Hebrew"
+status_note = "תרגום מכונה - סקירה של דובר שפת אם מתקבלת בברכה."
+
+[ui.window]
+title = "כלי בדיקת SMTP"
+
+[ui.topbar]
+profile_label = "פרופיל:"
+save_config = "שמור תצורה"
+save_config_tooltip = "כותב את הפרופיל הפעיל בחזרה לקובץ התצורה ליד קובץ ההפעלה."
+provider_preset = "ערכת ספק..."
+provider_preset_tooltip = "מחיל אחת מערכות הספקים האצורות על שדות המארח / היציאה / האבטחה למטה."
+config_path_none = "אין קובץ תצורה"
+
+[ui.tab]
+servers = "שרתים"
+send_mail = "שלח דואר"
+tls_auth = "TLS / Auth"
+advanced = "מתקדם"
+diagnose = "נתח החזרה"
+
+[ui.servers]
+username = "שם משתמש:"
+password = "סיסמה:"
+show = "הצג"
+oauth_token = "אסימון OAuth:"
+oauth_hint = "(XOAUTH2, אופציונלי)"
+save_to_keychain = "שמור סיסמה במחזיק המפתחות"
+save_to_keychain_tooltip = "שומר את הסיסמה במחזיק המפתחות של מערכת ההפעלה (Windows Credential Manager / macOS Keychain / Linux Secret Service). לעולם לא נכתב לקובץ התצורה."
+forget_keychain = "שכח רשומת מחזיק מפתחות"
+forget_keychain_tooltip = "מוחק את רשומת smtp-test-tool של משתמש זה ממחזיק המפתחות של מערכת ההפעלה. שדה הסיסמה למעלה מנוקה גם כן."
+loaded_from_keychain = "(נטען ממחזיק המפתחות)"
+
+[ui.proto]
+test_smtp = "בדוק SMTP"
+test_imap = "בדוק IMAP"
+test_pop3 = "בדוק POP3"
+host = "מארח:"
+port = "יציאה:"
+security = "אבטחה:"
+security_none = "ללא"
+security_starttls = "starttls"
+security_ssl = "ssl"
+
+[ui.send]
+toggle = "שלח בפועל דואר בדיקה (אחרת בדוק AUTH בלבד)"
+mail_from = "MAIL FROM (מעטפה):"
+from_header = "From: (כותרת):"
+to = "אל (מופרד בפסיקים):"
+cc = "Cc (מופרד בפסיקים):"
+bcc = "Bcc (מופרד בפסיקים):"
+reply_to = "השב אל:"
+subject = "נושא:"
+body = "תוכן:"
+
+[ui.tls]
+auth_mech = "מנגנון SMTP AUTH:"
+insecure = "בטל אימות תעודה (לא בטוח - לבדיקה בלבד)"
+ca_bundle = "חבילת CA (PEM):"
+
+[ui.advanced]
+timeout = "פסק זמן (שניות):"
+ehlo = "שם EHLO/HELO:"
+imap_folder = "תיקיית IMAP:"
+log_level = "רמת יומן:"
+theme = "ערכת נושא:"
+language = "שפה:"
+language_unsupported = "אזור מערכת ההפעלה שלך ({code}) עדיין לא תורגם. הטקסט מופיע באנגלית; תרומות מתקבלות בברכה."
+theme_follow_os = "עקוב אחר מערכת ההפעלה ({hint})"
+theme_dark = "כהה"
+theme_light = "בהיר"
+
+[ui.actions]
+run_test = "הפעל בדיקה"
+running = "פועל..."
+clear_log = "נקה יומן"
+
+[ui.status]
+smtp_idle = "SMTP: -"
+imap_idle = "IMAP: -"
+pop3_idle = "POP3: -"
+smtp_pass = "SMTP: עבר"
+imap_pass = "IMAP: עבר"
+pop3_pass = "POP3: עבר"
+smtp_fail = "SMTP: נכשל"
+imap_fail = "IMAP: נכשל"
+pop3_fail = "POP3: נכשל"
+smtp_skip = "SMTP: דולג"
+imap_skip = "IMAP: דולג"
+pop3_skip = "POP3: דולג"
+
+[ui.diagnose]
+intro = "הדבק את גוף הודעת כשל המסירה למטה כדי לחלץ רמזים שניתן לפעול עליהם על ידי IT. מזהה SMTP enhanced status codes (5.7.139, 5.7.60), ביטויי Microsoft 365 (\"basic authentication is disabled\") והחזרות מצד דואר אינטרנט כמו 'Send mail as / Mail sturen als' של Gmail. דבר אינו נשלח דרך הרשת והטקסט אינו נשמר לדיסק."
+input_placeholder = "הדבק את גוף ההחזרה כאן..."
+analyse = "נתח"
+clear = "נקה"
+hints_heading = "רמזים"
+no_hints_yet = "(אין רמזים עדיין - הדבק החזרה למעלה ולחץ על נתח)"
+
+[ui.log]
+heading = "יומן"
+
+[diagnostics.scaffold]
+esc_prefix = "ESC {code}: {what}"
+action_prefix = "  -> פעולה: {fix}"
+hint_prefix = "  -> {hint}"
+
+[diagnostics.smtp.esc.5_7_0]
+what = "נדרש אימות, או שמנגנון AUTH שנבחר אינו מותר."
+fix  = "אפשר SMTP AUTH עבור תיבת הדואר; ודא ש-LOGIN / PLAIN / XOAUTH2 מותרים."
+
+[diagnostics.smtp.esc.5_7_1]
+what = "גישת Relay נדחתה - השרת מסרב להעביר הודעה זו."
+fix  = "או שהשולח אינו מאומת, או שהנמען חיצוני ו-relay מושבת, או ש-transport rule חוסם את ההודעה."
+
+[diagnostics.smtp.esc.5_7_3]
+what = "האימות לא הצליח."
+fix  = "סיסמה שגויה, MFA ללא app-password, או Basic/Legacy auth מושבת על tenant (O365: 'SMTP AUTH disabled')."
+
+[diagnostics.smtp.esc.5_7_8]
+what = "אישורי האימות אינם תקפים."
+fix  = "שם המשתמש/הסיסמה נדחו על ידי שכבת SASL."
+
+[diagnostics.smtp.esc.5_7_57]
+what = "הלקוח לא היה מאומת לשלוח דואר אנונימי במהלך MAIL FROM."
+fix  = "אכוף STARTTLS + AUTH לפני MAIL FROM. ב-O365, זוהי השגיאה הטיפוסית כאשר הלקוח מתחבר ללא AUTH."
+
+[diagnostics.smtp.esc.5_7_60]
+what = "SendAsDenied - למשתמש המאומת אין הרשאה לשלוח בתור כתובת From זו."
+fix  = "הענק לתיבת הדואר זכויות 'Send As' (או 'Send on Behalf') לחשבון המאומת, או שנה את כותרת ה-From כך שתתאים להתחברות."
+
+[diagnostics.smtp.esc.5_7_64]
+what = "TenantAttribution; Relay Access Denied."
+fix  = "הגשת SMTP מאומתת דורשת תיבת דואר מורשית ב-O365."
+
+[diagnostics.smtp.esc.5_7_124]
+what = "המשתמש אינו מורשה לשלוח דואר."
+fix  = "תיבת דואר מושבתת, נחסמה על ידי Conditional Access, או חסרה רישיון."
+
+[diagnostics.smtp.esc.5_7_135]
+what = "האימות לא הצליח, אישורי המשתמש פגו."
+fix  = "אפס סיסמה / רענן אסימון OAuth."
+
+[diagnostics.smtp.esc.5_7_139]
+what = "האימות לא הצליח; הבקשה לא עמדה בקריטריונים."
+fix  = "מדיניות Conditional Access דחתה את ההתחברות (מיקום, מכשיר, MFA)."
+
+[diagnostics.smtp.esc.5_7_500]
+what = "הגישה נדחתה, תחום השליחה מושבת."
+fix  = "תחום השולח חסום לדואר יוצא ב-tenant זה."
+
+[diagnostics.smtp.esc.5_7_501]
+what = "הגישה נדחתה, שולח אסור."
+fix  = "כתובת השולח ב-blocklist של ה-tenant."
+
+[diagnostics.smtp.esc.5_7_508]
+what = "הגישה נדחתה, סף קצב או תעבורה נחצה."
+fix  = "Throttled; המתן ונסה שוב, או בקש מהמנהל להעלות את המגבלה."
+
+[diagnostics.smtp.esc.5_7_511]
+what = "הגישה נדחתה, שולח אסור."
+fix  = "השולח סומן כמקור ספאם."
+
+[diagnostics.smtp.esc.5_7_606]
+what = "הגישה נדחתה, IP שולח אסור."
+fix  = "ה-IP השולח ב-blocklist של Microsoft."
+
+[diagnostics.smtp.esc.5_7_708]
+what = "השירות נדחה. ל-IP המקור מוניטין רע."
+fix  = "שלח מ-IP אחר או בקש delisting."
+
+[diagnostics.smtp.esc.5_7_750]
+what = "הלקוח נחסם משליחה מתחומים לא רשומים."
+fix  = "אמת את תחום השולח ב-tenant או השתמש בתחום מקובל."
+
+[diagnostics.smtp.esc.5_1_0]
+what = "כתובת השולח נדחתה."
+fix  = "From/MAIL FROM אינה מתקבלת; בדרך כלל בעיית פורמט או מדיניות תחום."
+
+[diagnostics.smtp.esc.5_1_1]
+what = "תיבת דואר יעד שגויה - הנמען אינו קיים."
+fix  = "בדוק את כתובת הנמען."
+
+[diagnostics.smtp.esc.5_1_7]
+what = "כתובת שולח לא חוקית (מעוותת)."
+fix  = "תקן את תחביר MAIL FROM."
+
+[diagnostics.smtp.esc.5_1_8]
+what = "תחום השולח אינו מותר."
+fix  = "השרת אינו מקבל את התחום."
+
+[diagnostics.smtp.esc.5_1_10]
+what = "כתובת הנמען נדחתה - המשתמש לא ידוע."
+fix  = "שגיאת הקלדה או נמען שאינו קיים."
+
+[diagnostics.smtp.esc.5_4_1]
+what = "כתובת הנמען נדחתה: הגישה נדחתה."
+fix  = "תיבת הדואר של הנמען דוחה הודעות משולח / תחום זה."
+
+[diagnostics.smtp.esc.5_2_1]
+what = "תיבת הדואר מושבתת, אינה מקבלת הודעות."
+fix  = "תיבת הדואר של הנמען מושעית."
+
+[diagnostics.smtp.esc.5_2_2]
+what = "תיבת הדואר מלאה."
+fix  = "מכסת הנמען נחצתה."
+
+[diagnostics.smtp.esc.5_3_4]
+what = "ההודעה גדולה מדי למערכת."
+fix  = "הקטן את גודל ההודעה."
+
+[diagnostics.smtp.esc.4_7_0]
+what = "כשל אימות זמני / throttling."
+fix  = "נסה שוב מאוחר יותר; ייתכן גם tarpit בגלל התחברויות שגויות חוזרות."
+
+[diagnostics.smtp.esc.4_4_2]
+what = "החיבור הופסק."
+fix  = "תקלת רשת או הפעלה מחדש של השרת; נסה שוב."
+
+[diagnostics.smtp.esc.4_3_2]
+what = "המערכת אינה מקבלת הודעות רשת."
+fix  = "תחזוקת שרת."
+
+[diagnostics.imap.AUTHENTICATIONFAILED]
+hint = "התחברות IMAP נדחתה - סיסמה שגויה, MFA ללא app-password, או Basic Auth מושבת."
+
+[diagnostics.imap."LOGIN_failed"]
+hint = "התחברות IMAP נדחתה על ידי השרת."
+
+[diagnostics.imap.ALERT]
+hint = "השרת החזיר תגובת ALERT - קרא; הודעה שהוגדרה על ידי המנהל."
+
+[diagnostics.imap.UNAVAILABLE]
+hint = "תיבת דואר/שרת אינם זמינים זמנית."
+
+[diagnostics.imap.PRIVACYREQUIRED]
+hint = "השרת דורש TLS לפני LOGIN - השתמש ב-STARTTLS או SSL מובלע."
+
+[diagnostics.imap.CLIENTBUG]
+hint = "הלקוח עשה משהו שהשרת רואה כשגוי; בדרך כלל STARTTLS חסר או מצב לא נכון."
+
+[diagnostics.imap.LOGINDISABLED]
+hint = "Plain LOGIN מושבת בשרת זה - השתמש ב-STARTTLS/SSL או XOAUTH2."
+
+[diagnostics.pop.authentication_failed]
+hint = "התחברות POP3 נדחתה - אישורים שגויים או POP מושבת עבור תיבת דואר זו."
+
+[diagnostics.pop.logon_failure]
+hint = "התחברות POP3 נדחתה."
+
+[diagnostics.pop.not_implemented]
+hint = "השרת אינו תומך בפקודה שהונפקה."
+
+[diagnostics.pop.disabled]
+hint = "גישת POP3 מושבתת עבור חשבון / tenant זה."
+
+[diagnostics.bounce.gmail_send_as_en]
+needle = "Send mail as"
+hint = "התחברות upstream 'Send mail as' של Gmail נכשלה. הגדרות > הצג את כל ההגדרות > חשבונות וייבוא > שלח דואר בתור > ערוך מידע > הזן מחדש את סיסמת SMTP (או app-password אם לחשבון המקור יש 2FA)."
+
+[diagnostics.bounce.gmail_send_as_nl]
+needle = "Mail sturen als"
+hint = "התחברות upstream 'Mail sturen als' (Send mail as) של Gmail נכשלה. הגדרות > הצג את כל ההגדרות > חשבונות וייבוא > שלח דואר בתור > ערוך מידע > הזן מחדש את סיסמת SMTP (או app-password אם לחשבון המקור יש 2FA)."
+
+[cli.prompt]
+username = "שם משתמש / דוא\"ל: "
+password = "סיסמה: "

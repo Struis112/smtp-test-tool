@@ -1,0 +1,275 @@
+# smtp-test-tool locale: বাংলা (bn)
+# status: machine-translated, native review welcome.
+
+[app]
+name = "SMTP Test Tool"
+
+[locale]
+native_name = "বাংলা"
+english_name = "Bengali"
+status_note = "মেশিন-অনূদিত - স্থানীয় বক্তার পর্যালোচনা স্বাগত।"
+
+[ui.window]
+title = "SMTP পরীক্ষা সরঞ্জাম"
+
+[ui.topbar]
+profile_label = "প্রোফাইল:"
+save_config = "কনফিগ সংরক্ষণ"
+save_config_tooltip = "সক্রিয় প্রোফাইলটি এক্সিকিউটেবলের পাশের কনফিগ ফাইলে আবার লেখে।"
+provider_preset = "প্রদানকারী প্রিসেট..."
+provider_preset_tooltip = "নীচের হোস্ট / পোর্ট / নিরাপত্তা ফিল্ডে নির্বাচিত প্রদানকারী প্রিসেটগুলির একটি প্রয়োগ করে।"
+config_path_none = "কোনো কনফিগ ফাইল নেই"
+
+[ui.tab]
+servers = "সার্ভার"
+send_mail = "মেইল পাঠান"
+tls_auth = "TLS / Auth"
+advanced = "উন্নত"
+diagnose = "বাউন্স বিশ্লেষণ"
+
+[ui.servers]
+username = "ব্যবহারকারীর নাম:"
+password = "পাসওয়ার্ড:"
+show = "দেখান"
+oauth_token = "OAuth টোকেন:"
+oauth_hint = "(XOAUTH2, ঐচ্ছিক)"
+save_to_keychain = "কীচেইনে পাসওয়ার্ড সংরক্ষণ করুন"
+save_to_keychain_tooltip = "OS এর কীচেইনে পাসওয়ার্ড সংরক্ষণ করে (Windows Credential Manager / macOS Keychain / Linux Secret Service)। কনফিগ ফাইলে কখনো লেখা হয় না।"
+forget_keychain = "কীচেইন এন্ট্রি ভুলে যান"
+forget_keychain_tooltip = "OS কীচেইন থেকে এই ব্যবহারকারীর smtp-test-tool এন্ট্রি মুছে ফেলে। উপরের পাসওয়ার্ড ফিল্ডও মুছে যায়।"
+loaded_from_keychain = "(কীচেইন থেকে লোড করা হয়েছে)"
+
+[ui.proto]
+test_smtp = "SMTP পরীক্ষা"
+test_imap = "IMAP পরীক্ষা"
+test_pop3 = "POP3 পরীক্ষা"
+host = "হোস্ট:"
+port = "পোর্ট:"
+security = "নিরাপত্তা:"
+security_none = "কিছুই না"
+security_starttls = "starttls"
+security_ssl = "ssl"
+
+[ui.send]
+toggle = "প্রকৃতপক্ষে পরীক্ষা মেইল পাঠান (অন্যথায় শুধুমাত্র AUTH পরীক্ষা করুন)"
+mail_from = "MAIL FROM (এনভেলপ):"
+from_header = "From: (হেডার):"
+to = "প্রতি (কমা-পৃথক):"
+cc = "Cc (কমা-পৃথক):"
+bcc = "Bcc (কমা-পৃথক):"
+reply_to = "উত্তর দিন:"
+subject = "বিষয়:"
+body = "বিষয়বস্তু:"
+
+[ui.tls]
+auth_mech = "SMTP AUTH পদ্ধতি:"
+insecure = "সার্টিফিকেট যাচাইকরণ অক্ষম (অনিরাপদ - শুধুমাত্র পরীক্ষার জন্য)"
+ca_bundle = "CA বান্ডেল (PEM):"
+
+[ui.advanced]
+timeout = "টাইমআউট (সেকেন্ড):"
+ehlo = "EHLO/HELO নাম:"
+imap_folder = "IMAP ফোল্ডার:"
+log_level = "লগ স্তর:"
+theme = "থিম:"
+language = "ভাষা:"
+language_unsupported = "আপনার OS লোকেল ({code}) এখনো অনূদিত হয়নি। পাঠ্য ইংরেজিতে দেখায়; অবদান স্বাগত।"
+theme_follow_os = "OS অনুসরণ করুন ({hint})"
+theme_dark = "অন্ধকার"
+theme_light = "আলো"
+
+[ui.actions]
+run_test = "পরীক্ষা চালান"
+running = "চলছে..."
+clear_log = "লগ পরিষ্কার"
+
+[ui.status]
+smtp_idle = "SMTP: -"
+imap_idle = "IMAP: -"
+pop3_idle = "POP3: -"
+smtp_pass = "SMTP: পাস"
+imap_pass = "IMAP: পাস"
+pop3_pass = "POP3: পাস"
+smtp_fail = "SMTP: ব্যর্থ"
+imap_fail = "IMAP: ব্যর্থ"
+pop3_fail = "POP3: ব্যর্থ"
+smtp_skip = "SMTP: এড়িয়ে গেছে"
+imap_skip = "IMAP: এড়িয়ে গেছে"
+pop3_skip = "POP3: এড়িয়ে গেছে"
+
+[ui.diagnose]
+intro = "IT-ক্রিয়াযোগ্য ইঙ্গিত বের করতে ডেলিভারি ব্যর্থতার বার্তার মূল অংশটি নীচে পেস্ট করুন। SMTP enhanced status codes (5.7.139, 5.7.60), Microsoft 365 বাক্যাংশ (\"basic authentication is disabled\") এবং Gmail-এর \"Send mail as / Mail sturen als\"-এর মতো ওয়েবমেইল-সাইড বাউন্সগুলি চিনতে পারে। নেটওয়ার্কের উপর কিছু পাঠানো হয় না এবং পাঠ্য ডিস্কে সংরক্ষণ করা হয় না।"
+input_placeholder = "এখানে বাউন্স বডি পেস্ট করুন..."
+analyse = "বিশ্লেষণ"
+clear = "পরিষ্কার"
+hints_heading = "ইঙ্গিত"
+no_hints_yet = "(এখনো কোনো ইঙ্গিত নেই - উপরে একটি বাউন্স পেস্ট করুন এবং বিশ্লেষণে ক্লিক করুন)"
+
+[ui.log]
+heading = "লগ"
+
+[diagnostics.scaffold]
+esc_prefix = "ESC {code}: {what}"
+action_prefix = "  -> ক্রিয়া: {fix}"
+hint_prefix = "  -> {hint}"
+
+[diagnostics.smtp.esc.5_7_0]
+what = "প্রমাণীকরণ প্রয়োজন, অথবা নির্বাচিত AUTH পদ্ধতির অনুমতি নেই।"
+fix  = "মেইলবক্সের জন্য SMTP AUTH সক্ষম করুন; যাচাই করুন LOGIN / PLAIN / XOAUTH2 অনুমোদিত।"
+
+[diagnostics.smtp.esc.5_7_1]
+what = "Relay অ্যাক্সেস অস্বীকৃত - সার্ভার এই বার্তা ফরওয়ার্ড করতে অস্বীকার করে।"
+fix  = "হয় প্রেরক প্রমাণিত নয়, অথবা প্রাপক বাহ্যিক এবং relay নিষ্ক্রিয়, অথবা একটি transport rule বার্তাটি ব্লক করছে।"
+
+[diagnostics.smtp.esc.5_7_3]
+what = "প্রমাণীকরণ ব্যর্থ।"
+fix  = "ভুল পাসওয়ার্ড, app-password ছাড়া MFA, অথবা tenant-এ Basic/Legacy auth অক্ষম (O365: 'SMTP AUTH disabled')।"
+
+[diagnostics.smtp.esc.5_7_8]
+what = "প্রমাণীকরণ শংসাপত্র বৈধ নয়।"
+fix  = "SASL স্তর দ্বারা ব্যবহারকারী নাম/পাসওয়ার্ড প্রত্যাখ্যান।"
+
+[diagnostics.smtp.esc.5_7_57]
+what = "MAIL FROM চলাকালীন বেনামী মেইল পাঠানোর জন্য ক্লায়েন্ট প্রমাণিত ছিল না।"
+fix  = "MAIL FROM-এর আগে STARTTLS + AUTH জোর করুন। O365-এ, এটি AUTH ছাড়া ক্লায়েন্ট সংযোগের সাধারণ ত্রুটি।"
+
+[diagnostics.smtp.esc.5_7_60]
+what = "SendAsDenied - প্রমাণিত ব্যবহারকারীকে এই From ঠিকানা হিসাবে পাঠানোর অনুমতি নেই।"
+fix  = "প্রমাণিত অ্যাকাউন্টে মেইলবক্সের 'Send As' (বা 'Send on Behalf') অধিকার দিন, অথবা লগইনের সাথে মেলে From হেডার পরিবর্তন করুন।"
+
+[diagnostics.smtp.esc.5_7_64]
+what = "TenantAttribution; Relay Access Denied।"
+fix  = "প্রমাণিত SMTP জমা দেওয়ার জন্য O365-এ লাইসেন্সযুক্ত মেইলবক্স প্রয়োজন।"
+
+[diagnostics.smtp.esc.5_7_124]
+what = "ব্যবহারকারীর মেইল পাঠানোর অনুমতি নেই।"
+fix  = "নিষ্ক্রিয় মেইলবক্স, Conditional Access দ্বারা ব্লক, অথবা লাইসেন্স অনুপস্থিত।"
+
+[diagnostics.smtp.esc.5_7_135]
+what = "প্রমাণীকরণ ব্যর্থ, ব্যবহারকারীর শংসাপত্র মেয়াদোত্তীর্ণ।"
+fix  = "পাসওয়ার্ড রিসেট করুন / OAuth টোকেন রিফ্রেশ করুন।"
+
+[diagnostics.smtp.esc.5_7_139]
+what = "প্রমাণীকরণ ব্যর্থ; অনুরোধ মাপদণ্ড পূরণ করেনি।"
+fix  = "Conditional Access নীতি লগইন প্রত্যাখ্যান করেছে (অবস্থান, ডিভাইস, MFA)।"
+
+[diagnostics.smtp.esc.5_7_500]
+what = "অ্যাক্সেস অস্বীকৃত, প্রেরণ ডোমেন নিষ্ক্রিয়।"
+fix  = "এই tenant-এ প্রেরকের ডোমেন বহির্গামী মেইলের জন্য ব্লক করা।"
+
+[diagnostics.smtp.esc.5_7_501]
+what = "অ্যাক্সেস অস্বীকৃত, নিষিদ্ধ প্রেরক।"
+fix  = "প্রেরকের ঠিকানা tenant-এর blocklist-এ।"
+
+[diagnostics.smtp.esc.5_7_508]
+what = "অ্যাক্সেস অস্বীকৃত, হার বা ট্রাফিক থ্রেশহোল্ড অতিক্রান্ত।"
+fix  = "Throttled; অপেক্ষা করুন এবং পুনরায় চেষ্টা করুন, বা প্রশাসককে সীমা বাড়ানোর জন্য বলুন।"
+
+[diagnostics.smtp.esc.5_7_511]
+what = "অ্যাক্সেস অস্বীকৃত, নিষিদ্ধ প্রেরক।"
+fix  = "প্রেরক স্প্যাম উৎস হিসেবে চিহ্নিত।"
+
+[diagnostics.smtp.esc.5_7_606]
+what = "অ্যাক্সেস অস্বীকৃত, নিষিদ্ধ প্রেরণ IP।"
+fix  = "প্রেরণ IP Microsoft-এর blocklist-এ।"
+
+[diagnostics.smtp.esc.5_7_708]
+what = "পরিষেবা অস্বীকৃত। উৎস IP-এর সুনাম খারাপ।"
+fix  = "অন্য IP থেকে পাঠান বা delisting অনুরোধ করুন।"
+
+[diagnostics.smtp.esc.5_7_750]
+what = "অনিবন্ধিত ডোমেন থেকে পাঠানোর জন্য ক্লায়েন্ট ব্লক করা।"
+fix  = "tenant-এ প্রেরক ডোমেন যাচাই করুন বা গৃহীত ডোমেন ব্যবহার করুন।"
+
+[diagnostics.smtp.esc.5_1_0]
+what = "প্রেরকের ঠিকানা প্রত্যাখ্যাত।"
+fix  = "From/MAIL FROM গৃহীত নয়; সাধারণত ফরম্যাট বা ডোমেন নীতি।"
+
+[diagnostics.smtp.esc.5_1_1]
+what = "ভুল গন্তব্য মেইলবক্স - প্রাপক বিদ্যমান নেই।"
+fix  = "প্রাপকের ঠিকানা চেক করুন।"
+
+[diagnostics.smtp.esc.5_1_7]
+what = "অবৈধ প্রেরকের ঠিকানা (বিকৃত)।"
+fix  = "MAIL FROM সিনট্যাক্স ঠিক করুন।"
+
+[diagnostics.smtp.esc.5_1_8]
+what = "প্রেরক ডোমেনের অনুমতি নেই।"
+fix  = "সার্ভার ডোমেন গ্রহণ করে না।"
+
+[diagnostics.smtp.esc.5_1_10]
+what = "প্রাপকের ঠিকানা প্রত্যাখ্যাত - ব্যবহারকারী অজানা।"
+fix  = "টাইপো বা বিদ্যমান-নেই প্রাপক।"
+
+[diagnostics.smtp.esc.5_4_1]
+what = "প্রাপকের ঠিকানা প্রত্যাখ্যাত: অ্যাক্সেস অস্বীকৃত।"
+fix  = "প্রাপকের মেইলবক্স এই প্রেরক / ডোমেন থেকে বার্তা প্রত্যাখ্যান করে।"
+
+[diagnostics.smtp.esc.5_2_1]
+what = "মেইলবক্স নিষ্ক্রিয়, বার্তা গ্রহণ করছে না।"
+fix  = "প্রাপকের মেইলবক্স স্থগিত।"
+
+[diagnostics.smtp.esc.5_2_2]
+what = "মেইলবক্স পূর্ণ।"
+fix  = "প্রাপকের কোটা অতিক্রান্ত।"
+
+[diagnostics.smtp.esc.5_3_4]
+what = "সিস্টেমের জন্য বার্তা অত্যধিক বড়।"
+fix  = "বার্তার আকার হ্রাস করুন।"
+
+[diagnostics.smtp.esc.4_7_0]
+what = "অস্থায়ী প্রমাণীকরণ ব্যর্থতা / throttling।"
+fix  = "পরে পুনরায় চেষ্টা করুন; বারবার খারাপ লগইনের জন্য tarpit-ও হতে পারে।"
+
+[diagnostics.smtp.esc.4_4_2]
+what = "সংযোগ ছিন্ন।"
+fix  = "নেটওয়ার্ক সমস্যা বা সার্ভার পুনরায় চালু; পুনরায় চেষ্টা করুন।"
+
+[diagnostics.smtp.esc.4_3_2]
+what = "সিস্টেম নেটওয়ার্ক বার্তা গ্রহণ করছে না।"
+fix  = "সার্ভার রক্ষণাবেক্ষণ।"
+
+[diagnostics.imap.AUTHENTICATIONFAILED]
+hint = "IMAP লগইন প্রত্যাখ্যাত - ভুল পাসওয়ার্ড, app-password ছাড়া MFA, বা Basic Auth নিষ্ক্রিয়।"
+
+[diagnostics.imap."LOGIN_failed"]
+hint = "IMAP লগইন সার্ভার দ্বারা প্রত্যাখ্যাত।"
+
+[diagnostics.imap.ALERT]
+hint = "সার্ভার একটি ALERT প্রতিক্রিয়া ফেরত দিয়েছে - পড়ুন; প্রশাসক-নির্ধারিত বার্তা।"
+
+[diagnostics.imap.UNAVAILABLE]
+hint = "মেইলবক্স/সার্ভার অস্থায়ীভাবে অনুপলব্ধ।"
+
+[diagnostics.imap.PRIVACYREQUIRED]
+hint = "সার্ভারের LOGIN-এর আগে TLS প্রয়োজন - STARTTLS বা অন্তর্নিহিত SSL ব্যবহার করুন।"
+
+[diagnostics.imap.CLIENTBUG]
+hint = "ক্লায়েন্ট এমন কিছু করেছে যা সার্ভার ভুল মনে করে; সাধারণত STARTTLS অনুপস্থিত বা ভুল অবস্থা।"
+
+[diagnostics.imap.LOGINDISABLED]
+hint = "এই সার্ভারে Plain LOGIN নিষ্ক্রিয় - STARTTLS/SSL বা XOAUTH2 ব্যবহার করুন।"
+
+[diagnostics.pop.authentication_failed]
+hint = "POP3 লগইন প্রত্যাখ্যাত - ভুল শংসাপত্র বা এই মেইলবক্সের জন্য POP নিষ্ক্রিয়।"
+
+[diagnostics.pop.logon_failure]
+hint = "POP3 লগইন প্রত্যাখ্যাত।"
+
+[diagnostics.pop.not_implemented]
+hint = "সার্ভার জারি করা কমান্ড সমর্থন করে না।"
+
+[diagnostics.pop.disabled]
+hint = "এই অ্যাকাউন্ট / tenant-এর জন্য POP3 অ্যাক্সেস নিষ্ক্রিয়।"
+
+[diagnostics.bounce.gmail_send_as_en]
+needle = "Send mail as"
+hint = "Gmail-এর 'Send mail as' আপস্ট্রিম লগইন ব্যর্থ। সেটিংস > সমস্ত সেটিংস দেখুন > অ্যাকাউন্ট এবং আমদানি > হিসাবে মেইল পাঠান > তথ্য সম্পাদনা > SMTP পাসওয়ার্ড পুনরায় প্রবেশ করুন (অথবা app-password যদি উৎস অ্যাকাউন্টে 2FA থাকে)।"
+
+[diagnostics.bounce.gmail_send_as_nl]
+needle = "Mail sturen als"
+hint = "Gmail-এর 'Mail sturen als' (Send mail as) আপস্ট্রিম লগইন ব্যর্থ। সেটিংস > সমস্ত সেটিংস দেখুন > অ্যাকাউন্ট এবং আমদানি > হিসাবে মেইল পাঠান > তথ্য সম্পাদনা > SMTP পাসওয়ার্ড পুনরায় প্রবেশ করুন (অথবা app-password যদি উৎস অ্যাকাউন্টে 2FA থাকে)।"
+
+[cli.prompt]
+username = "ব্যবহারকারীর নাম / ইমেল: "
+password = "পাসওয়ার্ড: "

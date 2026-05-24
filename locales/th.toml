@@ -1,0 +1,275 @@
+# smtp-test-tool locale: ไทย (th)
+# status: machine-translated, native review welcome.
+
+[app]
+name = "SMTP Test Tool"
+
+[locale]
+native_name = "ไทย"
+english_name = "Thai"
+status_note = "แปลโดยเครื่อง - ยินดีรับการตรวจสอบจากเจ้าของภาษา"
+
+[ui.window]
+title = "เครื่องมือทดสอบ SMTP"
+
+[ui.topbar]
+profile_label = "โปรไฟล์:"
+save_config = "บันทึกการกำหนดค่า"
+save_config_tooltip = "เขียนโปรไฟล์ที่ใช้งานกลับไปยังไฟล์การกำหนดค่าข้างไฟล์ปฏิบัติการ"
+provider_preset = "ค่าที่ตั้งไว้สำหรับผู้ให้บริการ..."
+provider_preset_tooltip = "ใช้หนึ่งในค่าที่ตั้งไว้ของผู้ให้บริการที่คัดสรรกับฟิลด์โฮสต์ / พอร์ต / ความปลอดภัยด้านล่าง"
+config_path_none = "ไม่มีไฟล์การกำหนดค่า"
+
+[ui.tab]
+servers = "เซิร์ฟเวอร์"
+send_mail = "ส่งเมล"
+tls_auth = "TLS / Auth"
+advanced = "ขั้นสูง"
+diagnose = "วิเคราะห์การตีกลับ"
+
+[ui.servers]
+username = "ชื่อผู้ใช้:"
+password = "รหัสผ่าน:"
+show = "แสดง"
+oauth_token = "โทเค็น OAuth:"
+oauth_hint = "(XOAUTH2, ไม่บังคับ)"
+save_to_keychain = "บันทึกรหัสผ่านลงในพวงกุญแจ"
+save_to_keychain_tooltip = "บันทึกรหัสผ่านในพวงกุญแจของระบบปฏิบัติการ (Windows Credential Manager / macOS Keychain / Linux Secret Service) ไม่เคยถูกเขียนลงในไฟล์การกำหนดค่า"
+forget_keychain = "ลืมรายการพวงกุญแจ"
+forget_keychain_tooltip = "ลบรายการ smtp-test-tool ของผู้ใช้นี้ออกจากพวงกุญแจของระบบปฏิบัติการ ฟิลด์รหัสผ่านด้านบนจะถูกล้างด้วย"
+loaded_from_keychain = "(โหลดจากพวงกุญแจ)"
+
+[ui.proto]
+test_smtp = "ทดสอบ SMTP"
+test_imap = "ทดสอบ IMAP"
+test_pop3 = "ทดสอบ POP3"
+host = "โฮสต์:"
+port = "พอร์ต:"
+security = "ความปลอดภัย:"
+security_none = "ไม่มี"
+security_starttls = "starttls"
+security_ssl = "ssl"
+
+[ui.send]
+toggle = "ส่งเมลทดสอบจริง ๆ (มิฉะนั้นทดสอบเฉพาะ AUTH)"
+mail_from = "MAIL FROM (ซอง):"
+from_header = "From: (ส่วนหัว):"
+to = "ถึง (คั่นด้วยจุลภาค):"
+cc = "Cc (คั่นด้วยจุลภาค):"
+bcc = "Bcc (คั่นด้วยจุลภาค):"
+reply_to = "ตอบกลับ:"
+subject = "เรื่อง:"
+body = "เนื้อหา:"
+
+[ui.tls]
+auth_mech = "กลไก SMTP AUTH:"
+insecure = "ปิดการตรวจสอบใบรับรอง (ไม่ปลอดภัย - เฉพาะการทดสอบ)"
+ca_bundle = "ชุด CA (PEM):"
+
+[ui.advanced]
+timeout = "หมดเวลา (วินาที):"
+ehlo = "ชื่อ EHLO/HELO:"
+imap_folder = "โฟลเดอร์ IMAP:"
+log_level = "ระดับบันทึก:"
+theme = "ธีม:"
+language = "ภาษา:"
+language_unsupported = "ภาษาของระบบปฏิบัติการของคุณ ({code}) ยังไม่ได้รับการแปล ข้อความจะแสดงเป็นภาษาอังกฤษ; ยินดีรับการมีส่วนร่วม"
+theme_follow_os = "ตามระบบปฏิบัติการ ({hint})"
+theme_dark = "มืด"
+theme_light = "สว่าง"
+
+[ui.actions]
+run_test = "เรียกใช้การทดสอบ"
+running = "กำลังทำงาน..."
+clear_log = "ล้างบันทึก"
+
+[ui.status]
+smtp_idle = "SMTP: -"
+imap_idle = "IMAP: -"
+pop3_idle = "POP3: -"
+smtp_pass = "SMTP: ผ่าน"
+imap_pass = "IMAP: ผ่าน"
+pop3_pass = "POP3: ผ่าน"
+smtp_fail = "SMTP: ล้มเหลว"
+imap_fail = "IMAP: ล้มเหลว"
+pop3_fail = "POP3: ล้มเหลว"
+smtp_skip = "SMTP: ข้าม"
+imap_skip = "IMAP: ข้าม"
+pop3_skip = "POP3: ข้าม"
+
+[ui.diagnose]
+intro = "วางเนื้อหาข้อความความล้มเหลวในการจัดส่งด้านล่างเพื่อแยกคำแนะนำที่ IT สามารถดำเนินการได้ รู้จัก SMTP enhanced status codes (5.7.139, 5.7.60), วลี Microsoft 365 (\"basic authentication is disabled\") และการตีกลับฝั่งเว็บเมลเช่น \"Send mail as / Mail sturen als\" ของ Gmail ไม่มีอะไรถูกส่งผ่านเครือข่ายและข้อความไม่ถูกบันทึกลงดิสก์"
+input_placeholder = "วางเนื้อหาการตีกลับที่นี่..."
+analyse = "วิเคราะห์"
+clear = "ล้าง"
+hints_heading = "คำแนะนำ"
+no_hints_yet = "(ยังไม่มีคำแนะนำ - วางการตีกลับด้านบนและคลิกวิเคราะห์)"
+
+[ui.log]
+heading = "บันทึก"
+
+[diagnostics.scaffold]
+esc_prefix = "ESC {code}: {what}"
+action_prefix = "  -> การกระทำ: {fix}"
+hint_prefix = "  -> {hint}"
+
+[diagnostics.smtp.esc.5_7_0]
+what = "จำเป็นต้องมีการตรวจสอบสิทธิ์ หรือกลไก AUTH ที่เลือกไม่ได้รับอนุญาต"
+fix  = "เปิดใช้งาน SMTP AUTH สำหรับเมลบ็อกซ์; ตรวจสอบว่า LOGIN / PLAIN / XOAUTH2 ได้รับอนุญาต"
+
+[diagnostics.smtp.esc.5_7_1]
+what = "Relay ถูกปฏิเสธการเข้าถึง - เซิร์ฟเวอร์ปฏิเสธที่จะส่งต่อข้อความนี้"
+fix  = "ผู้ส่งไม่ได้รับการตรวจสอบสิทธิ์, ผู้รับเป็นบุคคลภายนอกและ relay ถูกปิดใช้งาน, หรือ transport rule กำลังบล็อกข้อความ"
+
+[diagnostics.smtp.esc.5_7_3]
+what = "การตรวจสอบสิทธิ์ไม่สำเร็จ"
+fix  = "รหัสผ่านผิด, MFA โดยไม่มี app-password, หรือ Basic/Legacy auth ถูกปิดใช้งานบน tenant (O365: 'SMTP AUTH disabled')"
+
+[diagnostics.smtp.esc.5_7_8]
+what = "ข้อมูลรับรองการตรวจสอบสิทธิ์ไม่ถูกต้อง"
+fix  = "ชื่อผู้ใช้/รหัสผ่านถูกปฏิเสธโดยชั้น SASL"
+
+[diagnostics.smtp.esc.5_7_57]
+what = "ไคลเอ็นต์ไม่ได้รับการตรวจสอบสิทธิ์เพื่อส่งเมลแบบไม่ระบุตัวตนระหว่าง MAIL FROM"
+fix  = "บังคับใช้ STARTTLS + AUTH ก่อน MAIL FROM ใน O365 นี่เป็นข้อผิดพลาดทั่วไปเมื่อไคลเอ็นต์เชื่อมต่อโดยไม่มี AUTH"
+
+[diagnostics.smtp.esc.5_7_60]
+what = "SendAsDenied - ผู้ใช้ที่ตรวจสอบสิทธิ์แล้วไม่ได้รับอนุญาตให้ส่งในชื่อที่อยู่ From นี้"
+fix  = "ให้สิทธิ์เมลบ็อกซ์ 'Send As' (หรือ 'Send on Behalf') แก่บัญชีที่ตรวจสอบสิทธิ์แล้ว หรือเปลี่ยนส่วนหัว From ให้ตรงกับการลงชื่อเข้าใช้"
+
+[diagnostics.smtp.esc.5_7_64]
+what = "TenantAttribution; Relay Access Denied"
+fix  = "การส่ง SMTP ที่ตรวจสอบสิทธิ์ต้องการเมลบ็อกซ์ที่ได้รับอนุญาตใน O365"
+
+[diagnostics.smtp.esc.5_7_124]
+what = "ผู้ใช้ไม่ได้รับอนุญาตให้ส่งเมล"
+fix  = "เมลบ็อกซ์ปิดใช้งาน, ถูกบล็อกโดย Conditional Access, หรือใบอนุญาตหายไป"
+
+[diagnostics.smtp.esc.5_7_135]
+what = "การตรวจสอบสิทธิ์ไม่สำเร็จ, ข้อมูลรับรองผู้ใช้หมดอายุ"
+fix  = "รีเซ็ตรหัสผ่าน / รีเฟรชโทเค็น OAuth"
+
+[diagnostics.smtp.esc.5_7_139]
+what = "การตรวจสอบสิทธิ์ไม่สำเร็จ; คำขอไม่ตรงตามเกณฑ์"
+fix  = "นโยบาย Conditional Access ปฏิเสธการลงชื่อเข้าใช้ (ตำแหน่ง, อุปกรณ์, MFA)"
+
+[diagnostics.smtp.esc.5_7_500]
+what = "การเข้าถึงถูกปฏิเสธ, โดเมนการส่งถูกปิดใช้งาน"
+fix  = "โดเมนของผู้ส่งถูกบล็อกสำหรับเมลขาออกใน tenant นี้"
+
+[diagnostics.smtp.esc.5_7_501]
+what = "การเข้าถึงถูกปฏิเสธ, ผู้ส่งถูกห้าม"
+fix  = "ที่อยู่ของผู้ส่งอยู่ใน blocklist ของ tenant"
+
+[diagnostics.smtp.esc.5_7_508]
+what = "การเข้าถึงถูกปฏิเสธ, เกินขีดจำกัดอัตราหรือทราฟฟิก"
+fix  = "Throttled; รอและลองอีกครั้ง หรือขอให้ผู้ดูแลระบบเพิ่มขีดจำกัด"
+
+[diagnostics.smtp.esc.5_7_511]
+what = "การเข้าถึงถูกปฏิเสธ, ผู้ส่งถูกห้าม"
+fix  = "ผู้ส่งถูกทำเครื่องหมายว่าเป็นแหล่งสแปม"
+
+[diagnostics.smtp.esc.5_7_606]
+what = "การเข้าถึงถูกปฏิเสธ, IP ผู้ส่งถูกห้าม"
+fix  = "IP ผู้ส่งอยู่ใน blocklist ของ Microsoft"
+
+[diagnostics.smtp.esc.5_7_708]
+what = "บริการถูกปฏิเสธ ชื่อเสียง IP ต้นทางไม่ดี"
+fix  = "ส่งจาก IP อื่นหรือขอ delisting"
+
+[diagnostics.smtp.esc.5_7_750]
+what = "ไคลเอ็นต์ถูกห้ามส่งจากโดเมนที่ไม่ได้ลงทะเบียน"
+fix  = "ตรวจสอบโดเมนผู้ส่งใน tenant หรือใช้โดเมนที่ยอมรับ"
+
+[diagnostics.smtp.esc.5_1_0]
+what = "ที่อยู่ผู้ส่งถูกปฏิเสธ"
+fix  = "From/MAIL FROM ไม่ได้รับการยอมรับ; โดยปกติเป็นปัญหารูปแบบหรือนโยบายโดเมน"
+
+[diagnostics.smtp.esc.5_1_1]
+what = "เมลบ็อกซ์ปลายทางผิด - ผู้รับไม่มีอยู่"
+fix  = "ตรวจสอบที่อยู่ผู้รับ"
+
+[diagnostics.smtp.esc.5_1_7]
+what = "ที่อยู่ผู้ส่งไม่ถูกต้อง (รูปแบบไม่ถูกต้อง)"
+fix  = "แก้ไขไวยากรณ์ MAIL FROM"
+
+[diagnostics.smtp.esc.5_1_8]
+what = "โดเมนผู้ส่งไม่ได้รับอนุญาต"
+fix  = "เซิร์ฟเวอร์ไม่ยอมรับโดเมน"
+
+[diagnostics.smtp.esc.5_1_10]
+what = "ที่อยู่ผู้รับถูกปฏิเสธ - ไม่รู้จักผู้ใช้"
+fix  = "การพิมพ์ผิดหรือผู้รับที่ไม่มีอยู่"
+
+[diagnostics.smtp.esc.5_4_1]
+what = "ที่อยู่ผู้รับถูกปฏิเสธ: การเข้าถึงถูกปฏิเสธ"
+fix  = "เมลบ็อกซ์ของผู้รับปฏิเสธข้อความจากผู้ส่ง / โดเมนนี้"
+
+[diagnostics.smtp.esc.5_2_1]
+what = "เมลบ็อกซ์ถูกปิดใช้งาน, ไม่ยอมรับข้อความ"
+fix  = "เมลบ็อกซ์ของผู้รับถูกระงับ"
+
+[diagnostics.smtp.esc.5_2_2]
+what = "เมลบ็อกซ์เต็ม"
+fix  = "เกินโควต้าของผู้รับ"
+
+[diagnostics.smtp.esc.5_3_4]
+what = "ข้อความใหญ่เกินไปสำหรับระบบ"
+fix  = "ลดขนาดข้อความ"
+
+[diagnostics.smtp.esc.4_7_0]
+what = "ความล้มเหลวการตรวจสอบสิทธิ์ชั่วคราว / throttling"
+fix  = "ลองอีกครั้งในภายหลัง; อาจเป็น tarpit สำหรับการลงชื่อเข้าใช้ที่ผิดซ้ำ ๆ"
+
+[diagnostics.smtp.esc.4_4_2]
+what = "การเชื่อมต่อหลุด"
+fix  = "ปัญหาเครือข่ายหรือการรีสตาร์ทเซิร์ฟเวอร์; ลองอีกครั้ง"
+
+[diagnostics.smtp.esc.4_3_2]
+what = "ระบบไม่ยอมรับข้อความเครือข่าย"
+fix  = "การบำรุงรักษาเซิร์ฟเวอร์"
+
+[diagnostics.imap.AUTHENTICATIONFAILED]
+hint = "การลงชื่อเข้าใช้ IMAP ถูกปฏิเสธ - รหัสผ่านผิด, MFA โดยไม่มี app-password, หรือ Basic Auth ถูกปิดใช้งาน"
+
+[diagnostics.imap."LOGIN_failed"]
+hint = "การลงชื่อเข้าใช้ IMAP ถูกปฏิเสธโดยเซิร์ฟเวอร์"
+
+[diagnostics.imap.ALERT]
+hint = "เซิร์ฟเวอร์ส่งคืนการตอบกลับ ALERT - อ่านเลย; ข้อความที่กำหนดโดยผู้ดูแลระบบ"
+
+[diagnostics.imap.UNAVAILABLE]
+hint = "เมลบ็อกซ์/เซิร์ฟเวอร์ไม่พร้อมใช้งานชั่วคราว"
+
+[diagnostics.imap.PRIVACYREQUIRED]
+hint = "เซิร์ฟเวอร์ต้องการ TLS ก่อน LOGIN - ใช้ STARTTLS หรือ SSL โดยนัย"
+
+[diagnostics.imap.CLIENTBUG]
+hint = "ไคลเอ็นต์ทำสิ่งที่เซิร์ฟเวอร์ถือว่าผิด; โดยปกติคือ STARTTLS ที่หายไปหรือสถานะที่ไม่ถูกต้อง"
+
+[diagnostics.imap.LOGINDISABLED]
+hint = "Plain LOGIN ถูกปิดใช้งานบนเซิร์ฟเวอร์นี้ - ใช้ STARTTLS/SSL หรือ XOAUTH2"
+
+[diagnostics.pop.authentication_failed]
+hint = "การลงชื่อเข้าใช้ POP3 ถูกปฏิเสธ - ข้อมูลรับรองผิดหรือ POP ถูกปิดใช้งานสำหรับเมลบ็อกซ์นี้"
+
+[diagnostics.pop.logon_failure]
+hint = "การลงชื่อเข้าใช้ POP3 ถูกปฏิเสธ"
+
+[diagnostics.pop.not_implemented]
+hint = "เซิร์ฟเวอร์ไม่รองรับคำสั่งที่ออก"
+
+[diagnostics.pop.disabled]
+hint = "การเข้าถึง POP3 ถูกปิดใช้งานสำหรับบัญชี / tenant นี้"
+
+[diagnostics.bounce.gmail_send_as_en]
+needle = "Send mail as"
+hint = "การลงชื่อเข้าใช้อัปสตรีม 'Send mail as' ของ Gmail ล้มเหลว การตั้งค่า > ดูการตั้งค่าทั้งหมด > บัญชีและการนำเข้า > ส่งเมลในชื่อ > แก้ไขข้อมูล > ป้อนรหัสผ่าน SMTP อีกครั้ง (หรือ app-password หากบัญชีต้นทางมี 2FA)"
+
+[diagnostics.bounce.gmail_send_as_nl]
+needle = "Mail sturen als"
+hint = "การลงชื่อเข้าใช้อัปสตรีม 'Mail sturen als' (Send mail as) ของ Gmail ล้มเหลว การตั้งค่า > ดูการตั้งค่าทั้งหมด > บัญชีและการนำเข้า > ส่งเมลในชื่อ > แก้ไขข้อมูล > ป้อนรหัสผ่าน SMTP อีกครั้ง (หรือ app-password หากบัญชีต้นทางมี 2FA)"
+
+[cli.prompt]
+username = "ชื่อผู้ใช้ / อีเมล: "
+password = "รหัสผ่าน: "
