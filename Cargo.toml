@@ -1,6 +1,6 @@
 [package]
 name        = "smtp-test-tool"
-version     = "0.1.3"
+version     = "0.1.4"
 edition     = "2021"
 rust-version = "1.92"
 description = "Cross-platform SMTP / IMAP / POP3 connectivity tester with IT-actionable diagnostics."
@@ -26,7 +26,10 @@ required-features = ["gui"]
 
 [features]
 default  = ["gui", "keychain"]
-gui      = ["dep:eframe", "dep:egui"]
+# The GUI ships with system-font discovery so CJK / Arabic / Devanagari /
+# Thai glyphs render correctly when the user picks a non-Latin locale.
+# The cost is one extra dep (`fontdb`) plus a brief font-scan on startup.
+gui      = ["dep:eframe", "dep:egui", "dep:fontdb"]
 # Real OS keychain backing (Windows Credential Manager / macOS Keychain /
 # Linux Secret Service).  Optional so a stripped-down CLI build can skip
 # the libdbus dependency on Linux.
@@ -78,6 +81,15 @@ keyring   = { version = "3.6", optional = true }
 # GUI (optional, only built when --features gui is on, which is the default)
 eframe    = { version = "0.34", optional = true, default-features = false, features = ["default_fonts", "glow", "persistence", "accesskit"] }
 egui      = { version = "0.34", optional = true }
+# System-font discovery for non-Latin scripts (CJK, Arabic, Devanagari,
+# Thai).  Read by `src/fonts.rs` at GUI startup to add OS-installed font
+# files to egui's per-glyph fallback chain - no embedded MB of Noto.
+# Defaults give us std + fs + memmap + fontconfig.  We keep them on:
+#  - 'fs' is required for the load_system_fonts() entry point we use.
+#  - 'memmap' avoids reading every system font into RAM up front.
+#  - 'fontconfig' is Linux-only and the standard discovery mechanism
+#    there; ignored on Windows / macOS.
+fontdb    = { version = "0.23", optional = true }
 
 [profile.release]
 lto             = "thin"

@@ -9,6 +9,8 @@
 
 pub mod config;
 pub mod diagnostics;
+#[cfg(feature = "gui")]
+pub mod fonts;
 pub mod i18n;
 pub mod imap;
 pub mod keystore;

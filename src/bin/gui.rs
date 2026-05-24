@@ -10,6 +10,7 @@
 use eframe::egui;
 use smtp_test_tool::config::{default_save_path, discover_config_path, Config};
 use smtp_test_tool::diagnostics::smtp_hints_for;
+use smtp_test_tool::fonts;
 use smtp_test_tool::i18n::{self, t, t_with};
 use smtp_test_tool::keystore::{default_keystore, Keystore};
 use smtp_test_tool::locale as os_locale;
@@ -246,6 +247,14 @@ impl App {
             },
         };
         i18n::set_locale(&active_locale);
+
+        // Augment egui's font tables with OS-installed fonts for the
+        // active locale's script.  No-op for Latin / Cyrillic / Greek
+        // (bundled fonts cover those); logs a warning for CJK / Arabic /
+        // Devanagari / Thai / etc. when no OS font is installed.
+        if let Err(e) = fonts::load_for_locale(&cc.egui_ctx, &active_locale) {
+            tracing::warn!("font loader returned error: {e}");
+        }
 
         // Detect OS appearance once (cached), then resolve through the
         // user's stored ThemeChoice (Auto / Dark / Light).
