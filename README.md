@@ -41,6 +41,10 @@ Non-Latin locales pick up an OS-installed font automatically (see
 |---|---|---|
 | ![hi](docs/screenshots/gui-hi.png) | ![bn](docs/screenshots/gui-bn.png) | ![th](docs/screenshots/gui-th.png) |
 
+| Tamil (`ta`) | Telugu (`te`) | |
+|---|---|---|
+| ![ta](docs/screenshots/gui-ta.png) | ![te](docs/screenshots/gui-te.png) | |
+
 ## Languages
 
 The GUI, the CLI prompts, and every diagnostic hint can be displayed
@@ -51,7 +55,7 @@ language picker limited to **your OS locale + English** — deliberately
 two options at most, so the UI does not grow with the translation
 set.
 
-Shipped in v0.1.5 — **34 languages** (9 non-Latin scripts):
+Shipped in v0.1.6 — **36 languages** (11 non-Latin scripts):
 
 | Code | Native name | Status |
 |------|-------------|--------|
@@ -84,6 +88,8 @@ Shipped in v0.1.5 — **34 languages** (9 non-Latin scripts):
 | `sk` | Slovenčina | machine-translated, native review welcome |
 | `sr` | Srpski | machine-translated, native review welcome |
 | `sv` | Svenska | machine-translated, native review welcome |
+| `ta` | தமிழ் | machine-translated, native review welcome (needs system Indic font) |
+| `te` | తెలుగు | machine-translated, native review welcome (needs system Indic font) |
 | `th` | ไทย | machine-translated, native review welcome (needs system Thai font) |
 | `tr` | Türkçe | machine-translated, native review welcome |
 | `uk` | Українська | machine-translated, native review welcome |
@@ -151,6 +157,28 @@ for the native-review recipe — PRs welcome.
 ---
 
 ## Install
+
+### Windows: WinGet or Scoop
+
+```powershell
+winget install Struis112.SmtpTestTool
+```
+
+```powershell
+scoop bucket add struis112 https://github.com/Struis112/scoop-bucket
+scoop install smtp-test-tool
+```
+
+### macOS / Linux: Homebrew
+
+```sh
+brew tap struis112/tap
+brew install smtp-test-tool
+```
+
+The tap and Scoop bucket are auto-updated by
+[`packaging/`](packaging/) on every release — so `brew upgrade` /
+`scoop update` always pulls the newest version.
 
 ### Download a prebuilt binary
 
