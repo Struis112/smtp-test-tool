@@ -153,6 +153,31 @@ struct App {
     /// Multi-line buffer behind the *Diagnose* tab.  Persisted across
     /// frames but not across launches (would be a privacy hazard - real
     /// bounce bodies often contain headers).
+    /// Domain typed into the DNS tab; persisted with the rest of the
+    /// GUI state via eframe's storage.
+    #[cfg(feature = "dns")]
+    dns_domain: String,
+    /// Last completed DNS audit + its hints.  None until the user has
+    /// clicked "Audit" at least once.
+    #[cfg(feature = "dns")]
+    dns_report: Option<smtp_test_tool::dns::DnsReport>,
+    #[cfg(feature = "dns")]
+    dns_hints: Vec<smtp_test_tool::dns::DnsHint>,
+    /// Background-job state for the DNS audit so the GUI does not
+    /// block on slow resolvers.
+    #[cfg(feature = "dns")]
+    dns_running: bool,
+    #[cfg(feature = "dns")]
+    dns_rx: Option<std::sync::mpsc::Receiver<DnsJobResult>>,
+
+    /// Background-job state for the M365 OAuth device-code flow.
+    #[cfg(feature = "oauth")]
+    oauth_login_running: bool,
+    #[cfg(feature = "oauth")]
+    oauth_login_status: String,
+    #[cfg(feature = "oauth")]
+    oauth_login_rx: Option<std::sync::mpsc::Receiver<OauthJobMsg>>,
+
     diagnose_input: String,
     /// Last result of running `smtp_hints_for` on `diagnose_input`,
     /// rendered as a bullet list under the *Analyse* button.
@@ -179,6 +204,10 @@ enum Tab {
     /// Paste a bounce message body and get IT-actionable hints via the
     /// same `smtp_hints_for` translator that powers the live tests.
     Diagnose,
+    /// Run an MX / SPF / DMARC audit against a domain (gated by the
+    /// `dns` feature; tab is hidden in CLI-only builds).
+    #[cfg(feature = "dns")]
+    Dns,
 }
 
 impl App {
@@ -287,6 +316,22 @@ impl App {
             tab: Tab::Servers,
             diagnose_input: String::new(),
             diagnose_hints: Vec::new(),
+            #[cfg(feature = "dns")]
+            dns_domain: String::new(),
+            #[cfg(feature = "dns")]
+            dns_report: None,
+            #[cfg(feature = "dns")]
+            dns_hints: Vec::new(),
+            #[cfg(feature = "dns")]
+            dns_running: false,
+            #[cfg(feature = "dns")]
+            dns_rx: None,
+            #[cfg(feature = "oauth")]
+            oauth_login_running: false,
+            #[cfg(feature = "oauth")]
+            oauth_login_status: String::new(),
+            #[cfg(feature = "oauth")]
+            oauth_login_rx: None,
             os_appearance,
             os_locale_code,
             applied_appearance: initial,
@@ -543,6 +588,8 @@ impl eframe::App for App {
                 ui.selectable_value(&mut self.tab, Tab::Tls, t("ui.tab.tls_auth"));
                 ui.selectable_value(&mut self.tab, Tab::Advanced, t("ui.tab.advanced"));
                 ui.selectable_value(&mut self.tab, Tab::Diagnose, t("ui.tab.diagnose"));
+                #[cfg(feature = "dns")]
+                ui.selectable_value(&mut self.tab, Tab::Dns, t("ui.tab.dns"));
             });
             ui.separator();
 
@@ -554,6 +601,8 @@ impl eframe::App for App {
                     Tab::Tls => tab_tls(ui, self),
                     Tab::Advanced => tab_advanced(ui, self),
                     Tab::Diagnose => tab_diagnose(ui, self),
+                    #[cfg(feature = "dns")]
+                    Tab::Dns => tab_dns(ui, self),
                 });
         });
     }
@@ -743,6 +792,117 @@ fn tab_servers(ui: &mut egui::Ui, a: &mut App) {
         }
         if a.password_from_keychain {
             ui.label(egui::RichText::new(t("ui.servers.loaded_from_keychain")).weak());
+        }
+        #[cfg(feature = "oauth")]
+        {
+            let user_set = a
+                .profile
+                .user
+                .as_deref()
+                .map(|s| !s.is_empty())
+                .unwrap_or(false);
+            if ui
+                .add_enabled(
+                    user_set && !a.oauth_login_running,
+                    egui::Button::new(t("ui.servers.oauth_login_m365")),
+                )
+                .on_hover_text(t("ui.servers.oauth_login_m365_tooltip"))
+                .clicked()
+            {
+                let user = a.profile.user.clone().unwrap_or_default();
+                let (tx, rx) = std::sync::mpsc::channel();
+                a.oauth_login_rx = Some(rx);
+                a.oauth_login_running = true;
+                a.oauth_login_status.clear();
+                let ctx = ui.ctx().clone();
+                std::thread::spawn(move || {
+                    let _ = tx.send(OauthJobMsg::Status(
+                        "Contacting Microsoft for a device code...".into(),
+                    ));
+                    let start = match smtp_test_tool::oauth::m365_start() {
+                        Ok(s) => s,
+                        Err(e) => {
+                            let _ = tx.send(OauthJobMsg::Failed(e.to_string()));
+                            ctx.request_repaint();
+                            return;
+                        }
+                    };
+                    let msg = start.message.clone().unwrap_or_else(|| {
+                        format!(
+                            "Open {} and enter the code {}",
+                            start.verification_uri, start.user_code
+                        )
+                    });
+                    let _ = tx.send(OauthJobMsg::Status(msg));
+                    ctx.request_repaint();
+                    // Open the verification URI in the user's default
+                    // browser (best-effort; ignore failure).
+                    let _ = webbrowser::open(&start.verification_uri);
+                    match smtp_test_tool::oauth::m365_poll(&start, || false) {
+                        Ok(tok) => {
+                            let _ = tx.send(OauthJobMsg::Done {
+                                user,
+                                refresh_token: tok.refresh_token.clone(),
+                                expires_in: tok.expires_in,
+                                access_token: tok.access_token,
+                            });
+                            ctx.request_repaint();
+                        }
+                        Err(e) => {
+                            let _ = tx.send(OauthJobMsg::Failed(e.to_string()));
+                            ctx.request_repaint();
+                        }
+                    }
+                });
+            }
+            if a.oauth_login_running && !a.oauth_login_status.is_empty() {
+                ui.label(
+                    egui::RichText::new(&a.oauth_login_status)
+                        .small()
+                        .italics(),
+                );
+            }
+            // Drain the channel each frame.
+            if let Some(rx) = a.oauth_login_rx.as_ref() {
+                if let Ok(msg) = rx.try_recv() {
+                    match msg {
+                        OauthJobMsg::Status(s) => {
+                            a.oauth_login_status = s;
+                        }
+                        OauthJobMsg::Done {
+                            user,
+                            refresh_token,
+                            expires_in,
+                            access_token,
+                        } => {
+                            a.oauth_login_running = false;
+                            a.oauth_login_rx = None;
+                            if let Some(rt) = refresh_token {
+                                match a
+                                    .keystore
+                                    .save(&format!("oauth-refresh:{user}"), &rt)
+                                {
+                                    Ok(()) => tracing::info!(
+                                        "stored M365 refresh token for {user} (access expires {expires_in}s)"
+                                    ),
+                                    Err(e) => tracing::error!(
+                                        "keychain save failed for oauth-refresh:{user}: {e:#}"
+                                    ),
+                                }
+                            }
+                            a.profile.oauth_token = Some(access_token);
+                            a.oauth_login_status =
+                                "Sign-in complete - access token loaded for this session.".into();
+                        }
+                        OauthJobMsg::Failed(e) => {
+                            a.oauth_login_running = false;
+                            a.oauth_login_rx = None;
+                            tracing::warn!("M365 OAuth sign-in failed: {e}");
+                            a.oauth_login_status = format!("sign-in failed: {e}");
+                        }
+                    }
+                }
+            }
         }
     });
 
@@ -1015,6 +1175,119 @@ fn tab_diagnose(ui: &mut egui::Ui, a: &mut App) {
                     ui.label(egui::RichText::new(line).monospace());
                 }
             });
+    }
+}
+
+// -----------------------------------------------------------------------
+// DNS tab
+// -----------------------------------------------------------------------
+#[cfg(feature = "dns")]
+struct DnsJobResult {
+    domain: String,
+    res: Result<smtp_test_tool::dns::DnsReport, String>,
+}
+
+#[cfg(feature = "oauth")]
+enum OauthJobMsg {
+    Status(String),
+    Done {
+        user: String,
+        refresh_token: Option<String>,
+        expires_in: u64,
+        access_token: String,
+    },
+    Failed(String),
+}
+
+#[cfg(feature = "dns")]
+fn tab_dns(ui: &mut egui::Ui, a: &mut App) {
+    ui.label(t("ui.dns.intro"));
+    ui.add_space(6.0);
+
+    // Poll the background job channel for completion.
+    if let Some(rx) = a.dns_rx.as_ref() {
+        if let Ok(done) = rx.try_recv() {
+            a.dns_running = false;
+            a.dns_rx = None;
+            match done.res {
+                Ok(report) => {
+                    tracing::info!("dns: {} audited", done.domain);
+                    a.dns_hints = smtp_test_tool::dns::interpret(&report);
+                    a.dns_report = Some(report);
+                }
+                Err(e) => {
+                    tracing::warn!("dns: audit of {} failed: {e}", done.domain);
+                    a.dns_report = None;
+                    a.dns_hints.clear();
+                }
+            }
+            ui.ctx().request_repaint();
+        }
+    }
+
+    ui.horizontal(|ui| {
+        ui.label(t("ui.dns.domain"));
+        ui.add_enabled(
+            !a.dns_running,
+            egui::TextEdit::singleline(&mut a.dns_domain)
+                .hint_text("example.com")
+                .desired_width(280.0),
+        );
+        let has_domain = !a.dns_domain.trim().is_empty();
+        let label = if a.dns_running {
+            t("ui.dns.running")
+        } else {
+            t("ui.dns.audit")
+        };
+        if ui
+            .add_enabled(has_domain && !a.dns_running, egui::Button::new(label))
+            .clicked()
+        {
+            let domain = a.dns_domain.trim().to_string();
+            let (tx, rx) = std::sync::mpsc::channel();
+            a.dns_rx = Some(rx);
+            a.dns_running = true;
+            let ctx = ui.ctx().clone();
+            std::thread::spawn(move || {
+                let res = smtp_test_tool::dns::audit_domain(&domain).map_err(|e| e.to_string());
+                let _ = tx.send(DnsJobResult { domain, res });
+                ctx.request_repaint();
+            });
+        }
+        if ui.button(t("ui.dns.clear")).clicked() {
+            a.dns_domain.clear();
+            a.dns_report = None;
+            a.dns_hints.clear();
+        }
+    });
+
+    ui.add_space(8.0);
+    ui.separator();
+
+    match &a.dns_report {
+        None => {
+            ui.label(
+                egui::RichText::new(if a.dns_running {
+                    t("ui.dns.running")
+                } else {
+                    t("ui.dns.no_results_yet")
+                })
+                .weak(),
+            );
+        }
+        Some(report) => {
+            let text = smtp_test_tool::dns::render_report(report, &a.dns_hints);
+            egui::ScrollArea::vertical()
+                .auto_shrink([false, true])
+                .show(ui, |ui| {
+                    ui.add(
+                        egui::TextEdit::multiline(&mut text.as_str())
+                            .font(egui::TextStyle::Monospace)
+                            .desired_width(f32::INFINITY)
+                            .desired_rows(20),
+                    );
+                });
+        }
     }
 }
 

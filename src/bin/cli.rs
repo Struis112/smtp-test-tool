@@ -104,6 +104,31 @@ enum Cmd {
     /// Inspect or manage the OS-keychain entries this tool created.
     #[command(subcommand)]
     Keychain(KeychainCmd),
+    /// Run a DNS audit for a mail domain.  Looks up MX, SPF, DMARC,
+    /// resolves MX hosts to A/AAAA, then translates the answers into
+    /// IT-actionable hints ("your SPF ends with +all", "DMARC is
+    /// p=none", "this MX has no A record", ...).  Output is
+    /// human-readable text; use `--json` for machine parsing.
+    #[cfg(feature = "dns")]
+    Dns {
+        /// Domain to audit (e.g. `example.com`, `gmail.com`).
+        domain: String,
+        /// Emit machine-readable JSON instead of the formatted table.
+        #[arg(long)]
+        json: bool,
+    },
+    /// Mint a Microsoft 365 XOAUTH2 token via the device-code flow.
+    /// Prints a URL + code, polls until you authorise in the browser,
+    /// then stores the refresh token in the OS keychain for the given
+    /// account.  Subsequent `smtp-test-tool` runs with `--user <that
+    /// account> --keychain-load` will auto-mint a fresh access token
+    /// from that refresh.
+    #[cfg(feature = "oauth")]
+    OauthLogin {
+        /// The mail account to attach the refresh token to.
+        #[arg(short, long)]
+        user: String,
+    },
 }
 
 #[derive(Subcommand, Debug)]
@@ -246,6 +271,94 @@ fn run() -> Result<bool> {
             println!("Wrote starter config to {}", target.display());
             return Ok(true);
         }
+        #[cfg(feature = "dns")]
+        Cmd::Dns { domain, json } => {
+            let report = smtp_test_tool::dns::audit_domain(&domain)
+                .with_context(|| format!("DNS audit failed for {domain}"))?;
+            let hints = smtp_test_tool::dns::interpret(&report);
+            if json {
+                #[derive(serde::Serialize)]
+                struct Out<'a> {
+                    report: &'a smtp_test_tool::dns::DnsReport,
+                    hints: Vec<Hint>,
+                }
+                #[derive(serde::Serialize)]
+                struct Hint {
+                    id: &'static str,
+                    severity: &'static str,
+                    text: String,
+                }
+                let hints: Vec<Hint> = hints
+                    .iter()
+                    .map(|h| Hint {
+                        id: h.id,
+                        severity: match h.severity {
+                            smtp_test_tool::dns::Severity::Critical => "critical",
+                            smtp_test_tool::dns::Severity::Warning => "warning",
+                            smtp_test_tool::dns::Severity::Info => "info",
+                        },
+                        text: h.text.clone(),
+                    })
+                    .collect();
+                let out = Out {
+                    report: &report,
+                    hints,
+                };
+                // Hand-roll a small TOML-ish JSON via serde_json (only
+                // present when the `oauth` feature is on); fall back to
+                // Debug otherwise.
+                #[cfg(feature = "oauth")]
+                {
+                    println!("{}", serde_json::to_string_pretty(&out)?);
+                }
+                #[cfg(not(feature = "oauth"))]
+                {
+                    println!("{:#?}", out);
+                }
+            } else {
+                print!("{}", smtp_test_tool::dns::render_report(&report, &hints));
+            }
+            // Exit non-zero if anything Critical was found - useful for
+            // shell-script integration (`smtp-test-tool dns example.com || alert`).
+            let critical = hints
+                .iter()
+                .any(|h| h.severity == smtp_test_tool::dns::Severity::Critical);
+            return Ok(!critical);
+        }
+        #[cfg(feature = "oauth")]
+        Cmd::OauthLogin { user } => {
+            use smtp_test_tool::oauth;
+            let start =
+                oauth::m365_start().context("failed to initiate Microsoft 365 device-code flow")?;
+            // Print the user-facing prompt.
+            if let Some(msg) = &start.message {
+                println!("{msg}");
+            } else {
+                println!(
+                    "Open {} in a browser and enter the code: {}",
+                    start.verification_uri, start.user_code
+                );
+            }
+            println!(
+                "  (will poll every {}s for up to {}s)",
+                start.interval, start.expires_in
+            );
+            let token = oauth::m365_poll(&start, || false).context("device-code polling failed")?;
+            // Store the refresh token in the OS keychain.
+            let refresh = token
+                .refresh_token
+                .clone()
+                .ok_or_else(|| anyhow::anyhow!("server returned no refresh_token"))?;
+            let ks = default_keystore();
+            ks.save(&format!("oauth-refresh:{user}"), &refresh)
+                .with_context(|| format!("failed to store refresh token for {user}"))?;
+            println!("Sign-in complete.  Refresh token stored for '{user}' in the OS keychain.");
+            println!(
+                "  (access token expires in {}s; future runs will refresh automatically)",
+                token.expires_in
+            );
+            return Ok(true);
+        }
         Cmd::Test => { /* fall through */ }
     }
 
@@ -291,16 +404,50 @@ fn run() -> Result<bool> {
     let keystore = default_keystore();
     if cli.keychain_load && profile.password.is_none() && profile.oauth_token.is_none() {
         if let Some(user) = &profile.user {
-            match keystore.load(user) {
-                Ok(Some(pwd)) => {
-                    tracing::info!("loaded password for {user} from OS keychain");
-                    profile.password = Some(pwd);
+            // First, try an OAuth refresh token (M365's preferred path now
+            // that Basic Auth is dead-by-default).  If one exists, mint a
+            // fresh access token and treat it as XOAUTH2 for SMTP / IMAP
+            // / POP.
+            #[cfg(feature = "oauth")]
+            {
+                if let Ok(Some(rt)) = keystore.load(&format!("oauth-refresh:{user}")) {
+                    match smtp_test_tool::oauth::m365_refresh(&rt) {
+                        Ok(tok) => {
+                            tracing::info!(
+                                "refreshed M365 OAuth access token for {user} (expires in {}s)",
+                                tok.expires_in
+                            );
+                            // Persist the rotated refresh token if the
+                            // server sent us a new one.
+                            if let Some(new_rt) = tok.refresh_token.as_deref() {
+                                if new_rt != rt {
+                                    let _ = keystore.save(&format!("oauth-refresh:{user}"), new_rt);
+                                }
+                            }
+                            profile.oauth_token = Some(tok.access_token);
+                        }
+                        Err(e) => {
+                            tracing::warn!(
+                                "OAuth refresh for {user} failed: {e}; falling back to password"
+                            );
+                        }
+                    }
                 }
-                Ok(None) => {
-                    tracing::info!("no keychain entry for {user} - falling back to prompt");
-                }
-                Err(e) => {
-                    tracing::warn!("keychain load failed for {user}: {e:#}");
+            }
+            // Then fall back to a stored password if neither an OAuth
+            // refresh nor a CLI override produced an answer.
+            if profile.password.is_none() && profile.oauth_token.is_none() {
+                match keystore.load(user) {
+                    Ok(Some(pwd)) => {
+                        tracing::info!("loaded password for {user} from OS keychain");
+                        profile.password = Some(pwd);
+                    }
+                    Ok(None) => {
+                        tracing::info!("no keychain entry for {user} - falling back to prompt");
+                    }
+                    Err(e) => {
+                        tracing::warn!("keychain load failed for {user}: {e:#}");
+                    }
                 }
             }
         }
