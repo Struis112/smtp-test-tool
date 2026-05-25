@@ -1,6 +1,6 @@
 [package]
 name        = "smtp-test-tool"
-version     = "0.1.6"
+version     = "0.2.0"
 edition     = "2021"
 rust-version = "1.92"
 description = "Cross-platform SMTP / IMAP / POP3 connectivity tester with IT-actionable diagnostics."
@@ -25,15 +25,29 @@ path = "src/bin/gui.rs"
 required-features = ["gui"]
 
 [features]
-default  = ["gui", "keychain"]
+default  = ["gui", "keychain", "dns", "oauth"]
 # The GUI ships with system-font discovery so CJK / Arabic / Devanagari /
 # Thai glyphs render correctly when the user picks a non-Latin locale.
 # The cost is one extra dep (`fontdb`) plus a brief font-scan on startup.
-gui      = ["dep:eframe", "dep:egui", "dep:fontdb"]
+gui      = ["dep:eframe", "dep:egui", "dep:fontdb", "dep:webbrowser"]
 # Real OS keychain backing (Windows Credential Manager / macOS Keychain /
 # Linux Secret Service).  Optional so a stripped-down CLI build can skip
 # the libdbus dependency on Linux.
 keychain = ["dep:keyring"]
+# DNS-side checks (MX / SPF / DMARC / A / PTR) for the Diagnose tab and
+# the `smtp-test-tool dns <domain>` CLI subcommand.  Pulls in hickory-
+# resolver 0.26 and a single-threaded tokio runtime that we spin up
+# on-demand for each audit; the rest of the codebase stays sync.
+dns      = ["dep:hickory-resolver", "dep:tokio"]
+# OAuth2 device-code flow (RFC 8628) for Microsoft 365 mailboxes that
+# have legacy Basic Auth disabled.  Adds ureq + serde_json; no extra
+# tokio because device-code is a single POST + a polling loop.
+oauth    = ["dep:ureq", "dep:serde_json", "dep:serde_urlencoded"]
+# Opt-in network-bound integration tests.  Off by default so plain
+# `cargo test` works without internet.  Enable with `cargo test
+# --features live-net` when you actually want the live DNS / OAuth
+# probes to run.
+live-net = []
 
 [dependencies]
 # CLI parsing
@@ -49,6 +63,7 @@ tracing-subscriber = { version = "0.3", features = ["env-filter", "ansi", "fmt"]
 
 # Error handling
 anyhow    = "1"
+thiserror = "2"
 
 # TLS - rustls = pure Rust, no OpenSSL dep, fully portable single binary.
 # pki-types >=1.9 exposes the PemObject API we use to load CA bundles
@@ -90,6 +105,25 @@ egui      = { version = "0.34", optional = true }
 #  - 'fontconfig' is Linux-only and the standard discovery mechanism
 #    there; ignored on Windows / macOS.
 fontdb    = { version = "0.23", optional = true }
+# Best-effort 'open a URL in the user's default browser' for the OAuth
+# device-code flow.  ~70 LoC under the hood, just calls cmd /c start on
+# Windows, `open` on macOS, xdg-open on Linux.
+webbrowser = { version = "1", optional = true }
+
+# DNS resolver for the optional `dns` feature.  We keep all the heavy
+# hickory features (h3, https, dnssec, tls) OFF - we only need the
+# stock UDP/TCP resolver.
+hickory-resolver = { version = "0.26", optional = true, default-features = false, features = ["system-config", "tokio"] }
+# Single-threaded tokio runtime for hickory.  No macros, no io-util,
+# nothing else - the smallest feature set we can still build hickory
+# against.
+tokio     = { version = "1",   optional = true, default-features = false, features = ["rt", "time", "net"] }
+
+# OAuth2 device-code flow.  ureq is sync + rustls (matches our wider
+# 'no openssl' stance); serde_json parses the OAuth token responses.
+ureq      = { version = "3",   optional = true, default-features = false, features = ["rustls", "json", "platform-verifier"] }
+serde_json     = { version = "1", optional = true }
+serde_urlencoded = { version = "0.7", optional = true }
 
 [profile.release]
 lto             = "thin"

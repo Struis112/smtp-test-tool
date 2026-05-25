@@ -9,12 +9,16 @@
 
 pub mod config;
 pub mod diagnostics;
+#[cfg(feature = "dns")]
+pub mod dns;
 #[cfg(feature = "gui")]
 pub mod fonts;
 pub mod i18n;
 pub mod imap;
 pub mod keystore;
 pub mod locale;
+#[cfg(feature = "oauth")]
+pub mod oauth;
 pub mod pop3;
 pub mod providers;
 pub mod runner;
