@@ -161,7 +161,7 @@ for the native-review recipe — PRs welcome.
 ### Windows: WinGet or Scoop
 
 ```powershell
-winget install Struis112.SmtpTestTool
+winget install StruisICT.SmtpTestTool
 ```
 
 ```powershell

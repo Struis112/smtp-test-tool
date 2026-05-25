@@ -224,14 +224,17 @@ jobs:
           TODAY=$(date -u +%Y-%m-%d)
 
           # ---- WinGet (3 YAMLs) ------------------------------------
-          for f in packaging/winget/Struis112.SmtpTestTool.installer.yaml \
-                   packaging/winget/Struis112.SmtpTestTool.locale.en-US.yaml \
-                   packaging/winget/Struis112.SmtpTestTool.yaml; do
+          # NB: package identifier is 'StruisICT.SmtpTestTool' - the
+          # release brand, distinct from the GitHub username Struis112
+          # that owns the upstream repository.
+          for f in packaging/winget/StruisICT.SmtpTestTool.installer.yaml \
+                   packaging/winget/StruisICT.SmtpTestTool.locale.en-US.yaml \
+                   packaging/winget/StruisICT.SmtpTestTool.yaml; do
             sed -i "s/^PackageVersion: .*/PackageVersion: $VER/" "$f"
           done
-          sed -i "s|/download/v[0-9.]*/|/download/v$VER/|g" packaging/winget/Struis112.SmtpTestTool.installer.yaml
-          sed -i "s/InstallerSha256: .*/InstallerSha256: $WIN_ZIP/"   packaging/winget/Struis112.SmtpTestTool.installer.yaml
-          sed -i "s/^ReleaseDate: .*/ReleaseDate: $TODAY/"            packaging/winget/Struis112.SmtpTestTool.installer.yaml
+          sed -i "s|/download/v[0-9.]*/|/download/v$VER/|g" packaging/winget/StruisICT.SmtpTestTool.installer.yaml
+          sed -i "s/InstallerSha256: .*/InstallerSha256: $WIN_ZIP/"   packaging/winget/StruisICT.SmtpTestTool.installer.yaml
+          sed -i "s/^ReleaseDate: .*/ReleaseDate: $TODAY/"            packaging/winget/StruisICT.SmtpTestTool.installer.yaml
 
           # ---- Scoop ----------------------------------------------
           # Quoted 'PY' heredoc so bash leaves backslashes alone.

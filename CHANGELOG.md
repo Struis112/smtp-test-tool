@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- **WinGet package identifier renamed** from `Struis112.SmtpTestTool`
+  to `StruisICT.SmtpTestTool` to reflect the project's release brand
+  (the GitHub username `Struis112` remains the owner of the upstream
+  repository, but the WinGet `Publisher` field now reads `StruisICT`).
+  When PR'd to `microsoft/winget-pkgs`, the manifest path becomes
+  `manifests/s/StruisICT/SmtpTestTool/<version>/`.  No effect on any
+  user who installed via the v0.1.6 / v0.2.0 binaries, GitHub release,
+  or `cargo install` - those paths never touched the identifier.
+
 ## [0.2.0] - 2026-05-26
 
 First MINOR bump - the public library API gains two new modules

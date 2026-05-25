@@ -4,7 +4,7 @@ Static manifest templates for the three package managers we ship to:
 
 | Manager  | Platform | Manifest         | User command                                                 |
 |----------|----------|------------------|--------------------------------------------------------------|
-| WinGet   | Windows  | `winget/*.yaml`  | `winget install Struis112.SmtpTestTool`                      |
+| WinGet   | Windows  | `winget/*.yaml`  | `winget install StruisICT.SmtpTestTool`                      |
 | Scoop    | Windows  | `scoop/*.json`   | `scoop bucket add struis112 https://github.com/Struis112/scoop-bucket && scoop install smtp-test-tool` |
 | Homebrew | mac/Linux| `homebrew/*.rb`  | `brew tap struis112/tap && brew install smtp-test-tool`      |
 
@@ -33,9 +33,15 @@ registry needs them mirrored to a different location:
 
 PR the three YAML files to
 [`microsoft/winget-pkgs`](https://github.com/microsoft/winget-pkgs)
-under `manifests/s/Struis112/SmtpTestTool/<version>/`.  The Microsoft
+under `manifests/s/StruisICT/SmtpTestTool/<version>/`.  The Microsoft
 validation bot will run, an `[Approved]` label appears, and the
 package is live within a few hours.
+
+(The path's first segment `s` is the lower-cased first letter of the
+Publisher portion of the PackageIdentifier - `StruisICT` starts with
+`S`, hence `manifests/s/`.  `Struis112` (the GitHub username that
+actually owns the binaries) is **not** the publisher; the publisher
+is the release brand `StruisICT`.)
 
 A `wingetcreate submit` one-liner is the recommended path; the
 [`fivetran/winget-create-action`](https://github.com/fivetran/winget-create-action)
