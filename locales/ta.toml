@@ -1,0 +1,275 @@
+# smtp-test-tool locale: தமிழ் (ta)
+# status: machine-translated, native review welcome.
+
+[app]
+name = "SMTP Test Tool"
+
+[locale]
+native_name = "தமிழ்"
+english_name = "Tamil"
+status_note = "இயந்திர மொழிபெயர்ப்பு - தாய்மொழி பேசுபவர் மதிப்பாய்வு வரவேற்கப்படுகிறது."
+
+[ui.window]
+title = "SMTP சோதனை கருவி"
+
+[ui.topbar]
+profile_label = "சுயவிவரம்:"
+save_config = "உள்ளமைவை சேமி"
+save_config_tooltip = "செயல்படுத்தக்கூடியதற்கு அடுத்துள்ள உள்ளமைவு கோப்பிற்கு செயலில் உள்ள சுயவிவரத்தை எழுதுகிறது."
+provider_preset = "வழங்குநர் முன்னமைவு..."
+provider_preset_tooltip = "கீழே உள்ள ஹோஸ்ட் / போர்ட் / பாதுகாப்பு புலங்களுக்கு தேர்ந்தெடுக்கப்பட்ட வழங்குநர் முன்னமைவுகளில் ஒன்றை பயன்படுத்துகிறது."
+config_path_none = "உள்ளமைவு கோப்பு இல்லை"
+
+[ui.tab]
+servers = "சேவையகங்கள்"
+send_mail = "அஞ்சல் அனுப்பு"
+tls_auth = "TLS / Auth"
+advanced = "மேம்பட்ட"
+diagnose = "பவுன்ஸ் பகுப்பாய்வு"
+
+[ui.servers]
+username = "பயனர்பெயர்:"
+password = "கடவுச்சொல்:"
+show = "காட்டு"
+oauth_token = "OAuth டோக்கன்:"
+oauth_hint = "(XOAUTH2, விருப்பத்தேர்வு)"
+save_to_keychain = "கடவுச்சொல்லை கீச்சைனில் சேமி"
+save_to_keychain_tooltip = "கடவுச்சொல்லை OS-இன் கீச்சைனில் (Windows Credential Manager / macOS Keychain / Linux Secret Service) சேமிக்கிறது. ஒருபோதும் உள்ளமைவு கோப்பில் எழுதப்படாது."
+forget_keychain = "கீச்சைன் உள்ளீட்டை மறந்துவிடு"
+forget_keychain_tooltip = "OS கீச்சைனிலிருந்து இந்த பயனரின் smtp-test-tool உள்ளீட்டை நீக்குகிறது. மேலே உள்ள கடவுச்சொல் புலமும் அழிக்கப்படுகிறது."
+loaded_from_keychain = "(கீச்சைனிலிருந்து ஏற்றப்பட்டது)"
+
+[ui.proto]
+test_smtp = "SMTP சோதனை"
+test_imap = "IMAP சோதனை"
+test_pop3 = "POP3 சோதனை"
+host = "ஹோஸ்ட்:"
+port = "போர்ட்:"
+security = "பாதுகாப்பு:"
+security_none = "எதுவுமில்லை"
+security_starttls = "starttls"
+security_ssl = "ssl"
+
+[ui.send]
+toggle = "உண்மையில் சோதனை மின்னஞ்சல் அனுப்பு (இல்லையெனில் AUTH மட்டும் சோதி)"
+mail_from = "MAIL FROM (உறை):"
+from_header = "From: (தலைப்பு):"
+to = "க்கு (கமாவால் பிரிக்கப்பட்டது):"
+cc = "Cc (கமாவால் பிரிக்கப்பட்டது):"
+bcc = "Bcc (கமாவால் பிரிக்கப்பட்டது):"
+reply_to = "பதிலளி:"
+subject = "பொருள்:"
+body = "உள்ளடக்கம்:"
+
+[ui.tls]
+auth_mech = "SMTP AUTH அமைப்பு:"
+insecure = "சான்றிதழ் சரிபார்ப்பை முடக்கு (பாதுகாப்பற்றது - சோதனை மட்டும்)"
+ca_bundle = "CA தொகுப்பு (PEM):"
+
+[ui.advanced]
+timeout = "காலக்கெடு (வினாடிகள்):"
+ehlo = "EHLO/HELO பெயர்:"
+imap_folder = "IMAP கோப்புறை:"
+log_level = "பதிவு நிலை:"
+theme = "தீம்:"
+language = "மொழி:"
+language_unsupported = "உங்கள் OS இடம் ({code}) இன்னும் மொழிபெயர்க்கப்படவில்லை. உரை ஆங்கிலத்தில் தோன்றுகிறது; பங்களிப்புகள் வரவேற்கப்படுகின்றன."
+theme_follow_os = "OS-ஐ பின்தொடரவும் ({hint})"
+theme_dark = "இருண்ட"
+theme_light = "ஒளி"
+
+[ui.actions]
+run_test = "சோதனை இயக்கு"
+running = "இயங்குகிறது..."
+clear_log = "பதிவை அழி"
+
+[ui.status]
+smtp_idle = "SMTP: -"
+imap_idle = "IMAP: -"
+pop3_idle = "POP3: -"
+smtp_pass = "SMTP: தேர்ச்சி"
+imap_pass = "IMAP: தேர்ச்சி"
+pop3_pass = "POP3: தேர்ச்சி"
+smtp_fail = "SMTP: தோல்வி"
+imap_fail = "IMAP: தோல்வி"
+pop3_fail = "POP3: தோல்வி"
+smtp_skip = "SMTP: தவிர்த்தது"
+imap_skip = "IMAP: தவிர்த்தது"
+pop3_skip = "POP3: தவிர்த்தது"
+
+[ui.diagnose]
+intro = "IT-செயல்படக்கூடிய குறிப்புகளை வெளியேற்றுவதற்காக டெலிவரி தோல்வி செய்தியின் உடலை கீழே ஒட்டவும். SMTP enhanced status codes (5.7.139, 5.7.60), Microsoft 365 சொற்றொடர்கள் (\"basic authentication is disabled\") மற்றும் Gmail-இன் \"Send mail as / Mail sturen als\" போன்ற வெப்மெயில்-பக்க பவுன்ஸ்களை அடையாளம் காண்கிறது. பிணையம் வழியாக எதுவும் அனுப்பப்படவில்லை மற்றும் உரை வட்டில் சேமிக்கப்படவில்லை."
+input_placeholder = "இங்கே பவுன்ஸ் உடலை ஒட்டவும்..."
+analyse = "பகுப்பாய்வு"
+clear = "அழி"
+hints_heading = "குறிப்புகள்"
+no_hints_yet = "(இன்னும் குறிப்புகள் இல்லை - மேலே ஒரு பவுன்ஸை ஒட்டி பகுப்பாய்வைக் கிளிக் செய்யவும்)"
+
+[ui.log]
+heading = "பதிவு"
+
+[diagnostics.scaffold]
+esc_prefix = "ESC {code}: {what}"
+action_prefix = "  -> செயல்: {fix}"
+hint_prefix = "  -> {hint}"
+
+[diagnostics.smtp.esc.5_7_0]
+what = "அங்கீகாரம் தேவை, அல்லது தேர்ந்தெடுக்கப்பட்ட AUTH அமைப்பு அனுமதிக்கப்படவில்லை."
+fix  = "மெயில்பாக்ஸுக்கு SMTP AUTH-ஐ இயக்கவும்; LOGIN / PLAIN / XOAUTH2 அனுமதிக்கப்படுகிறது என்பதை சரிபார்க்கவும்."
+
+[diagnostics.smtp.esc.5_7_1]
+what = "Relay அணுகல் மறுக்கப்பட்டது - இந்த செய்தியை அனுப்ப சேவையகம் மறுக்கிறது."
+fix  = "அனுப்புநர் அங்கீகரிக்கப்படவில்லை, அல்லது பெறுநர் வெளிப்புறமாக உள்ளார் மற்றும் relay முடக்கப்பட்டுள்ளது, அல்லது transport rule செய்தியை தடுக்கிறது."
+
+[diagnostics.smtp.esc.5_7_3]
+what = "அங்கீகாரம் வெற்றியடையவில்லை."
+fix  = "தவறான கடவுச்சொல், app-password இல்லாமல் MFA, அல்லது tenant-இல் Basic/Legacy auth முடக்கப்பட்டுள்ளது (O365: 'SMTP AUTH disabled')."
+
+[diagnostics.smtp.esc.5_7_8]
+what = "அங்கீகார சான்றுகள் செல்லாது."
+fix  = "SASL அடுக்கால் பயனர்பெயர்/கடவுச்சொல் நிராகரிக்கப்பட்டது."
+
+[diagnostics.smtp.esc.5_7_57]
+what = "MAIL FROM-இன் போது அநாமதேய அஞ்சல் அனுப்ப கிளையன்ட் அங்கீகரிக்கப்படவில்லை."
+fix  = "MAIL FROM-க்கு முன் STARTTLS + AUTH-ஐ கட்டாயப்படுத்தவும். O365-இல், கிளையன்ட் AUTH இல்லாமல் இணைக்கும் போது இது வழக்கமான பிழை."
+
+[diagnostics.smtp.esc.5_7_60]
+what = "SendAsDenied - அங்கீகரிக்கப்பட்ட பயனர் இந்த From முகவரியாக அனுப்ப அனுமதிக்கப்படவில்லை."
+fix  = "அங்கீகரிக்கப்பட்ட கணக்கிற்கு மெயில்பாக்ஸின் 'Send As' (அல்லது 'Send on Behalf') உரிமைகளை வழங்கவும், அல்லது உள்நுழைவுடன் பொருந்த From தலைப்பை மாற்றவும்."
+
+[diagnostics.smtp.esc.5_7_64]
+what = "TenantAttribution; Relay Access Denied."
+fix  = "அங்கீகரிக்கப்பட்ட SMTP சமர்ப்பிப்புக்கு O365-இல் உரிமம் பெற்ற மெயில்பாக்ஸ் தேவை."
+
+[diagnostics.smtp.esc.5_7_124]
+what = "அஞ்சல் அனுப்ப பயனருக்கு அதிகாரம் இல்லை."
+fix  = "முடக்கப்பட்ட மெயில்பாக்ஸ், Conditional Access-ஆல் தடுக்கப்பட்டது, அல்லது உரிமம் காணவில்லை."
+
+[diagnostics.smtp.esc.5_7_135]
+what = "அங்கீகாரம் வெற்றியடையவில்லை, பயனர் சான்றுகள் காலாவதியாகின."
+fix  = "கடவுச்சொல்லை மீட்டமை / OAuth டோக்கனை புதுப்பி."
+
+[diagnostics.smtp.esc.5_7_139]
+what = "அங்கீகாரம் வெற்றியடையவில்லை; கோரிக்கை அளவுகோல்களை பூர்த்தி செய்யவில்லை."
+fix  = "Conditional Access கொள்கை உள்நுழைவை நிராகரித்தது (இடம், சாதனம், MFA)."
+
+[diagnostics.smtp.esc.5_7_500]
+what = "அணுகல் மறுக்கப்பட்டது, அனுப்பும் டொமைன் முடக்கப்பட்டது."
+fix  = "இந்த tenant-இல் அனுப்புநரின் டொமைன் வெளிச்செல்லும் அஞ்சலுக்கு தடுக்கப்பட்டுள்ளது."
+
+[diagnostics.smtp.esc.5_7_501]
+what = "அணுகல் மறுக்கப்பட்டது, தடைசெய்யப்பட்ட அனுப்புநர்."
+fix  = "அனுப்புநரின் முகவரி tenant-இன் blocklist-இல் உள்ளது."
+
+[diagnostics.smtp.esc.5_7_508]
+what = "அணுகல் மறுக்கப்பட்டது, விகிதம் அல்லது போக்குவரத்து வரம்பு மீறப்பட்டது."
+fix  = "Throttled; காத்திருந்து மீண்டும் முயற்சிக்கவும், அல்லது வரம்பை உயர்த்த நிர்வாகியிடம் கேட்கவும்."
+
+[diagnostics.smtp.esc.5_7_511]
+what = "அணுகல் மறுக்கப்பட்டது, தடைசெய்யப்பட்ட அனுப்புநர்."
+fix  = "அனுப்புநர் ஸ்பேம் மூலமாக குறிக்கப்பட்டுள்ளார்."
+
+[diagnostics.smtp.esc.5_7_606]
+what = "அணுகல் மறுக்கப்பட்டது, தடைசெய்யப்பட்ட அனுப்பும் IP."
+fix  = "அனுப்பும் IP Microsoft-இன் blocklist-இல் உள்ளது."
+
+[diagnostics.smtp.esc.5_7_708]
+what = "சேவை மறுக்கப்பட்டது. மூல IP-க்கு மோசமான நற்பெயர் உள்ளது."
+fix  = "வேறு IP-யிலிருந்து அனுப்பவும் அல்லது delisting கோரவும்."
+
+[diagnostics.smtp.esc.5_7_750]
+what = "பதிவு செய்யப்படாத டொமைன்களிலிருந்து அனுப்புவதிலிருந்து கிளையன்ட் தடுக்கப்பட்டது."
+fix  = "tenant-இல் அனுப்புநர் டொமைனை சரிபார்க்கவும் அல்லது ஏற்றுக்கொள்ளப்பட்ட டொமைனைப் பயன்படுத்தவும்."
+
+[diagnostics.smtp.esc.5_1_0]
+what = "அனுப்புநர் முகவரி நிராகரிக்கப்பட்டது."
+fix  = "From/MAIL FROM ஏற்றுக்கொள்ளப்படவில்லை; பொதுவாக வடிவம் அல்லது டொமைன் கொள்கை."
+
+[diagnostics.smtp.esc.5_1_1]
+what = "தவறான இலக்கு மெயில்பாக்ஸ் - பெறுநர் இல்லை."
+fix  = "பெறுநரின் முகவரியை சரிபார்க்கவும்."
+
+[diagnostics.smtp.esc.5_1_7]
+what = "தவறான அனுப்புநர் முகவரி (தவறான வடிவம்)."
+fix  = "MAIL FROM தொடரியலை சரிசெய்."
+
+[diagnostics.smtp.esc.5_1_8]
+what = "அனுப்புநர் டொமைன் அனுமதிக்கப்படவில்லை."
+fix  = "சேவையகம் டொமைனை ஏற்கவில்லை."
+
+[diagnostics.smtp.esc.5_1_10]
+what = "பெறுநர் முகவரி நிராகரிக்கப்பட்டது - பயனர் தெரியவில்லை."
+fix  = "தட்டச்சு பிழை அல்லது இல்லாத பெறுநர்."
+
+[diagnostics.smtp.esc.5_4_1]
+what = "பெறுநர் முகவரி நிராகரிக்கப்பட்டது: அணுகல் மறுக்கப்பட்டது."
+fix  = "பெறுநரின் மெயில்பாக்ஸ் இந்த அனுப்புநர் / டொமைனிலிருந்து செய்திகளை நிராகரிக்கிறது."
+
+[diagnostics.smtp.esc.5_2_1]
+what = "மெயில்பாக்ஸ் முடக்கப்பட்டது, செய்திகளை ஏற்கவில்லை."
+fix  = "பெறுநரின் மெயில்பாக்ஸ் இடைநிறுத்தப்பட்டது."
+
+[diagnostics.smtp.esc.5_2_2]
+what = "மெயில்பாக்ஸ் நிறைந்துள்ளது."
+fix  = "பெறுநர் ஒதுக்கீடு மீறப்பட்டது."
+
+[diagnostics.smtp.esc.5_3_4]
+what = "சிஸ்டத்திற்கு செய்தி மிகப் பெரியது."
+fix  = "செய்தி அளவை குறைக்கவும்."
+
+[diagnostics.smtp.esc.4_7_0]
+what = "தற்காலிக அங்கீகார தோல்வி / throttling."
+fix  = "பின்னர் மீண்டும் முயற்சிக்கவும்; மீண்டும் மீண்டும் தவறான உள்நுழைவுகளுக்கான tarpit-ஆகவும் இருக்கலாம்."
+
+[diagnostics.smtp.esc.4_4_2]
+what = "இணைப்பு துண்டிக்கப்பட்டது."
+fix  = "பிணைய இடையூறு அல்லது சேவையக மறுதொடக்கம்; மீண்டும் முயற்சிக்கவும்."
+
+[diagnostics.smtp.esc.4_3_2]
+what = "சிஸ்டம் பிணைய செய்திகளை ஏற்கவில்லை."
+fix  = "சேவையக பராமரிப்பு."
+
+[diagnostics.imap.AUTHENTICATIONFAILED]
+hint = "IMAP உள்நுழைவு நிராகரிக்கப்பட்டது - தவறான கடவுச்சொல், app-password இல்லாமல் MFA, அல்லது Basic Auth முடக்கப்பட்டுள்ளது."
+
+[diagnostics.imap."LOGIN_failed"]
+hint = "IMAP உள்நுழைவு சேவையகத்தால் நிராகரிக்கப்பட்டது."
+
+[diagnostics.imap.ALERT]
+hint = "சேவையகம் ALERT பதிலை திருப்பியது - படிக்கவும்; நிர்வாகி-வரையறுக்கப்பட்ட செய்தி."
+
+[diagnostics.imap.UNAVAILABLE]
+hint = "மெயில்பாக்ஸ்/சேவையகம் தற்காலிகமாக கிடைக்கவில்லை."
+
+[diagnostics.imap.PRIVACYREQUIRED]
+hint = "சேவையகத்திற்கு LOGIN-க்கு முன் TLS தேவை - STARTTLS அல்லது மறைமுக SSL-ஐ பயன்படுத்தவும்."
+
+[diagnostics.imap.CLIENTBUG]
+hint = "சேவையகம் தவறு என்று கருதும் ஒன்றை கிளையன்ட் செய்தது; பொதுவாக STARTTLS காணவில்லை அல்லது தவறான நிலை."
+
+[diagnostics.imap.LOGINDISABLED]
+hint = "இந்த சேவையகத்தில் Plain LOGIN முடக்கப்பட்டுள்ளது - STARTTLS/SSL அல்லது XOAUTH2-ஐ பயன்படுத்தவும்."
+
+[diagnostics.pop.authentication_failed]
+hint = "POP3 உள்நுழைவு நிராகரிக்கப்பட்டது - தவறான சான்றுகள் அல்லது இந்த மெயில்பாக்ஸுக்கு POP முடக்கப்பட்டுள்ளது."
+
+[diagnostics.pop.logon_failure]
+hint = "POP3 உள்நுழைவு நிராகரிக்கப்பட்டது."
+
+[diagnostics.pop.not_implemented]
+hint = "வழங்கப்பட்ட கட்டளையை சேவையகம் ஆதரிக்கவில்லை."
+
+[diagnostics.pop.disabled]
+hint = "இந்த கணக்கு / tenant-க்கு POP3 அணுகல் முடக்கப்பட்டுள்ளது."
+
+[diagnostics.bounce.gmail_send_as_en]
+needle = "Send mail as"
+hint = "Gmail-இன் 'Send mail as' அப்ஸ்ட்ரீம் உள்நுழைவு தோல்வியடைந்தது. அமைப்புகள் > அனைத்து அமைப்புகளையும் காண்க > கணக்குகள் மற்றும் இறக்குமதி > மற்ற முகவரிகளில் இருந்து அஞ்சல் அனுப்பு > தகவலைத் திருத்து > SMTP கடவுச்சொல்லை மீண்டும் உள்ளிடு (மூல கணக்கில் 2FA இருந்தால் app-password)."
+
+[diagnostics.bounce.gmail_send_as_nl]
+needle = "Mail sturen als"
+hint = "Gmail-இன் 'Mail sturen als' (Send mail as) அப்ஸ்ட்ரீம் உள்நுழைவு தோல்வியடைந்தது. அமைப்புகள் > அனைத்து அமைப்புகளையும் காண்க > கணக்குகள் மற்றும் இறக்குமதி > மற்ற முகவரிகளில் இருந்து அஞ்சல் அனுப்பு > தகவலைத் திருத்து > SMTP கடவுச்சொல்லை மீண்டும் உள்ளிடு (மூல கணக்கில் 2FA இருந்தால் app-password)."
+
+[cli.prompt]
+username = "பயனர்பெயர் / மின்னஞ்சல்: "
+password = "கடவுச்சொல்: "

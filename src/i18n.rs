@@ -79,6 +79,8 @@ const HE_TOML: &str = include_str!("../locales/he.toml");
 const HI_TOML: &str = include_str!("../locales/hi.toml");
 const JA_TOML: &str = include_str!("../locales/ja.toml");
 const KO_TOML: &str = include_str!("../locales/ko.toml");
+const TA_TOML: &str = include_str!("../locales/ta.toml");
+const TE_TOML: &str = include_str!("../locales/te.toml");
 const TH_TOML: &str = include_str!("../locales/th.toml");
 const ZH_TOML: &str = include_str!("../locales/zh.toml");
 
@@ -114,6 +116,8 @@ const LOCALES: &[(&str, &str)] = &[
     ("sk", SK_TOML),
     ("sr", SR_TOML),
     ("sv", SV_TOML),
+    ("ta", TA_TOML),
+    ("te", TE_TOML),
     ("th", TH_TOML),
     ("tr", TR_TOML),
     ("uk", UK_TOML),

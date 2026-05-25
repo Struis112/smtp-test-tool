@@ -1,0 +1,275 @@
+# smtp-test-tool locale: తెలుగు (te)
+# status: machine-translated, native review welcome.
+
+[app]
+name = "SMTP Test Tool"
+
+[locale]
+native_name = "తెలుగు"
+english_name = "Telugu"
+status_note = "యంత్ర-అనువాదం - స్థానిక మాట్లాడేవారి సమీక్ష స్వాగతం."
+
+[ui.window]
+title = "SMTP పరీక్ష సాధనం"
+
+[ui.topbar]
+profile_label = "ప్రొఫైల్:"
+save_config = "కాన్ఫిగ్ సేవ్ చేయి"
+save_config_tooltip = "ఎక్జిక్యూటబుల్ పక్కన ఉన్న కాన్ఫిగ్ ఫైల్‌కి సక్రియ ప్రొఫైల్‌ను తిరిగి వ్రాస్తుంది."
+provider_preset = "ప్రొవైడర్ ప్రీసెట్..."
+provider_preset_tooltip = "క్రింది హోస్ట్ / పోర్ట్ / భద్రత ఫీల్డ్‌లకు ఎంపిక చేసిన ప్రొవైడర్ ప్రీసెట్‌లలో ఒకదాన్ని వర్తింపజేస్తుంది."
+config_path_none = "కాన్ఫిగ్ ఫైల్ లేదు"
+
+[ui.tab]
+servers = "సర్వర్లు"
+send_mail = "మెయిల్ పంపండి"
+tls_auth = "TLS / Auth"
+advanced = "అధునాతన"
+diagnose = "బౌన్స్ విశ్లేషణ"
+
+[ui.servers]
+username = "వినియోగదారు పేరు:"
+password = "పాస్‌వర్డ్:"
+show = "చూపు"
+oauth_token = "OAuth టోకెన్:"
+oauth_hint = "(XOAUTH2, ఐచ్ఛికం)"
+save_to_keychain = "పాస్‌వర్డ్‌ను కీచైన్‌లో సేవ్ చేయి"
+save_to_keychain_tooltip = "పాస్‌వర్డ్‌ను OS-యొక్క కీచైన్‌లో (Windows Credential Manager / macOS Keychain / Linux Secret Service) సేవ్ చేస్తుంది. కాన్ఫిగ్ ఫైల్‌లో ఎప్పుడూ వ్రాయబడదు."
+forget_keychain = "కీచైన్ ఎంట్రీని మర్చిపో"
+forget_keychain_tooltip = "OS కీచైన్ నుండి ఈ వినియోగదారు యొక్క smtp-test-tool ఎంట్రీని తొలగిస్తుంది. పైన ఉన్న పాస్‌వర్డ్ ఫీల్డ్ కూడా క్లియర్ చేయబడుతుంది."
+loaded_from_keychain = "(కీచైన్ నుండి లోడ్ చేయబడింది)"
+
+[ui.proto]
+test_smtp = "SMTP పరీక్షించు"
+test_imap = "IMAP పరీక్షించు"
+test_pop3 = "POP3 పరీక్షించు"
+host = "హోస్ట్:"
+port = "పోర్ట్:"
+security = "భద్రత:"
+security_none = "ఏదీ లేదు"
+security_starttls = "starttls"
+security_ssl = "ssl"
+
+[ui.send]
+toggle = "నిజంగా పరీక్షా మెయిల్ పంపండి (లేకపోతే AUTH మాత్రమే పరీక్షించండి)"
+mail_from = "MAIL FROM (కవరు):"
+from_header = "From: (హెడర్):"
+to = "కి (కామాతో వేరు చేయబడింది):"
+cc = "Cc (కామాతో వేరు చేయబడింది):"
+bcc = "Bcc (కామాతో వేరు చేయబడింది):"
+reply_to = "ప్రత్యుత్తరం:"
+subject = "విషయం:"
+body = "కంటెంట్:"
+
+[ui.tls]
+auth_mech = "SMTP AUTH మెకానిజం:"
+insecure = "సర్టిఫికేట్ ధృవీకరణను నిలిపివేయండి (అసురక్షితం - పరీక్ష మాత్రమే)"
+ca_bundle = "CA బండిల్ (PEM):"
+
+[ui.advanced]
+timeout = "టైమ్‌అవుట్ (సెకన్లు):"
+ehlo = "EHLO/HELO పేరు:"
+imap_folder = "IMAP ఫోల్డర్:"
+log_level = "లాగ్ స్థాయి:"
+theme = "థీమ్:"
+language = "భాష:"
+language_unsupported = "మీ OS లొకేల్ ({code}) ఇంకా అనువదించబడలేదు. టెక్స్ట్ ఇంగ్లీష్‌లో కనిపిస్తుంది; సహకారాలు స్వాగతం."
+theme_follow_os = "OS-ను అనుసరించండి ({hint})"
+theme_dark = "చీకటి"
+theme_light = "కాంతి"
+
+[ui.actions]
+run_test = "పరీక్ష అమలు చేయి"
+running = "నడుస్తోంది..."
+clear_log = "లాగ్ క్లియర్ చేయి"
+
+[ui.status]
+smtp_idle = "SMTP: -"
+imap_idle = "IMAP: -"
+pop3_idle = "POP3: -"
+smtp_pass = "SMTP: ఉత్తీర్ణత"
+imap_pass = "IMAP: ఉత్తీర్ణత"
+pop3_pass = "POP3: ఉత్తీర్ణత"
+smtp_fail = "SMTP: విఫలమైంది"
+imap_fail = "IMAP: విఫలమైంది"
+pop3_fail = "POP3: విఫలమైంది"
+smtp_skip = "SMTP: దాటవేయబడింది"
+imap_skip = "IMAP: దాటవేయబడింది"
+pop3_skip = "POP3: దాటవేయబడింది"
+
+[ui.diagnose]
+intro = "IT-చర్యకు సాధ్యమైన సూచనలను సంగ్రహించడానికి డెలివరీ వైఫల్య సందేశం యొక్క శరీరాన్ని క్రింద అతికించండి. SMTP enhanced status codes (5.7.139, 5.7.60), Microsoft 365 పదబంధాలు (\"basic authentication is disabled\") మరియు Gmail యొక్క \"Send mail as / Mail sturen als\" వంటి వెబ్‌మెయిల్-సైడ్ బౌన్స్‌లను గుర్తిస్తుంది. నెట్‌వర్క్ ద్వారా ఏదీ పంపబడదు మరియు టెక్స్ట్ డిస్క్‌లో సేవ్ చేయబడదు."
+input_placeholder = "ఇక్కడ బౌన్స్ బాడీని అతికించండి..."
+analyse = "విశ్లేషించు"
+clear = "క్లియర్"
+hints_heading = "సూచనలు"
+no_hints_yet = "(ఇంకా సూచనలు లేవు - పైన బౌన్స్‌ను అతికించి విశ్లేషణపై క్లిక్ చేయండి)"
+
+[ui.log]
+heading = "లాగ్"
+
+[diagnostics.scaffold]
+esc_prefix = "ESC {code}: {what}"
+action_prefix = "  -> చర్య: {fix}"
+hint_prefix = "  -> {hint}"
+
+[diagnostics.smtp.esc.5_7_0]
+what = "ప్రామాణీకరణ అవసరం, లేదా ఎంచుకున్న AUTH మెకానిజం అనుమతించబడలేదు."
+fix  = "మెయిల్‌బాక్స్ కోసం SMTP AUTH-ను ప్రారంభించండి; LOGIN / PLAIN / XOAUTH2 అనుమతించబడిందని ధృవీకరించండి."
+
+[diagnostics.smtp.esc.5_7_1]
+what = "Relay ప్రాప్యత తిరస్కరించబడింది - ఈ సందేశాన్ని ఫార్వార్డ్ చేయడానికి సర్వర్ నిరాకరిస్తుంది."
+fix  = "పంపినవారు ప్రామాణీకరించబడలేదు, లేదా స్వీకర్త బాహ్యంగా ఉన్నారు మరియు relay నిలిపివేయబడింది, లేదా transport rule సందేశాన్ని నిరోధిస్తుంది."
+
+[diagnostics.smtp.esc.5_7_3]
+what = "ప్రామాణీకరణ విజయవంతం కాలేదు."
+fix  = "తప్పుడు పాస్‌వర్డ్, app-password లేకుండా MFA, లేదా tenant-లో Basic/Legacy auth నిలిపివేయబడింది (O365: 'SMTP AUTH disabled')."
+
+[diagnostics.smtp.esc.5_7_8]
+what = "ప్రామాణీకరణ ఆధారాలు చెల్లవు."
+fix  = "SASL పొర ద్వారా వినియోగదారు పేరు/పాస్‌వర్డ్ తిరస్కరించబడింది."
+
+[diagnostics.smtp.esc.5_7_57]
+what = "MAIL FROM సమయంలో అనామక మెయిల్ పంపడానికి క్లయింట్ ప్రామాణీకరించబడలేదు."
+fix  = "MAIL FROM-కు ముందు STARTTLS + AUTH-ను అమలు చేయండి. O365-లో, క్లయింట్ AUTH లేకుండా కనెక్ట్ చేసినప్పుడు ఇది సాధారణ లోపం."
+
+[diagnostics.smtp.esc.5_7_60]
+what = "SendAsDenied - ప్రామాణీకరించబడిన వినియోగదారు ఈ From చిరునామాగా పంపడానికి అనుమతించబడలేదు."
+fix  = "ప్రామాణీకరించబడిన ఖాతాకు మెయిల్‌బాక్స్ యొక్క 'Send As' (లేదా 'Send on Behalf') హక్కులను మంజూరు చేయండి, లేదా లాగిన్‌తో సరిపోలడానికి From హెడర్‌ను మార్చండి."
+
+[diagnostics.smtp.esc.5_7_64]
+what = "TenantAttribution; Relay Access Denied."
+fix  = "ప్రామాణీకరించబడిన SMTP సమర్పణకు O365-లో లైసెన్స్ పొందిన మెయిల్‌బాక్స్ అవసరం."
+
+[diagnostics.smtp.esc.5_7_124]
+what = "వినియోగదారుకు మెయిల్ పంపడానికి అధికారం లేదు."
+fix  = "నిలిపివేయబడిన మెయిల్‌బాక్స్, Conditional Access ద్వారా నిరోధించబడింది, లేదా లైసెన్స్ తప్పిపోయింది."
+
+[diagnostics.smtp.esc.5_7_135]
+what = "ప్రామాణీకరణ విజయవంతం కాలేదు, వినియోగదారు ఆధారాలు గడువు ముగిసింది."
+fix  = "పాస్‌వర్డ్ రీసెట్ చేయండి / OAuth టోకెన్ రిఫ్రెష్ చేయండి."
+
+[diagnostics.smtp.esc.5_7_139]
+what = "ప్రామాణీకరణ విజయవంతం కాలేదు; అభ్యర్థన ప్రమాణాలను చేరుకోలేదు."
+fix  = "Conditional Access విధానం లాగిన్‌ను తిరస్కరించింది (స్థానం, పరికరం, MFA)."
+
+[diagnostics.smtp.esc.5_7_500]
+what = "ప్రాప్యత తిరస్కరించబడింది, పంపే డొమైన్ నిలిపివేయబడింది."
+fix  = "ఈ tenant-లో పంపినవారి డొమైన్ అవుట్‌గోయింగ్ మెయిల్ కోసం నిరోధించబడింది."
+
+[diagnostics.smtp.esc.5_7_501]
+what = "ప్రాప్యత తిరస్కరించబడింది, నిషేధిత పంపినవారు."
+fix  = "పంపినవారి చిరునామా tenant-యొక్క blocklist-లో ఉంది."
+
+[diagnostics.smtp.esc.5_7_508]
+what = "ప్రాప్యత తిరస్కరించబడింది, రేటు లేదా ట్రాఫిక్ థ్రెషోల్డ్ మించిపోయింది."
+fix  = "Throttled; వేచి ఉండి మళ్లీ ప్రయత్నించండి, లేదా పరిమితిని పెంచమని నిర్వాహకుడిని అడగండి."
+
+[diagnostics.smtp.esc.5_7_511]
+what = "ప్రాప్యత తిరస్కరించబడింది, నిషేధిత పంపినవారు."
+fix  = "పంపినవారు స్పామ్ మూలంగా గుర్తించబడ్డారు."
+
+[diagnostics.smtp.esc.5_7_606]
+what = "ప్రాప్యత తిరస్కరించబడింది, నిషేధిత పంపే IP."
+fix  = "పంపే IP Microsoft-యొక్క blocklist-లో ఉంది."
+
+[diagnostics.smtp.esc.5_7_708]
+what = "సేవ తిరస్కరించబడింది. మూల IP-కి చెడ్డ ప్రఖ్యాతి ఉంది."
+fix  = "మరొక IP నుండి పంపండి లేదా delisting అభ్యర్థించండి."
+
+[diagnostics.smtp.esc.5_7_750]
+what = "నమోదు కాని డొమైన్ల నుండి పంపడం నుండి క్లయింట్ నిరోధించబడింది."
+fix  = "tenant-లో పంపినవారి డొమైన్‌ను ధృవీకరించండి లేదా అంగీకరించబడిన డొమైన్‌ను ఉపయోగించండి."
+
+[diagnostics.smtp.esc.5_1_0]
+what = "పంపినవారి చిరునామా తిరస్కరించబడింది."
+fix  = "From/MAIL FROM అంగీకరించబడలేదు; సాధారణంగా ఆకృతి లేదా డొమైన్ విధానం."
+
+[diagnostics.smtp.esc.5_1_1]
+what = "తప్పు గమ్యం మెయిల్‌బాక్స్ - స్వీకర్త ఉనికిలో లేదు."
+fix  = "స్వీకర్త చిరునామాను తనిఖీ చేయండి."
+
+[diagnostics.smtp.esc.5_1_7]
+what = "చెల్లని పంపినవారి చిరునామా (వికృతం)."
+fix  = "MAIL FROM వాక్యనిర్మాణాన్ని పరిష్కరించండి."
+
+[diagnostics.smtp.esc.5_1_8]
+what = "పంపినవారి డొమైన్ అనుమతించబడలేదు."
+fix  = "సర్వర్ డొమైన్‌ను అంగీకరించదు."
+
+[diagnostics.smtp.esc.5_1_10]
+what = "స్వీకర్త చిరునామా తిరస్కరించబడింది - వినియోగదారు తెలియదు."
+fix  = "టైపో లేదా ఉనికిలో లేని స్వీకర్త."
+
+[diagnostics.smtp.esc.5_4_1]
+what = "స్వీకర్త చిరునామా తిరస్కరించబడింది: ప్రాప్యత తిరస్కరించబడింది."
+fix  = "స్వీకర్త యొక్క మెయిల్‌బాక్స్ ఈ పంపినవారు / డొమైన్ నుండి సందేశాలను తిరస్కరిస్తుంది."
+
+[diagnostics.smtp.esc.5_2_1]
+what = "మెయిల్‌బాక్స్ నిలిపివేయబడింది, సందేశాలను అంగీకరించడం లేదు."
+fix  = "స్వీకర్త యొక్క మెయిల్‌బాక్స్ సస్పెండ్ చేయబడింది."
+
+[diagnostics.smtp.esc.5_2_2]
+what = "మెయిల్‌బాక్స్ నిండి ఉంది."
+fix  = "స్వీకర్త కోటా మించిపోయింది."
+
+[diagnostics.smtp.esc.5_3_4]
+what = "సిస్టమ్ కోసం సందేశం చాలా పెద్దది."
+fix  = "సందేశం పరిమాణాన్ని తగ్గించండి."
+
+[diagnostics.smtp.esc.4_7_0]
+what = "తాత్కాలిక ప్రామాణీకరణ వైఫల్యం / throttling."
+fix  = "తరువాత మళ్లీ ప్రయత్నించండి; పునరావృత చెడ్డ లాగిన్‌లకు tarpit కూడా కావచ్చు."
+
+[diagnostics.smtp.esc.4_4_2]
+what = "కనెక్షన్ తెగిపోయింది."
+fix  = "నెట్‌వర్క్ గ్లిచ్ లేదా సర్వర్ పునఃప్రారంభం; మళ్లీ ప్రయత్నించండి."
+
+[diagnostics.smtp.esc.4_3_2]
+what = "సిస్టమ్ నెట్‌వర్క్ సందేశాలను అంగీకరించడం లేదు."
+fix  = "సర్వర్ నిర్వహణ."
+
+[diagnostics.imap.AUTHENTICATIONFAILED]
+hint = "IMAP లాగిన్ తిరస్కరించబడింది - తప్పుడు పాస్‌వర్డ్, app-password లేకుండా MFA, లేదా Basic Auth నిలిపివేయబడింది."
+
+[diagnostics.imap."LOGIN_failed"]
+hint = "IMAP లాగిన్ సర్వర్ ద్వారా తిరస్కరించబడింది."
+
+[diagnostics.imap.ALERT]
+hint = "సర్వర్ ALERT ప్రతిస్పందనను తిరిగి ఇచ్చింది - చదవండి; నిర్వాహకుడు-నిర్వచించిన సందేశం."
+
+[diagnostics.imap.UNAVAILABLE]
+hint = "మెయిల్‌బాక్స్/సర్వర్ తాత్కాలికంగా అందుబాటులో లేదు."
+
+[diagnostics.imap.PRIVACYREQUIRED]
+hint = "సర్వర్‌కి LOGIN-కి ముందు TLS అవసరం - STARTTLS లేదా అంతర్నిహిత SSL ఉపయోగించండి."
+
+[diagnostics.imap.CLIENTBUG]
+hint = "క్లయింట్ సర్వర్ తప్పు అని భావించే ఏదైనా చేసింది; సాధారణంగా STARTTLS తప్పిపోయింది లేదా తప్పు స్థితి."
+
+[diagnostics.imap.LOGINDISABLED]
+hint = "ఈ సర్వర్‌లో Plain LOGIN నిలిపివేయబడింది - STARTTLS/SSL లేదా XOAUTH2 ఉపయోగించండి."
+
+[diagnostics.pop.authentication_failed]
+hint = "POP3 లాగిన్ తిరస్కరించబడింది - తప్పుడు ఆధారాలు లేదా ఈ మెయిల్‌బాక్స్ కోసం POP నిలిపివేయబడింది."
+
+[diagnostics.pop.logon_failure]
+hint = "POP3 లాగిన్ తిరస్కరించబడింది."
+
+[diagnostics.pop.not_implemented]
+hint = "జారీ చేయబడిన ఆదేశానికి సర్వర్ మద్దతు ఇవ్వదు."
+
+[diagnostics.pop.disabled]
+hint = "ఈ ఖాతా / tenant కోసం POP3 ప్రాప్యత నిలిపివేయబడింది."
+
+[diagnostics.bounce.gmail_send_as_en]
+needle = "Send mail as"
+hint = "Gmail-యొక్క 'Send mail as' అప్‌స్ట్రీమ్ లాగిన్ విఫలమైంది. సెట్టింగ్‌లు > అన్ని సెట్టింగ్‌లను చూడండి > ఖాతాలు మరియు దిగుమతి > మరొక చిరునామా నుండి మెయిల్ పంపండి > సమాచారాన్ని సవరించండి > SMTP పాస్‌వర్డ్‌ను మళ్లీ నమోదు చేయండి (లేదా మూల ఖాతాకు 2FA ఉంటే app-password)."
+
+[diagnostics.bounce.gmail_send_as_nl]
+needle = "Mail sturen als"
+hint = "Gmail-యొక్క 'Mail sturen als' (Send mail as) అప్‌స్ట్రీమ్ లాగిన్ విఫలమైంది. సెట్టింగ్‌లు > అన్ని సెట్టింగ్‌లను చూడండి > ఖాతాలు మరియు దిగుమతి > మరొక చిరునామా నుండి మెయిల్ పంపండి > సమాచారాన్ని సవరించండి > SMTP పాస్‌వర్డ్‌ను మళ్లీ నమోదు చేయండి (లేదా మూల ఖాతాకు 2FA ఉంటే app-password)."
+
+[cli.prompt]
+username = "వినియోగదారు పేరు / ఇమెయిల్: "
+password = "పాస్‌వర్డ్: "
