@@ -91,7 +91,7 @@ sys-locale = "0.3"  # cross-platform OS-language detection for i18n auto-mode
 # which would multiply our dep tree (turso SQLite engine, dbus +
 # zbus, ...).  3.6.3 is the last release of the simple Entry-based
 # library API and is still receiving fixes from the same upstream.
-keyring   = { version = "3.6", optional = true }
+keyring   = { version = "4.0", optional = true }
 
 # GUI (optional, only built when --features gui is on, which is the default)
 eframe    = { version = "0.34", optional = true, default-features = false, features = ["default_fonts", "glow", "persistence", "accesskit"] }
